@@ -107,3 +107,30 @@ function new_damage_number(arg0, arg1 = x, arg2 = y, arg3 = 16777215, arg4 = 0)
     arg2 -= 14;
     array_push(global.damage_number_queue, [arg0, 0, 0, arg1, arg2, arg3]);
 }
+
+function show_item_pickup_text(text)
+{
+    with (instance_create_layer(0, 0, "Instances", obj_message_in_game))
+    {
+        message_0 = text;
+    }
+}
+
+function grant_item(item)
+{
+    switch item
+    {
+        case "Bombs":
+            show_item_pickup_text("Bombs obtained");
+            ds_write("Morph Ball Bomb", 1);
+            break;
+        case "Space Jump":
+            show_item_pickup_text("Space jump obtained");
+            ds_write("Space Jump Boots", 1);
+            break;
+        case "Energy Tank":
+            show_item_pickup_text("Energy tank obtained");
+            ds_add("Energy Tanks Max", 1);
+            break;
+    }
+}
