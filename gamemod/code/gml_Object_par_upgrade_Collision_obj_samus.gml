@@ -6,6 +6,14 @@ if (!(place_meeting(x, y, other) && !other.grappling && visible) && sprite_index
 {
     exit;
 }
+ds_write(key, 1);
+ds_add("Completion", 1);
+instance_create(x, y, obj_collected);
+ds_write("Hint Timer", 0);
+instance_destroy();
+exit;
+
+// Vanilla item obtain code
 if (!ds_adding)
 {
     ds_write(ds_name, ds_value);
@@ -14,10 +22,7 @@ else
 {
     ds_add(ds_name, ds_value);
 }
-ds_write(key, 1);
-ds_add("Completion", 1);
-instance_create(x, y, obj_collected);
-ds_write("Hint Timer", 0);
+
 aeon_array = dz("Aeon");
 stat_array = dz("Aeon Status");
 if (is_array(stat_array))
