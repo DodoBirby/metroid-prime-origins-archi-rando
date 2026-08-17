@@ -1,0 +1,109 @@
+function ir(arg0 = 1)
+{
+    return irandom(arg0);
+}
+
+function selection_vertical(arg0, arg1 = 0, arg2 = 0, arg3 = 5)
+{
+    if (global.key_left || global.key_right)
+    {
+        exit;
+    }
+    bitvar("selection");
+    if (!variable_instance_exists(id, "selection_sound"))
+    {
+        selection_sound = 0;
+    }
+    selection += (input_check_opposing_pressed("up", "down", arg2) + input_check_opposing_repeat("up", "down", arg2, false, arg3));
+    if (selection < 0)
+    {
+        selection = arg0;
+    }
+    if (selection > arg0)
+    {
+        selection = 0;
+    }
+    if (selection_sound != selection)
+    {
+        if (audio_exists(arg1))
+        {
+            bitsound(arg1);
+        }
+        selection_sound = selection;
+        vibrate(1/3, 4);
+    }
+}
+
+function selection_horizontal(arg0, arg1 = 0, arg2 = 0)
+{
+    if (global.key_up || global.key_down)
+    {
+        exit;
+    }
+    bitvar("selection");
+    if (!variable_instance_exists(id, "selection_sound"))
+    {
+        selection_sound = 0;
+    }
+    selection += (input_check_opposing_pressed("left", "right", arg2) + input_check_opposing_repeat("left", "right", arg2));
+    if (selection < 0)
+    {
+        selection = arg0;
+    }
+    if (selection > arg0)
+    {
+        selection = 0;
+    }
+    if (selection_sound != selection)
+    {
+        if (audio_exists(arg1))
+        {
+            bitsound(arg1);
+        }
+        selection_sound = selection;
+    }
+}
+
+function selection_vertical_two_columns(arg0, arg1 = 0, arg2 = 0, arg3 = "selection")
+{
+    variable_instance_set(id, arg3, variable_instance_get(id, arg3) + (2 * (input_check_opposing_pressed("up", "down", arg2) + input_check_opposing_repeat("up", "down", arg2))) + (2 * (input_check_opposing_pressed("d_up", "d_down", arg2) + input_check_opposing_repeat("d_up", "d_down", arg2))));
+    variable_instance_set(id, arg3, variable_instance_get(id, arg3) + input_check_opposing_pressed("left", "right", arg2) + input_check_opposing_repeat("left", "right", arg2) + input_check_opposing_pressed("d_left", "d_right", arg2) + input_check_opposing_repeat("d_left", "d_right", arg2));
+    if (variable_instance_get(id, arg3) < 0)
+    {
+        variable_instance_set(id, arg3, 0);
+    }
+    if (variable_instance_get(id, arg3) > arg0)
+    {
+        variable_instance_set(id, arg3, arg0);
+    }
+    if (!variable_instance_exists(id, "selection_sound"))
+    {
+        selection_sound = 0;
+    }
+    if (selection_sound != selection)
+    {
+        if (audio_exists(arg1))
+        {
+            bitsound(arg1);
+        }
+        selection_sound = selection;
+    }
+}
+
+function map_offset(arg0, arg1)
+{
+    global.map_room_x = arg0;
+    global.map_room_y = arg1;
+}
+
+function new_damage_number(arg0, arg1 = x, arg2 = y, arg3 = 16777215, arg4 = 0)
+{
+    if (!ds_zero_options("Damage Numbers") && !arg4)
+    {
+        exit;
+    }
+    arg1 += (-7 + irandom(14));
+    arg2 += (-7 + irandom(14));
+    arg2 -= 14;
+    array_push(global.damage_number_queue, [arg0, 0, 0, arg1, arg2, arg3]);
+}
