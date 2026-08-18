@@ -1,0 +1,66 @@
+from __future__ import annotations
+from typing import NamedTuple, TYPE_CHECKING
+
+from BaseClasses import Item, ItemClassification
+
+if TYPE_CHECKING:
+    from .world import MetroidPrimeOriginsWorld
+
+class ItemData(NamedTuple):
+    classification: ItemClassification
+
+class MetroidPrimeOriginsItem(Item):
+    game = "Metroid Prime Origins"
+
+ITEM_TABLE: dict[str, ItemData] = {
+    "Power Beam": ItemData(ItemClassification.progression),
+    "Charge Beam": ItemData(ItemClassification.progression),
+    "Wave Beam": ItemData(ItemClassification.progression),
+    "Ice Beam": ItemData(ItemClassification.progression),
+    "Plasma Beam": ItemData(ItemClassification.progression),
+    "Spazer": ItemData(ItemClassification.progression),
+    "Wavebuster": ItemData(ItemClassification.progression),
+    "Ice Spreader": ItemData(ItemClassification.progression),
+    "Incinerator": ItemData(ItemClassification.progression),
+    "Varia Suit": ItemData(ItemClassification.progression),
+    "Gravity Suit": ItemData(ItemClassification.progression),
+    "Phazon Suit": ItemData(ItemClassification.progression),
+    "Morph Ball": ItemData(ItemClassification.progression),
+    "Boost Ball": ItemData(ItemClassification.progression),
+    "Space Jump Boots": ItemData(ItemClassification.progression),
+    "Screw Attack": ItemData(ItemClassification.progression),
+    "Morph Ball Bomb": ItemData(ItemClassification.progression),
+    "Spider Ball": ItemData(ItemClassification.progression),
+    "Grapple Beam": ItemData(ItemClassification.progression),
+    "Missile Launcher": ItemData(ItemClassification.progression),
+    "Power Bomb Detonator": ItemData(ItemClassification.progression),
+    "Super Missile": ItemData(ItemClassification.progression),
+    "Artifact of Truth": ItemData(ItemClassification.progression),
+    "Artifact of Strength": ItemData(ItemClassification.progression),
+    "Artifact of Elder": ItemData(ItemClassification.progression),
+    "Artifact of Wild": ItemData(ItemClassification.progression),
+    "Artifact of Lifegiver": ItemData(ItemClassification.progression),
+    "Artifact of Chozo": ItemData(ItemClassification.progression),
+    "Artifact of Warrior": ItemData(ItemClassification.progression),
+    "Artifact of Nature": ItemData(ItemClassification.progression),
+    "Artifact of Sun": ItemData(ItemClassification.progression),
+    "Artifact of World": ItemData(ItemClassification.progression),
+    "Artifact of Spirit": ItemData(ItemClassification.progression),
+    "Artifact of Newborn": ItemData(ItemClassification.progression),
+    "Energy Tank": ItemData(ItemClassification.useful),
+    "Power Bomb": ItemData(ItemClassification.filler),
+    "Missile Tank": ItemData(ItemClassification.filler),
+}
+
+ITEM_NAME_TO_ID = { name: i + 1 for i, name in enumerate(ITEM_TABLE.keys()) }
+
+def create_item_with_correct_classification(world: MetroidPrimeOriginsWorld, name: str) -> MetroidPrimeOriginsItem:
+    return MetroidPrimeOriginsItem(name, ITEM_TABLE[name].classification, ITEM_NAME_TO_ID[name], world.player)
+
+def add_items_to_multiworld(world: MetroidPrimeOriginsWorld):
+    itempool: list[Item] = [
+        world.create_item("Morph Ball"),
+        world.create_item("Morph Ball Bomb"),
+        world.create_item("Energy Tank"),
+    ]
+    world.multiworld.itempool += itempool
