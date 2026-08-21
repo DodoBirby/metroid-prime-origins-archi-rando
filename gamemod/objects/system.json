@@ -1,0 +1,125 @@
+{
+  "$type": "GameObject",
+  "DataName": null,
+  "Sprite": "sprClearBadge",
+  "Visible": true,
+  "Solid": false,
+  "Depth": 0,
+  "Persistent": true,
+  "ParentObject": "always_active",
+  "MaskSprite": null,
+  "UsesPhysics": false,
+  "IsSensor": false,
+  "CollisionShape": "Box",
+  "Density": 0.5,
+  "Restitution": 0.1,
+  "Group": 1,
+  "LinearDamping": 0.1,
+  "AngularDamping": 0.1,
+  "Friction": 0.2,
+  "Awake": true,
+  "Kinematic": false,
+  "PhysicsVertices": [],
+  "Events": [
+    {
+      "Category": "Create",
+      "Subtype": "",
+      "CodeEntry": "gml_Object_system_Create_0"
+    },
+    {
+      "Category": "Alarm",
+      "Subtype": "0",
+      "CodeEntry": "gml_Object_system_Alarm_0"
+    },
+    {
+      "Category": "Alarm",
+      "Subtype": "1",
+      "CodeEntry": "gml_Object_system_Alarm_1"
+    },
+    {
+      "Category": "Alarm",
+      "Subtype": "2",
+      "CodeEntry": "gml_Object_system_Alarm_2"
+    },
+    {
+      "Category": "Step",
+      "Subtype": "EndStep",
+      "CodeEntry": "gml_Object_system_Step_2"
+    },
+    {
+      "Category": "Step",
+      "Subtype": "Step",
+      "CodeEntry": "gml_Object_system_Step_0"
+    },
+    {
+      "Category": "Step",
+      "Subtype": "BeginStep",
+      "CodeEntry": "gml_Object_system_Step_1"
+    },
+    {
+      "Category": "Other",
+      "Subtype": "User0",
+      "CodeEntry": "gml_Object_system_Other_10"
+    },
+    {
+      "Category": "Other",
+      "Subtype": "User1",
+      "CodeEntry": "gml_Object_system_Other_11"
+    },
+    {
+      "Category": "Other",
+      "Subtype": "User2",
+      "CodeEntry": "gml_Object_system_Other_12"
+    },
+    {
+      "Category": "Other",
+      "Subtype": "User3",
+      "CodeEntry": null
+    },
+    {
+      "Category": "Other",
+      "Subtype": "RoomStart",
+      "CodeEntry": "gml_Object_system_Other_4"
+    },
+    {
+      "Category": "Other",
+      "Subtype": "User4",
+      "CodeEntry": "gml_Object_system_Other_14"
+    },
+    {
+      "Category": "Other",
+      "Subtype": "User5",
+      "CodeEntry": "gml_Object_system_Other_15"
+    },
+    {
+      "Category": "Draw",
+      "Subtype": "DrawGUIEnd",
+      "CodeEntry": "gml_Object_system_Draw_75"
+    },
+    {
+      "Category": "Draw",
+      "Subtype": "PostDraw",
+      "CodeEntry": null
+    },
+    {
+      "Category": "Draw",
+      "Subtype": "Draw",
+      "CodeEntry": "gml_Object_system_Draw_0"
+    },
+    {
+      "Category": "KeyPress",
+      "Subtype": "vk_f4",
+      "CodeEntry": "gml_Object_system_KeyPress_115"
+    },
+    {
+      "Category": "KeyPress",
+      "Subtype": "vk_f1",
+      "CodeEntry": "gml_Object_system_KeyPress_112"
+    },
+    {
+      "Category": "PreCreate",
+      "Subtype": "0",
+      "CodeEntry": "gml_Object_system_PreCreate_0"
+    }
+  ]
+}
