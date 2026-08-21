@@ -23,15 +23,36 @@ class MPOContext(CommonContext):
         self.mpo_streams: tuple[StreamReader, StreamWriter] | None = None
         self.client_requesting_scouts: bool = False
 
-# TODO: Rework payload structure
+def create_items_payload(ctx: MPOContext) -> str:
+    itemnames_received = [ item_id_to_item_name[netitem.item] for netitem in ctx.items_received if netitem.item in item_id_to_item_name ]
+    majors: list[str] = []
+    etanks = 0
+    missiletanks = 0
+    pbombtanks = 0
+    for itemname in itemnames_received:
+        match itemname:
+            case "Energy Tank":
+                etanks += 1
+            case "Missile Tank":
+                missiletanks += 1
+            case "Power Bomb":
+                pbombtanks += 1
+            case _:
+                majors.append(itemname)
+    return json.dumps({
+        "cmd": "items",
+        "etanks": etanks,
+        "missiletanks": missiletanks,
+        "pbombtanks": pbombtanks,
+        "majors": majors
+    })
+
 def get_payload(ctx: MPOContext) -> str:
     items_to_give = [ item_id_to_item_name[netitem.item] for netitem in ctx.items_received if netitem.item in item_id_to_item_name ]
     if not ctx.locations_info:
         async_start(ctx.send_msgs([{ "cmd": "LocationScouts", "locations": list(LOCATION_NAME_TO_ID.values()), "create_as_hint": 0 }]))
-        return json.dumps({
-            "cmd": "items",
-            "items": items_to_give,
-        })
+        return create_items_payload(ctx)
+
     if ctx.client_requesting_scouts:
         items_dict: dict[str, str] = {}
         for locationid, netitem in ctx.locations_info.items():
@@ -44,14 +65,11 @@ def get_payload(ctx: MPOContext) -> str:
             "cmd": "locations",
             "locations": items_dict,
         })
-    return json.dumps({
-        "cmd": "items",
-        "items": items_to_give,
-    })
+    return create_items_payload(ctx)
 
 async def parse_payload(ctx: MPOContext, data_decoded: dict[str, str]):
     locations_checked = [game_key_to_location_id[location] for location in data_decoded["items"]]
-    game_finished = bool(int(data_decoded["GameCompleted"]))
+    game_finished = bool(int(data_decoded["gamecompleted"]))
     location_set = set(locations_checked)
     ctx.locations_checked = location_set
     new_locations = [location for location in ctx.missing_locations if location in location_set]
