@@ -22,6 +22,7 @@ class MPOContext(CommonContext):
         super().__init__(server_address, password)
         self.mpo_streams: tuple[StreamReader, StreamWriter] | None = None
         self.client_requesting_scouts: bool = False
+        self.mpo_sync_task: asyncio.Task[None] | None = None
 
 def create_items_payload(ctx: MPOContext) -> str:
     itemnames_received = [ item_id_to_item_name[netitem.item] for netitem in ctx.items_received if netitem.item in item_id_to_item_name ]
@@ -126,6 +127,7 @@ async def main(args):
     ctx = MPOContext(args.connect, args.password)
     ctx.auth = args.name
     ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
+    ctx.mpo_sync_task = asyncio.create_task(mpo_sync_task(ctx), name="mpo sync task")
     if gui_enabled:
         ctx.run_gui()
     ctx.run_cli()
