@@ -25,6 +25,10 @@ function handle_items_cmd(payload)
     {
         var major = ds_list_find_value(majorsList, i);
         var ds_name = convert_mw_name_to_ds_name(major);
+        if (string_pos("Artifact", major) != 0)
+        {
+            mw_handle_aeon_powers(major);
+        }
         if (!dz(ds_name))
         {
             itemsReceived = true;
