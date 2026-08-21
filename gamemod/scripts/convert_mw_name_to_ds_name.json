@@ -1,0 +1,5 @@
+{
+  "$type": "Script",
+  "DataName": null,
+  "Code": "gml_GlobalScript_convert_mw_name_to_ds_name"
+}
