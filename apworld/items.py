@@ -8,12 +8,12 @@ if TYPE_CHECKING:
 
 class ItemData(NamedTuple):
     classification: ItemClassification
+    vanilla_count: int = 1
 
 class MetroidPrimeOriginsItem(Item):
     game = "Metroid Prime Origins"
 
 ITEM_TABLE: dict[str, ItemData] = {
-    "Power Beam": ItemData(ItemClassification.progression),
     "Charge Beam": ItemData(ItemClassification.progression),
     "Wave Beam": ItemData(ItemClassification.progression),
     "Ice Beam": ItemData(ItemClassification.progression),
@@ -32,8 +32,6 @@ ITEM_TABLE: dict[str, ItemData] = {
     "Morph Ball Bomb": ItemData(ItemClassification.progression),
     "Spider Ball": ItemData(ItemClassification.progression),
     "Grapple Beam": ItemData(ItemClassification.progression),
-    "Missile Launcher": ItemData(ItemClassification.progression),
-    "Power Bomb Detonator": ItemData(ItemClassification.progression),
     "Super Missile": ItemData(ItemClassification.progression),
     "Artifact of Truth": ItemData(ItemClassification.progression),
     "Artifact of Strength": ItemData(ItemClassification.progression),
@@ -47,9 +45,9 @@ ITEM_TABLE: dict[str, ItemData] = {
     "Artifact of World": ItemData(ItemClassification.progression),
     "Artifact of Spirit": ItemData(ItemClassification.progression),
     "Artifact of Newborn": ItemData(ItemClassification.progression),
-    "Energy Tank": ItemData(ItemClassification.useful),
-    "Power Bomb": ItemData(ItemClassification.filler),
-    "Missile Tank": ItemData(ItemClassification.filler),
+    "Energy Tank": ItemData(ItemClassification.useful, 14),
+    "Power Bomb": ItemData(ItemClassification.filler, 5),
+    "Missile Tank": ItemData(ItemClassification.filler, 50),
 }
 
 ITEM_NAME_TO_ID = { name: i + 1 for i, name in enumerate(ITEM_TABLE.keys()) }
@@ -58,9 +56,9 @@ def create_item_with_correct_classification(world: MetroidPrimeOriginsWorld, nam
     return MetroidPrimeOriginsItem(name, ITEM_TABLE[name].classification, ITEM_NAME_TO_ID[name], world.player)
 
 def add_items_to_multiworld(world: MetroidPrimeOriginsWorld):
-    itempool: list[Item] = [
-        world.create_item("Morph Ball"),
-        world.create_item("Morph Ball Bomb"),
-        world.create_item("Energy Tank"),
-    ]
+    itempool: list[Item] = []
+    for name, data in ITEM_TABLE.items():
+        for _ in range(data.vanilla_count):
+            itempool.append(world.create_item(name))
+    assert len(itempool) == len(world.multiworld.get_unfilled_locations(world.player))
     world.multiworld.itempool += itempool

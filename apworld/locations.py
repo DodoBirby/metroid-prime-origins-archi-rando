@@ -122,4 +122,5 @@ def get_location_names_with_ids(location_names: list[str]):
 
 def create_locations(world: MetroidPrimeOriginsWorld):
     overworld = world.get_region("Tallon Overworld")
-    overworld.add_locations(get_location_names_with_ids(["Dummy1", "Dummy2", "Dummy3"]), MetroidPrimeOriginsLocation)
+    # Dump all locations into Tallon Overworld since we have no logic yet
+    overworld.add_locations(LOCATION_NAME_TO_ID, MetroidPrimeOriginsLocation)
