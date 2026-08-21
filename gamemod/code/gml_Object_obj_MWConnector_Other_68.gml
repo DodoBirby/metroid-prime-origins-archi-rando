@@ -10,6 +10,7 @@ function handle_items_cmd(payload)
     {
         return;
     }
+    var itemsReceived = false;
     var prevmissiletanks = dz("Missiles Max") / 5;
     var prevetanks = dz("Energy Tanks Max");
     var prevpbombtanks = dz("Power Bombs Max") / 2;
@@ -24,6 +25,10 @@ function handle_items_cmd(payload)
     {
         var major = ds_list_find_value(majorsList, i);
         var ds_name = convert_mw_name_to_ds_name(major);
+        if (!dz(ds_name))
+        {
+            itemsReceived = true;
+        }
         ds_write(ds_name, 1);
     }
     if (missiletanks > 0)
@@ -31,6 +36,7 @@ function handle_items_cmd(payload)
         ds_write("Missile Launcher", 1);
         if (prevmissiletanks < missiletanks)
         {
+            itemsReceived = true;
             ds_add("Missiles", (missiletanks - prevmissiletanks) * 5);
         }
     }
@@ -39,6 +45,7 @@ function handle_items_cmd(payload)
         ds_write("Power Bomb Detonator", 1);
         if (prevpbombtanks < pbombtanks)
         {
+            itemsReceived = true;
             ds_add("Power Bombs", (pbombtanks - prevpbombtanks) * 2);
         }
     }
@@ -47,12 +54,16 @@ function handle_items_cmd(payload)
         ds_write("Energy Tank", 1);
         if (prevetanks < etanks)
         {
+            itemsReceived = true;
             ds_write("Energy", 99);
             ds_write("Energy Tanks", etanks);
         }
     }
     // TODO: Make this more descriptive
-    show_item_pickup_text("Items Received");
+    if (itemsReceived)
+    {
+        show_item_pickup_text("Items Received");
+    }
 }
 
 function generate_return_map()

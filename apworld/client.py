@@ -24,6 +24,12 @@ class MPOContext(CommonContext):
         self.client_requesting_scouts: bool = False
         self.mpo_sync_task: asyncio.Task[None] | None = None
 
+    async def server_auth(self, password_requested: bool = False):
+        if password_requested and not self.password:
+            _ = await super(MPOContext, self).server_auth(password_requested)
+        await self.get_username()
+        await self.send_connect()
+
 def create_items_payload(ctx: MPOContext) -> str:
     itemnames_received = [ item_id_to_item_name[netitem.item] for netitem in ctx.items_received if netitem.item in item_id_to_item_name ]
     majors: list[str] = []
