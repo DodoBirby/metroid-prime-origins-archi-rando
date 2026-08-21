@@ -35,6 +35,9 @@ def get_payload(ctx: MPOContext) -> str:
     if ctx.client_requesting_scouts:
         items_dict: dict[str, str] = {}
         for locationid, netitem in ctx.locations_info.items():
+            # TODO: Handle sprites for other games
+            if not ctx.slot_concerns_self(netitem.player):
+                continue
             location_key = location_id_to_game_key[locationid]
             items_dict[location_key] = item_id_to_item_name[netitem.item]
         return json.dumps({
