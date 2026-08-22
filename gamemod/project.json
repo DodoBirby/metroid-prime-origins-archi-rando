@@ -10,7 +10,7 @@
   "ExternalFiles": [],
   "FileCopies": [],
   "FileDeletes": [],
-  "PreImportScripts": [],
+  "PreImportScripts": ["./preloadscripts/SetGameName.csx"],
   "PreAssetImportScripts": [],
   "PostImportScripts": []
 }
