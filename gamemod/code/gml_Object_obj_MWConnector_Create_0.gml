@@ -1,6 +1,7 @@
 server = network_create_server_raw(network_socket_tcp, 64200, 1)
 global.seedreceived = 0;
 global.mwcompleted = 0;
+ds_map_clear(global.mwLocations);
 
 locationKeys = [
     "Ice Spreader mag_Shore_Tunnel x152 y148",

@@ -1,6 +1,7 @@
 function handle_locations_cmd(payload)
 {
-    // TODO: Handle receiving seed and setting item sprites
+    var locationsMap = ds_map_find_value(payload, "locations");
+    ds_map_copy(global.mwLocations, locationsMap);
     global.seedreceived = 1;
 }
 
