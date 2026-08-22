@@ -6,9 +6,7 @@ function mw_set_sprite_to_custom_item()
     self.sends_message = true;
     if (is_undefined(item))
     {
-        // varia as temporary since I don't have an archi sprite yet
-        sprite_index = sprItemVaria;
-        image_speed = 0;
+        sprite_index = sprItemArchi;
         self.upgrade_name = "Archipelago Item";
         self.description = "You feel as if this item is not for you.";
         return;
