@@ -131,7 +131,6 @@ async def mpo_sync_task(ctx: MPOContext):
 
 async def main(args):
     ctx = MPOContext(args.connect, args.password)
-    ctx.auth = args.name
     ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
     ctx.mpo_sync_task = asyncio.create_task(mpo_sync_task(ctx), name="mpo sync task")
     if gui_enabled:
@@ -144,7 +143,6 @@ def launch():
     import colorama
 
     parser = get_base_parser(description="Metroid Prime Origins Game Client")
-    _ = parser.add_argument('--name', default=None, help="Slot Name to connect as.")
     _ = parser.add_argument("url", nargs="?", help="Archipelago connection url")
     args = parser.parse_args()
 
