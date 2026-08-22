@@ -108,6 +108,7 @@ function new_damage_number(arg0, arg1 = x, arg2 = y, arg3 = 16777215, arg4 = 0)
     array_push(global.damage_number_queue, [arg0, 0, 0, arg1, arg2, arg3]);
 }
 
+// -- MW Changes Start
 function show_item_pickup_text(text)
 {
     with (instance_create_layer(0, 0, "Instances", obj_message_in_game))
@@ -134,3 +135,4 @@ function grant_item(item)
             break;
     }
 }
+// -- MW Changes End

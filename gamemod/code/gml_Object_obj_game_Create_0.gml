@@ -115,6 +115,7 @@ ds_write("Teleport Room", "tal_Landing_Site");
 
 function start_game()
 {
+    // -- MW Changes Start
     // vanilla start game left here in case we want to enable the intro sequence
     /*
     ds_write("Energy", 99);
@@ -138,6 +139,7 @@ function start_game()
     ds_write("Ship", 1);
     obj_samus.pose = 100;
     obj_samus.y += 32;
+    // -- MW Changes End
 }
 
 ds_write("New Game", 1);

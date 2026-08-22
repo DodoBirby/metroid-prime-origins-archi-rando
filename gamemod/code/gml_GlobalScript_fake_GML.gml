@@ -113,8 +113,10 @@ function deactivate()
     instance_activate_object(par_submenu);
     instance_activate_object(par_subsubmenu);
     instance_activate_object(input_controller_object);
+    // -- MW Changes Start
     // make sure connector is active
     instance_activate_object(obj_MWConnector);
+    // -- MW Changes End
 }
 
 function view_data()

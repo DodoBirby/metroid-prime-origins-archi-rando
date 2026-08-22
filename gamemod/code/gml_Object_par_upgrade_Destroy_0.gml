@@ -1,7 +1,9 @@
+// -- MW Changes Start
 if (!string_pos("Suit", upgrade_name))
 {
     bitfanfare(_fanfare);
 }
+// -- MW Changes End
 ds_add("Collection", 1);
 if (sends_message)
 {

@@ -1,5 +1,7 @@
 event_inherited();
+// -- MW Changes Start
 exit;
+// -- MW Changes End
 
 // We don't want to run any of this code since it's handled already
 if (!dz(key))

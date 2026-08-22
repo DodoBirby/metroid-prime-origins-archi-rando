@@ -1,4 +1,6 @@
+// -- MW Changes Start
 exit;
+// -- MW Changes End
 if (ds_zero("Missiles Max") == 0)
 {
     _fanfare = bgmFanfareItem;

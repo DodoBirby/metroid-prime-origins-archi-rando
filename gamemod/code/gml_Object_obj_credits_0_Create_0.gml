@@ -9,4 +9,6 @@ scroll_factor = _h / song_frames;
 fade_out = 0;
 can_skip = 0;
 alarm[1] = 180;
+// -- MW Changes Start
 global.mwcompleted = 1;
+// -- MW Changes End

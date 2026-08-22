@@ -28,5 +28,8 @@ if (player_distance() < 10)
     {
         instance_create((x - 16) + irandom(32), y - irandom(32), obj_effect_enemy_boom);
     }
+    // -- MW Changes Start
+    // ds_write("Phazon Suit", 0);
     ds_write("Phazon Suit", -1);
+    // -- MW Changes End
 }

@@ -11,7 +11,9 @@ ds_add("Completion", 1);
 instance_create(x, y, obj_collected);
 ds_write("Hint Timer", 0);
 instance_destroy();
+// -- MW Changes Start
 exit;
+// -- MW Changes End
 
 // Vanilla item obtain code
 if (!ds_adding)

@@ -45,7 +45,9 @@ if (counter == (fly_off + 120 + 27))
 {
     ds_write("Phazon Suit", 1);
     save_and_tell();
+    // -- MW Changes Start
     global.mwcompleted = 1;
+    // -- MW Changes End
 }
 if (counter == (fly_off + 120))
 {
