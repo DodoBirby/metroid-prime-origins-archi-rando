@@ -1,0 +1,26 @@
+{
+  "$type": "Sprite",
+  "DataName": null,
+  "Width": 16,
+  "Height": 16,
+  "MarginLeft": 0,
+  "MarginRight": 15,
+  "MarginBottom": 15,
+  "MarginTop": 0,
+  "Transparent": false,
+  "Smooth": false,
+  "Preload": false,
+  "BBoxMode": 0,
+  "CollisionKind": "AxisAlignedRect",
+  "OriginX": 0,
+  "OriginY": 0,
+  "TextureCount": 2,
+  "MaskCount": 0,
+  "Extra": {
+    "ExtraVersion": 3,
+    "SpriteType": "Normal",
+    "PlaybackSpeed": 12,
+    "PlaybackSpeedType": "FramesPerSecond"
+  },
+  "Sequence": null
+}
