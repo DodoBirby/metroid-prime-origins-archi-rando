@@ -1,10 +1,10 @@
 function mw_set_sprite_to_custom_item()
 {
-    var item = ds_map_find_value(global.mwLocations, key);
+    var item = ds_map_find_value(global.mwLocations, self.key);
     if (is_undefined(item))
     {
-        sprite_index = Big;
-        image_index = 65;
+        // varia as temporary since I don't have an archi sprite yet
+        sprite_index = sprItemVaria;
         image_speed = 0;
         self.upgrade_name = "Archipelago Item";
         self.description = "You feel as if this item is not for you.";
@@ -13,6 +13,7 @@ function mw_set_sprite_to_custom_item()
     self._fanfare = bgmFanfareItem;
     self.upgrade_name = item;
     self.description = item_descriptions(item);
+    self.is_aeon = false;
     switch item
     {
         case "Morph Ball Bomb":
@@ -78,6 +79,7 @@ function mw_set_sprite_to_custom_item()
             image_speed = 0;
             self.description = item_descriptions("Artifact 1");
             self._fanfare = bgmFanfareArtifact;
+            self.is_aeon = true;
             break;
         case "Artifact of Strength":
             sprite_index = sprChozoArtifacts;
@@ -85,6 +87,7 @@ function mw_set_sprite_to_custom_item()
             image_speed = 0;
             self.description = item_descriptions("Artifact 2");
             self._fanfare = bgmFanfareArtifact;
+            self.is_aeon = true;
             break;
         case "Artifact of Elder":
             sprite_index = sprChozoArtifacts;
@@ -92,6 +95,7 @@ function mw_set_sprite_to_custom_item()
             image_speed = 0;
             self.description = item_descriptions("Artifact 3");
             self._fanfare = bgmFanfareArtifact;
+            self.is_aeon = true;
             break;
         case "Artifact of Wild":
             sprite_index = sprChozoArtifacts;
@@ -99,6 +103,7 @@ function mw_set_sprite_to_custom_item()
             image_speed = 0;
             self.description = item_descriptions("Artifact 4");
             self._fanfare = bgmFanfareArtifact;
+            self.is_aeon = true;
             break;
         case "Artifact of Lifegiver":
             sprite_index = sprChozoArtifacts;
@@ -106,6 +111,7 @@ function mw_set_sprite_to_custom_item()
             image_speed = 0;
             self.description = item_descriptions("Artifact 5");
             self._fanfare = bgmFanfareArtifact;
+            self.is_aeon = true;
             break;
         case "Artifact of Chozo":
             sprite_index = sprChozoArtifacts;
@@ -113,6 +119,7 @@ function mw_set_sprite_to_custom_item()
             image_speed = 0;
             self.description = item_descriptions("Artifact 6");
             self._fanfare = bgmFanfareArtifact;
+            self.is_aeon = true;
             break;
         case "Artifact of Warrior":
             sprite_index = sprChozoArtifacts;
@@ -120,6 +127,7 @@ function mw_set_sprite_to_custom_item()
             image_speed = 0;
             self.description = item_descriptions("Artifact 7");
             self._fanfare = bgmFanfareArtifact;
+            self.is_aeon = true;
             break;
         case "Artifact of Nature":
             sprite_index = sprChozoArtifacts;
@@ -127,6 +135,7 @@ function mw_set_sprite_to_custom_item()
             image_speed = 0;
             self.description = item_descriptions("Artifact 8");
             self._fanfare = bgmFanfareArtifact;
+            self.is_aeon = true;
             break;
         case "Artifact of Sun":
             sprite_index = sprChozoArtifacts;
@@ -134,6 +143,7 @@ function mw_set_sprite_to_custom_item()
             image_speed = 0;
             self.description = item_descriptions("Artifact 9");
             self._fanfare = bgmFanfareArtifact;
+            self.is_aeon = true;
             break;
         case "Artifact of World":
             sprite_index = sprChozoArtifacts;
@@ -141,6 +151,7 @@ function mw_set_sprite_to_custom_item()
             image_speed = 0;
             self.description = item_descriptions("Artifact 10");
             self._fanfare = bgmFanfareArtifact;
+            self.is_aeon = true;
             break;
         case "Artifact of Spirit":
             sprite_index = sprChozoArtifacts;
@@ -148,6 +159,7 @@ function mw_set_sprite_to_custom_item()
             image_speed = 0;
             self.description = item_descriptions("Artifact 11");
             self._fanfare = bgmFanfareArtifact;
+            self.is_aeon = true;
             break;
         case "Artifact of Newborn":
             sprite_index = sprChozoArtifacts;
@@ -155,6 +167,7 @@ function mw_set_sprite_to_custom_item()
             image_speed = 0;
             self.description = item_descriptions("Artifact 12");
             self._fanfare = bgmFanfareArtifact;
+            self.is_aeon = true;
             break;
         case "Energy Tank":
             self._fanfare = bgmFanfareMinorItem;

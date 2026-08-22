@@ -77,6 +77,7 @@ def get_payload(ctx: MPOContext) -> str:
 async def parse_payload(ctx: MPOContext, data_decoded: dict[str, str]):
     locations_checked = [game_key_to_location_id[location] for location in data_decoded["items"]]
     game_finished = bool(int(data_decoded["gamecompleted"]))
+    ctx.client_requesting_scouts = bool(int(data_decoded["seedreceived"]))
     location_set = set(locations_checked)
     ctx.locations_checked = location_set
     new_locations = [location for location in ctx.missing_locations if location in location_set]
@@ -97,6 +98,7 @@ async def connect_to_mpo(ctx: MPOContext):
 async def mpo_sync_task(ctx: MPOContext):
     logger.info("Staring MPO connector.")
     while not ctx.exit_event.is_set():
+        await asyncio.sleep(1)
         if not ctx.mpo_streams:
             await connect_to_mpo(ctx)
             continue
