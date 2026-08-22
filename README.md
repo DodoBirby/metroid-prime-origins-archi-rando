@@ -6,4 +6,4 @@ This is an [Archipelago](https://github.com/ArchipelagoMW/Archipelago) implement
 
 - `/gamemod` contains a [UTMT](https://github.com/UnderminersTeam/UndertaleModTool) project for all the changes that are made to the actual gamemaker code.
 
-- `/apworld` (will contain, it doesn't exist yet) an APWorld for generating the game with [Archipelago](https://github.com/ArchipelagoMW/Archipelago), this is also where all the logic lives.
+- `/apworld` contains an APWorld for generating the game with [Archipelago](https://github.com/ArchipelagoMW/Archipelago), this is also where all the logic lives.
