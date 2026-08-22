@@ -1,6 +1,9 @@
 function mw_set_sprite_to_custom_item()
 {
     var item = ds_map_find_value(global.mwLocations, self.key);
+    self.is_aeon = false;
+    self._fanfare = bgmFanfareItem;
+    self.sends_message = true;
     if (is_undefined(item))
     {
         // varia as temporary since I don't have an archi sprite yet
@@ -10,10 +13,8 @@ function mw_set_sprite_to_custom_item()
         self.description = "You feel as if this item is not for you.";
         return;
     }
-    self._fanfare = bgmFanfareItem;
     self.upgrade_name = item;
     self.description = item_descriptions(item);
-    self.is_aeon = false;
     switch item
     {
         case "Morph Ball Bomb":
@@ -48,12 +49,15 @@ function mw_set_sprite_to_custom_item()
             break;
         case "Varia Suit":
             sprite_index = sprItemVaria;
+            self.sends_message = false;
             break;
         case "Gravity Suit":
             sprite_index = sprItemGravity_strip3;
+            self.sends_message = false;
             break;
         case "Phazon Suit":
             sprite_index = sprItemPhazon_strip3;
+            self.sends_message = false;
             break;
         case "Boost Ball":
             sprite_index = sprItemBoostBall;

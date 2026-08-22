@@ -55,7 +55,6 @@ def create_items_payload(ctx: MPOContext) -> str:
     })
 
 def get_payload(ctx: MPOContext) -> str:
-    items_to_give = [ item_id_to_item_name[netitem.item] for netitem in ctx.items_received if netitem.item in item_id_to_item_name ]
     if not ctx.locations_info:
         async_start(ctx.send_msgs([{ "cmd": "LocationScouts", "locations": list(LOCATION_NAME_TO_ID.values()), "create_as_hint": 0 }]))
         return create_items_payload(ctx)
@@ -77,7 +76,7 @@ def get_payload(ctx: MPOContext) -> str:
 async def parse_payload(ctx: MPOContext, data_decoded: dict[str, str]):
     locations_checked = [game_key_to_location_id[location] for location in data_decoded["items"]]
     game_finished = bool(int(data_decoded["gamecompleted"]))
-    ctx.client_requesting_scouts = bool(int(data_decoded["seedreceived"]))
+    ctx.client_requesting_scouts = not bool(int(data_decoded["seedreceived"]))
     location_set = set(locations_checked)
     ctx.locations_checked = location_set
     new_locations = [location for location in ctx.missing_locations if location in location_set]

@@ -26,15 +26,15 @@ function handle_items_cmd(payload)
     {
         var major = ds_list_find_value(majorsList, i);
         var ds_name = convert_mw_name_to_ds_name(major);
-        if (string_pos("Artifact", major) != 0)
-        {
-            mw_handle_aeon_powers(major);
-        }
-        if (!dz(ds_name))
+        if (dz(ds_name) == 0)
         {
             itemsReceived = true;
+            ds_write(ds_name, 1);
+            if (string_pos("Artifact", ds_name) != 0)
+            {
+                mw_handle_aeon_powers(ds_name);
+            }
         }
-        ds_write(ds_name, 1);
     }
     if (missiletanks > 0)
     {

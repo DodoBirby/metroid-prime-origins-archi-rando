@@ -2,7 +2,7 @@ function visibility()
 {
     visible = true;
     depth = 0;
-    if (place_meeting(x, y, par_solid) && !place_meeting(x, y, obj_pirate_tube_0) && !place_meeting(x, y, obj_pirate_tube_1) && object_index != obj_upgrade_spazer)
+    if (position_meeting(x, y, par_solid) && !position_meeting(x, y, obj_pirate_tube_0) && !position_meeting(x, y, obj_pirate_tube_1) && object_index != obj_upgrade_spazer)
     {
         visible = false;
     }
