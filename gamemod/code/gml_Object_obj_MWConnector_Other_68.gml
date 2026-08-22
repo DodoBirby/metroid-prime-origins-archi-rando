@@ -11,7 +11,9 @@ function handle_items_cmd(payload)
     {
         return;
     }
-    var itemsReceived = false;
+    var numItemsReceived = 0;
+    var lastItemReceived = "";
+    
     var prevmissiletanks = dz("Missiles Max") / 5;
     var prevetanks = dz("Energy Tanks Max");
     var prevpbombtanks = dz("Power Bombs Max") / 2;
@@ -21,27 +23,14 @@ function handle_items_cmd(payload)
     ds_write("Missiles Max", missiletanks * 5);
     var pbombtanks = ds_map_find_value(payload, "pbombtanks");
     ds_write("Power Bombs Max", pbombtanks * 2);
-    var majorsList = ds_map_find_value(payload, "majors");
-    for (var i = 0; i < ds_list_size(majorsList); i++)
-    {
-        var major = ds_list_find_value(majorsList, i);
-        var ds_name = convert_mw_name_to_ds_name(major);
-        if (dz(ds_name) == 0)
-        {
-            itemsReceived = true;
-            ds_write(ds_name, 1);
-            if (string_pos("Artifact", ds_name) != 0)
-            {
-                mw_handle_aeon_powers(ds_name);
-            }
-        }
-    }
+    
     if (missiletanks > 0)
     {
         ds_write("Missile Launcher", 1);
         if (prevmissiletanks < missiletanks)
         {
-            itemsReceived = true;
+            numItemsReceived += missiletanks - prevmissiletanks;
+            lastItemReceived = "Missile Tank";
             ds_add("Missiles", (missiletanks - prevmissiletanks) * 5);
         }
     }
@@ -50,7 +39,8 @@ function handle_items_cmd(payload)
         ds_write("Power Bomb Detonator", 1);
         if (prevpbombtanks < pbombtanks)
         {
-            itemsReceived = true;
+            numItemsReceived += pbombtanks - prevpbombtanks;
+            lastItemReceived = "Power Bomb";
             ds_add("Power Bombs", (pbombtanks - prevpbombtanks) * 2);
         }
     }
@@ -59,15 +49,39 @@ function handle_items_cmd(payload)
         ds_write("Energy Tank", 1);
         if (prevetanks < etanks)
         {
-            itemsReceived = true;
+            numItemsReceived += etanks - prevetanks;
+            lastItemReceived = "Energy Tank";
             ds_write("Energy", 99);
             ds_write("Energy Tanks", etanks);
         }
     }
-    // TODO: Make this more descriptive
-    if (itemsReceived)
+    
+    var majorsList = ds_map_find_value(payload, "majors");
+    for (var i = 0; i < ds_list_size(majorsList); i++)
     {
-        show_item_pickup_text("Items Received");
+        var major = ds_list_find_value(majorsList, i);
+        var ds_name = convert_mw_name_to_ds_name(major);
+        if (dz(ds_name) == 0)
+        {
+            numItemsReceived += 1;
+            lastItemReceived = major;
+            ds_write(ds_name, 1);
+            if (string_pos("Artifact", ds_name) != 0)
+            {
+                mw_handle_aeon_powers(ds_name);
+            }
+        }
+    }
+
+    if (numItemsReceived > 0)
+    {
+        var suffix = "";
+        if (numItemsReceived > 1)
+        {
+            suffix = " (+ " + string(numItemsReceived - 1) + " other items)";
+        }
+        bitsound(sndMessageConfirm);
+        show_item_pickup_text(lastItemReceived + " Obtained" + suffix);
     }
 }
 
