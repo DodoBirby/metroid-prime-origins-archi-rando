@@ -1,0 +1,5 @@
+{
+  "$type": "Script",
+  "DataName": null,
+  "Code": "gml_GlobalScript_mw_set_sprite_to_custom_item"
+}
