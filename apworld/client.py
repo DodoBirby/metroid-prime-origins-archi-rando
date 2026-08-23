@@ -3,10 +3,17 @@ from asyncio import StreamReader, StreamWriter
 import json
 
 from Utils import async_start, gui_enabled
-from CommonClient import CommonContext, get_base_parser, logger, server_loop 
+from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, logger, server_loop 
 
 from .locations import LOCATION_NAME_TO_ID, LOCATION_TABLE
 from .items import ITEM_NAME_TO_ID
+
+CONNECTION_TIMING_OUT_STATUS = "Connection timing out"
+CONNECTION_REFUSED_STATUS = "Connection Refused"
+CONNECTION_RESET_STATUS = "Connection was reset"
+CONNECTION_TENTATIVE_STATUS = "Initial Connection Made"
+CONNECTION_CONNECTED_STATUS = "Connected"
+CONNECTION_INITIAL_STATUS = "Connection has not been initiated"
 
 PORT_NUMBER = 64200
 location_name_to_game_key = { location_name: data.location_key for location_name, data in LOCATION_TABLE.items() }
@@ -14,21 +21,45 @@ location_id_to_game_key = { id: location_name_to_game_key[name] for name, id in 
 item_id_to_item_name = { id: name for name, id in ITEM_NAME_TO_ID.items() }
 game_key_to_location_id = { key: id for id, key in location_id_to_game_key.items() }
 
+class MPOCommandProcessor(ClientCommandProcessor):
+    def __init__(self, ctx: CommonContext):
+        super().__init__(ctx)
+
+    def _cmd_mpo(self):
+        """Check MPO Connection State"""
+        if isinstance(self.ctx, MPOContext):
+            logger.info(f"Connection Status: {self.ctx.mpo_status}")
+
 class MPOContext(CommonContext):
     game = "Metroid Prime Origins"
     items_handling = 0b111 # full remote
+    command_processor = MPOCommandProcessor
 
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
         self.mpo_streams: tuple[StreamReader, StreamWriter] | None = None
         self.client_requesting_scouts: bool = False
         self.mpo_sync_task: asyncio.Task[None] | None = None
+        self.mpo_status: str = CONNECTION_INITIAL_STATUS
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
             _ = await super(MPOContext, self).server_auth(password_requested)
         await self.get_username()
         await self.send_connect()
+
+    def run_gui(self):
+        """Import kivy UI system and start running it as self.ui_task."""
+        from kvui import GameManager
+
+        class MPOManager(GameManager):
+            logging_pairs = [
+                ("Client", "Archipelago")
+            ]
+            base_title = "Metroid Prime Origins Archipelago Client"
+
+        self.ui = MPOManager(self)
+        self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI") 
 
 def create_items_payload(ctx: MPOContext) -> str:
     itemnames_received = [ item_id_to_item_name[netitem.item] for netitem in ctx.items_received if netitem.item in item_id_to_item_name ]
@@ -89,10 +120,13 @@ async def parse_payload(ctx: MPOContext, data_decoded: dict[str, str]):
 async def connect_to_mpo(ctx: MPOContext):
     try:
         ctx.mpo_streams = await asyncio.wait_for(asyncio.open_connection("127.0.0.1", PORT_NUMBER), timeout=10)
+        ctx.mpo_status = CONNECTION_TENTATIVE_STATUS
     except TimeoutError:
         logger.debug("Connection timed out, trying again...")
+        ctx.mpo_status = CONNECTION_TIMING_OUT_STATUS
     except ConnectionRefusedError:
         logger.debug("Connection refused, trying again...")
+        ctx.mpo_status = CONNECTION_REFUSED_STATUS
 
 async def mpo_sync_task(ctx: MPOContext):
     logger.info("Staring MPO connector.")
@@ -111,23 +145,30 @@ async def mpo_sync_task(ctx: MPOContext):
                 data = await asyncio.wait_for(reader.readline(), timeout=5)
                 data_decoded: dict[str, str] = json.loads(data.decode())
                 await parse_payload(ctx, data_decoded)
+                if ctx.mpo_status == CONNECTION_TENTATIVE_STATUS:
+                    logger.info("Successfully connected to MPO")
+                    ctx.mpo_status = CONNECTION_CONNECTED_STATUS
             except TimeoutError:
                 logger.debug("Read timed out, reconnecting...")
                 writer.close()
                 ctx.mpo_streams = None
+                ctx.mpo_status = CONNECTION_TIMING_OUT_STATUS
                 continue
             except ConnectionResetError:
                 logger.debug("Read failed due to connection error, reconnecting...")
                 writer.close()
                 ctx.mpo_streams = None
+                ctx.mpo_status = CONNECTION_RESET_STATUS
         except TimeoutError:
             logger.debug("Connection Timed Out, Reconnecting")
             writer.close()
             ctx.mpo_streams = None
+            ctx.mpo_status = CONNECTION_TIMING_OUT_STATUS
         except ConnectionResetError:
             logger.debug("Connection Lost, Reconnecting")
             writer.close()
             ctx.mpo_streams = None
+            ctx.mpo_status = CONNECTION_RESET_STATUS
 
 
 async def main(args):
