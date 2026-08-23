@@ -73,7 +73,6 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
 
     _ = west_ruins.connect(upper_west_ruins, "West Ruins to Upper West Ruins")
     _ = west_ruins.connect(central_ruins, "West Ruins to Central Ruins")
-    _ = west_ruins.connect(past_ruins_magma_pool, "West Ruins to Past Magma Pool")
     _ = west_ruins.connect(ruined_shrine, "West Ruins to Ruined Shrine")
 
     _ = upper_west_ruins.connect(sun_tower_and_flaahgra, "Upper West Ruins to Flaahgra")
