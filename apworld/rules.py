@@ -17,6 +17,8 @@ CAN_DESTROY_BOMB_BLOCKS = CAN_BOMB | CAN_PB | Has("Screw Attack")
 CAN_DESTROY_BLOCKS_WHILE_MORPHED = CAN_BOMB | CAN_PB
 CAN_TRAVERSE_UNDERWATER = Has("Gravity Suit") | Has("Grapple Beam")
 
+CAN_DESTROY_GLASS_BLOCK = Has("Charge Beam") | Has("Missile Tank")
+
 # Frigate requires shooting conduits, traversing underwater ledges, and destroying bomb blocks + glass to reveal conduits
 CAN_TRAVERSE_FRIGATE = Has("Wave Beam") & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has("Missile Tank") & CAN_TRAVERSE_UNDERWATER
 
@@ -105,10 +107,44 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("West Magmoor to West Phendrana", Has("Varia Suit"), world)
     set_entrance_rule("West Magmoor to West Phazon", Has("Varia Suit") & CAN_PB & Has("Ice Beam"), world)
 
+    set_entrance_rule("East Phendrana to Central Magmoor", Has("Morph Ball") & Has("Varia Suit"), world)
+    set_entrance_rule("East Phendrana to Shorelines", CAN_DESTROY_GLASS_BLOCK, world)
+
     set_entrance_rule("West Phendrana to West Magmoor", Has("Varia Suit"), world)
+    set_entrance_rule("West Phendrana to Thardus Area", Has("Morph Ball"), world)
+    set_entrance_rule("West Phendrana Elevator to Edge Lower", CAN_TRAVERSE_LOW_OVERHANG & Has("Ice Beam"), world)
+
+    set_entrance_rule("Shorelines to Ice Temple", CAN_DESTROY_GLASS_BLOCK & Has("Boost Ball"), world)
+    set_entrance_rule("Shorelines to Central Phendrana", CAN_TRAVERSE_LOW_OVERHANG & Has("Wave Beam"), world)
 
     set_entrance_rule("West Phazon to West Magmoor", Has("Varia Suit") & CAN_PB & Has("Ice Beam"), world)
 
+    set_entrance_rule("Central Phendrana to Thardus Area", Has("Morph Ball") & Has("Missile Tank") & Has("Wave Beam"), world)
+    set_entrance_rule("Central Phendrana to Research Lab Hydra", Has("Wave Beam"), world)
+
+    set_entrance_rule("Thardus Area to West Phendrana Elevator", Has("Morph Ball"), world)
+    set_entrance_rule("Thardus Area to Central Phendrana", Has("Morph Ball"), world)
+
+    set_entrance_rule("Hydra to Top Observatory", CAN_BOOST & CAN_BOMB, world)
+
+    set_entrance_rule("Observatory to Aether", Has("Missile Tank"), world)
+
+    set_entrance_rule("Core to Aether", Has("Wave Beam"), world)
+    set_entrance_rule("Core to Upper Edge", Has("Ice Beam") & Has("Morph Ball") & Has("Wave Beam"), world)
+
+    set_entrance_rule("Upper Edge to Core", Has("Ice Beam") & Has("Morph Ball"), world)
+    set_entrance_rule("Upper Edge to Lower", Has("Morph Ball") | CAN_DESTROY_BOMB_BLOCKS, world)
+    set_entrance_rule("Upper Edge to Frost Cave", Has("Morph Ball"), world)
+
+    set_entrance_rule("Lower Edge to Elevator", Has("Ice Beam") & Has("Morph Ball"), world)
+    set_entrance_rule("Lower Edge to Upper", Has("Morph Ball") | CAN_DESTROY_BOMB_BLOCKS, world)
+    set_entrance_rule("Lower Edge to Hunter Cave", CAN_TRAVERSE_UNDERWATER & Has("Morph Ball"), world)
+
+    set_entrance_rule("Frost Cave to True Edge", Has("Missile Tank") & Has("Morph Ball"), world)
+
+    set_entrance_rule("True Edge to Hunter Cave", Has("Morph Ball"), world)
+
+    set_entrance_rule("Hunter Cave to Lower Edge", Has("Morph Ball"), world)
 
 def set_location_rules(world: MetroidPrimeOriginsWorld):
     # Tallon
@@ -197,8 +233,37 @@ def set_location_rules(world: MetroidPrimeOriginsWorld):
 
     set_location_rule("(Magmoor Caverns) Magmoor Workstation", CAN_BOMB & CAN_SPIDER & Has("Wave Beam"), world)
 
+    # Phendrana Drifts
+    set_location_rule("(Phendrana Drifts) Phendrana Shorelines - Underwater Ice Cube", Has("Plasma Beam"), world)
+    set_location_rule("(Phendrana Drifts) Ice Ruins East - Ice Cube", Has("Plasma Beam"), world)
+    set_location_rule("(Phendrana Drifts) Ice Ruins East - Tunnel", CAN_BOOST, world)
+    set_location_rule("(Phendrana Drifts) Ice Ruins West", Has("Plasma Beam") & (Has("Missile Tank") | CAN_TRAVERSE_LOW_OVERHANG), world)
+    set_location_rule("(Phendrana Drifts) Phendrana Canyon", Has("Missile Tank"), world)
+    set_location_rule("(Phendrana Drifts) Phendrana Shorelines - Hidden Tunnel", Has("Missile Tank") & Has("Boost Ball"), world)
 
+    set_location_rule("(Phendrana Drifts) Chozo Ice Temple - Frozen Floor", Has("Morph Ball") & Has("Plasma Beam"), world)
+    set_location_rule("(Phendrana Drifts) Chapel of the Elders", Has("Morph Ball") & CAN_BOMB & Has("Missile Tank"), world)
 
+    set_location_rule("(Phendrana Drifts) Ruined Courtyard", (Has("Morph Ball") & CAN_TRAVERSE_LOW_OVERHANG) | (CAN_BOOST & CAN_BOMB), world)
+
+    set_location_rule("(Phendrana Drifts) Quarantine Cave - Thardus Reward", CAN_TRAVERSE_LOW_OVERHANG, world)
+    set_location_rule("(Phendrana Drifts) Quarantine Monitor", Has("Morph Ball") & (Has("Grapple Beam") | CAN_IBJ), world)
+
+    set_location_rule("(Phendrana Drifts) Research Lab Hydra", CAN_SUPER_MISSILE, world)
+
+    set_location_rule("(Phendrana Drifts) Control Tower", CAN_DESTROY_GLASS_BLOCK & CAN_TRAVERSE_LOW_OVERHANG, world)
+    set_location_rule("(Phendrana Drifts) Research Lab Aether - Hidden Passage", Has("Morph Ball"), world)
+    set_location_rule("(Phendrana Drifts) Research Lab Aether - Display Case", Has("Missile Tank"), world)
+
+    set_location_rule("(Phendrana Drifts) Transport Access", Has("Plasma Beam"), world)
+
+    set_location_rule("(Phendrana Drifts) Frost Cave", Has("Missile Tank") & (Has("Space Jump Boots") | CAN_IBJ | Has("Grapple Beam")), world)
+
+    set_location_rule("(Phendrana Drifts) Security Cave", Has("Grapple Beam") & Has("Morph Ball"), world)
+    set_location_rule("(Phendrana Drifts) Storage Cave", CAN_PB, world)
+
+    set_location_rule("(Phendrana Drifts) Gravity Chamber - Spike Tunnel", Has("Grapple Beam"), world)
+    set_location_rule("(Phendrana Drifts) Gravity Chamber", CAN_TRAVERSE_UNDERWATER | Has("Missile Tank") | Has("Space Jump Boots"), world)
 
 def set_completion_rule(world: MetroidPrimeOriginsWorld):
     pass

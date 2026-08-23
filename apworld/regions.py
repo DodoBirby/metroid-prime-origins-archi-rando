@@ -60,6 +60,19 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     # Phendrana Drifts
     east_phendrana = create_region("(Phendrana Drifts) East Phendrana", regions, world)
     west_phendrana_elevator = create_region("(Phendrana Drifts) West Phendrana Elevator", regions, world)
+    phendrana_shorelines = create_region("(Phendrana Drifts) Shorelines", regions, world)
+    ice_temple = create_region("(Phendrana Drifts) Ice Temple", regions, world)
+    central_phendrana = create_region("(Phendrana Drifts) Central Phendrana", regions, world)
+    thardus_area = create_region("(Phendrana Drifts) Thardus Area", regions, world)
+    research_lab_hydra = create_region("(Phendrana Drifts) Research Lab Hydra", regions, world)
+    top_observatory = create_region("(Phendrana Drifts) Top Observatory", regions, world)
+    research_lab_aether = create_region("(Phendrana Drifts) Research Lab Aether", regions, world)
+    research_core = create_region("(Phendrana Drifts) Research Core", regions, world)
+    phendrana_edge_upper = create_region("(Phendrana Drifts) Phendrana Edge Upper", regions, world)
+    phendrana_edge_lower = create_region("(Phendrana Drifts) Phendrana Edge Lower", regions, world)
+    frost_cave = create_region("(Phendrana Drifts) Frost Cave", regions, world)
+    true_phendrana_edge = create_region("(Phendrana Drifts) True Edge", regions, world)
+    hunter_cave = create_region("(Phendrana Drifts) Hunter Cave", regions, world)
 
     # Phazon Mines
     west_phazon_mines_elevator = create_region("(Phazon Mines) West Phazon Mines Elevator", regions, world)
@@ -142,7 +155,46 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = west_magmoor.connect(west_phendrana_elevator, "West Magmoor to West Phendrana")
     _ = west_magmoor.connect(west_phazon_mines_elevator, "West Magmoor to West Phazon")
 
+    _ = east_phendrana.connect(central_magmoor, "East Phendrana to Central Magmoor")
+    _ = east_phendrana.connect(phendrana_shorelines, "East Phendrana to Shorelines")
+
     _ = west_phendrana_elevator.connect(west_magmoor, "West Phendrana to West Magmoor")
+    _ = west_phendrana_elevator.connect(thardus_area, "West Phendrana to Thardus Area")
+    _ = west_phendrana_elevator.connect(phendrana_edge_lower, "West Phendrana Elevator to Edge Lower")
+
+    _ = phendrana_shorelines.connect(ice_temple, "Shorelines to Ice Temple")
+    _ = phendrana_shorelines.connect(central_phendrana, "Shorelines to Central Phendrana")
+
+    _ = west_phazon_mines_elevator.connect(west_magmoor, "West Phazon to West Magmoor")
+
+    _ = central_phendrana.connect(thardus_area, "Central Phendrana to Thardus Area")
+    _ = central_phendrana.connect(research_lab_hydra, "Central Phendrana to Research Lab Hydra")
+
+    _ = thardus_area.connect(west_phendrana_elevator, "Thardus Area to West Phendrana Elevator")
+    _ = thardus_area.connect(central_phendrana, "Thardus Area to Central Phendrana")
+
+    _ = research_lab_hydra.connect(top_observatory, "Hydra to Top Observatory")
+
+    _ = top_observatory.connect(research_lab_aether, "Observatory to Aether")
+
+    _ = research_lab_aether.connect(research_core)
+
+    _ = research_core.connect(research_lab_aether, "Core to Aether")
+    _ = research_core.connect(phendrana_edge_upper, "Core to Upper Edge")
+
+    _ = phendrana_edge_upper.connect(research_core, "Upper Edge to Core")
+    _ = phendrana_edge_upper.connect(phendrana_edge_lower, "Upper Edge to Lower")
+    _ = phendrana_edge_upper.connect(frost_cave, "Upper Edge to Frost Cave")
+
+    _ = phendrana_edge_lower.connect(west_phendrana_elevator, "Lower Edge to Elevator")
+    _ = phendrana_edge_lower.connect(phendrana_edge_upper, "Lower Edge to Upper")
+    _ = phendrana_edge_lower.connect(hunter_cave, "Lower Edge to Hunter Cave")
+
+    _ = frost_cave.connect(true_phendrana_edge, "Frost Cave to True Edge")
+
+    _ = true_phendrana_edge.connect(hunter_cave, "True Edge to Hunter Cave")
+
+    _ = hunter_cave.connect(phendrana_edge_lower, "Hunter Cave to Lower Edge")
     # Add events
     create_event(inside_frigate, "Open East Tallon Gate")
     create_event(upper_west_ruins, "Enter Main Plaza From Ledge")
