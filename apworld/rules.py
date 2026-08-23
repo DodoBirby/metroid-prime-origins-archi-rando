@@ -18,7 +18,7 @@ CAN_DESTROY_BLOCKS_WHILE_MORPHED = CAN_BOMB | CAN_PB
 CAN_TRAVERSE_UNDERWATER = Has("Gravity Suit") | Has("Grapple Beam")
 
 # Frigate requires shooting conduits, traversing underwater ledges, and destroying bomb blocks + glass to reveal conduits
-CAN_TRAVERSE_FRIGATE = Has("Wave Beam") & CAN_DESTROY_BOMB_BLOCKS & Has("Missile Tank") & CAN_TRAVERSE_UNDERWATER
+CAN_TRAVERSE_FRIGATE = Has("Wave Beam") & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has("Missile Tank") & CAN_TRAVERSE_UNDERWATER
 
 
 # This rule should be used for overhangs where you can't swwj but you can get through with vertical movement or climbing up the side
@@ -41,15 +41,18 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Landing Site to Crash Site", Has("Morph Ball") & Has("Missile Tank"), world)
 
     # Grapple across the top of the lake, or use gravity suit and morph + walljumps to go through the tunnel
-    set_entrance_rule("Crash Site Left to Right", Has("Grapple Beam") | (Has("Gravity Suit") & Has("Morph Ball")), world)
+    set_entrance_rule("Crash Site Left to Right", Has("Grapple Beam") | (Has("Gravity Suit") & Has("Morph Ball")) | CAN_IBJ | Has("Space Jump Boots"), world)
 
     # Get through the fire door, morph through the tunnel, get up the underwater ledge, shoot the conduit, break bomb blocks
     set_entrance_rule("Crash Site Right to Frigate", Has("Ice Beam") & Has("Morph Ball") & CAN_TRAVERSE_FRIGATE, world)
     set_entrance_rule("Crash Site Right to Overgrown Cavern", CAN_TRAVERSE_LOW_OVERHANG & Has("Ice Beam"), world)
 
+    set_entrance_rule("Overgrown Cavern to Upper Reflecting Pool", Has("Morph Ball") & CAN_DESTROY_BOMB_BLOCKS, world)
+
     set_entrance_rule("Inside Frigate to East Tallon", CAN_TRAVERSE_FRIGATE & CAN_BOOST, world)
 
     set_entrance_rule("East Tallon to Gated East Tallon", Has("Open East Tallon Gate"), world)
+    set_entrance_rule("East Tallon to Upper Reflecting Pool", Has("Ice Beam") & CAN_DESTROY_BOMB_BLOCKS, world)
 
     set_entrance_rule("Gated East Tallon to Life Grove", CAN_TRAVERSE_LOW_OVERHANG & CAN_PB, world)
     
@@ -84,12 +87,15 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
 
     set_entrance_rule("Lower Pool to Upper Pool", (CAN_DESTROY_BOMB_BLOCKS & CAN_BOOST) | Has("Grapple Beam") | CAN_IBJ, world)
 
+    set_entrance_rule("Upper Reflecting Pool to Overgrown Cavern", Has("Missile Tank") | CAN_BOMB, world)
+    set_entrance_rule("Upper Reflecting Pool to East Tallon", CAN_BOMB & Has("Ice Beam"), world)
+
 
 def set_location_rules(world: MetroidPrimeOriginsWorld):
     # Tallon
     # Melt the ice then traverse the overhang
     set_location_rule("(Tallon Overworld) Life Grove - Lake", CAN_BOOST & CAN_DESTROY_BOMB_BLOCKS & (Has("Screw Attack") | CAN_PB), world)
-    set_location_rule("(Tallon Overworld) Life Grove Tunnel", CAN_BOOST & CAN_DESTROY_BOMB_BLOCKS, world)
+    set_location_rule("(Tallon Overworld) Life Grove Tunnel", CAN_BOOST & CAN_DESTROY_BLOCKS_WHILE_MORPHED, world)
 
     set_location_rule("(Tallon Overworld) Cargo Freight Lift to Deck Gamma", Has("Missile Tank"), world)
     set_location_rule("(Tallon Overworld) Hydro Access Tunnel", CAN_BOOST, world)

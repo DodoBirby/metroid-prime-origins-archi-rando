@@ -65,9 +65,12 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = crash_site_right.connect(inside_frigate, "Crash Site Right to Frigate")
     _ = crash_site_right.connect(overgrown_cavern, "Crash Site Right to Overgrown Cavern")
 
+    _ = overgrown_cavern.connect(upper_reflecting_pool, "Overgrown Cavern to Upper Reflecting Pool")
+
     _ = inside_frigate.connect(east_tallon, "Inside Frigate to East Tallon")
 
     _ = east_tallon.connect(gated_east_tallon, "East Tallon to Gated East Tallon")
+    _ = east_tallon.connect(upper_reflecting_pool, "East Tallon to Upper Reflecting Pool")
     
     _ = gated_east_tallon.connect(life_grove, "Gated East Tallon to Life Grove")
 
@@ -100,6 +103,9 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = elder_hall.connect(lower_reflecting_pool, "Elder Hall to Lower Reflecting Pool")
 
     _ = lower_reflecting_pool.connect(upper_reflecting_pool, "Lower Pool to Upper Pool")
+
+    _ = upper_reflecting_pool.connect(overgrown_cavern, "Upper Reflecting Pool to Overgrown Cavern")
+    _ = upper_reflecting_pool.connect(east_tallon, "Upper Reflecting Pool to East Tallon")
     # Add events
     create_event(inside_frigate, "Open East Tallon Gate")
     create_event(upper_west_ruins, "Enter Main Plaza From Ledge")
