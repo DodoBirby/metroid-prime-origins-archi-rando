@@ -107,10 +107,14 @@ switch type_event
 {
     case network_type_connect:
         socket = ds_map_find_value(async_load, "socket");
-        // TODO: Show indication that you are connected
+        connectedToClient = true;
+        bitsound(sndMessageConfirm);
+        show_item_pickup_text("Connected to python client");
         break;
     case network_type_disconnect:
-        // TODO: Show indication that you have disconnected
+        connectedToClient = false;
+        bitsound(sndMessageConfirm);
+        show_item_pickup_text("Lost connection to python client");
         break;
     case network_type_data:
         var buffer = ds_map_find_value(async_load, "buffer");

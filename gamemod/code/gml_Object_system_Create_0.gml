@@ -120,4 +120,5 @@ global.prime_exo_beams = array_shuffle(global.prime_exo_beams);
 global.seedreceived = 0;
 global.mwcompleted = 0;
 global.mwLocations = ds_map_create();
+spawn(obj_MWConnector);
 // -- MW Changes End
