@@ -90,6 +90,25 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Upper Reflecting Pool to Overgrown Cavern", Has("Missile Tank") | CAN_BOMB, world)
     set_entrance_rule("Upper Reflecting Pool to East Tallon", CAN_BOMB & Has("Ice Beam"), world)
 
+    set_entrance_rule("East Magmoor to Central Magmoor", Has("Morph Ball") & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has("Varia Suit"), world)
+
+    set_entrance_rule("Central Magmoor to East Magmoor", Has("Morph Ball") & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has("Varia Suit"), world)
+    set_entrance_rule("Central Magmoor to East Phendrana", Has("Morph Ball") & Has("Varia Suit"), world)
+    set_entrance_rule("Central Magmoor to Central Elevator", Has("Morph Ball") & Has("Varia Suit"), world)
+
+    set_entrance_rule("Central Elevator to Central Magmoor", Has("Morph Ball") & Has("Varia Suit"), world)
+    set_entrance_rule("Central Elevator to Geothermal Core", Has("Varia Suit") & Has("Morph Ball") & (Has("Grapple Beam") | CAN_SPIDER) & Has("Wave Beam"), world)
+
+    set_entrance_rule("Geothermal Core to Central Elevator", Has("Varia Suit") & Has("Morph Ball") & (Has("Grapple Beam") | CAN_SPIDER), world)
+
+    set_entrance_rule("West Magmoor to Geothermal Core", Has("Varia Suit"), world)
+    set_entrance_rule("West Magmoor to West Phendrana", Has("Varia Suit"), world)
+    set_entrance_rule("West Magmoor to West Phazon", Has("Varia Suit") & CAN_PB & Has("Ice Beam"), world)
+
+    set_entrance_rule("West Phendrana to West Magmoor", Has("Varia Suit"), world)
+
+    set_entrance_rule("West Phazon to West Magmoor", Has("Varia Suit") & CAN_PB & Has("Ice Beam"), world)
+
 
 def set_location_rules(world: MetroidPrimeOriginsWorld):
     # Tallon
@@ -160,6 +179,25 @@ def set_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Chozo Ruins) Tower Chamber", CAN_TRAVERSE_UNDERWATER & Has("Wave Beam"), world)
     # Intentionally not CAN_SPIDER since this is about triggering the event flag
     set_location_rule("(Chozo Ruins) Sunchamber - Ghost Reward", Has("Spider Ball"), world)
+
+    # Magmoor Caverns
+    set_location_rule("(Magmoor Caverns) Lava Lake - Rock Spire", Has("Varia Suit") & Has("Missile Tank"), world)
+
+    set_location_rule("(Magmoor Caverns) Triclops Pit", Has("Missile Tank") & Has("Varia Suit"), world)
+    set_location_rule("(Magmoor Caverns) Storage Cavern", Has("Morph Ball") & Has("Varia Suit"), world)
+
+    set_location_rule("(Magmoor Caverns) Transport Tunnel A", Has("Morph Ball") & Has("Varia Suit"), world)
+    set_location_rule("(Magmoor Caverns) Warrior Shrine - Statue", Has("Varia Suit") & ((CAN_BOOST & CAN_TRAVERSE_LOW_OVERHANG) | CAN_IBJ | Has("Grapple Beam")), world)
+    set_location_rule("(Magmoor Caverns) Fiery Shores - from Warrior Shrine", CAN_PB & Has("Morph Ball") & Has("Varia Suit") & ((CAN_BOOST & CAN_TRAVERSE_LOW_OVERHANG) | CAN_IBJ | Has("Grapple Beam")), world)
+    set_location_rule("(Magmoor Caverns) Shore Tunnel - Glass Tube", Has("Varia Suit") & CAN_PB, world)
+
+    set_location_rule("(Magmoor Caverns) Fiery Shores - Top Left", Has("Varia Suit") & Has("Morph Ball"), world)
+
+    set_location_rule("(Magmoor Caverns) Plasma Processing", Has("Morph Ball") & Has("Ice Beam") & Has("Varia Suit") & CAN_TRAVERSE_LOW_OVERHANG & CAN_BOOST & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has("Grapple Beam"), world)
+
+    set_location_rule("(Magmoor Caverns) Magmoor Workstation", CAN_BOMB & CAN_SPIDER & Has("Wave Beam"), world)
+
+
 
 
 def set_completion_rule(world: MetroidPrimeOriginsWorld):

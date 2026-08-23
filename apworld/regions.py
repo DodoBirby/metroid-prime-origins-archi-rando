@@ -50,6 +50,20 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     tower_of_light = create_region("(Chozo Ruins) Tower of Light", regions, world)
     sun_tower_and_flaahgra = create_region("(Chozo Ruins) Sun Tower and Flaahgra", regions, world)
 
+    # Magmoor Caverns
+    east_magmoor = create_region("(Magmoor Caverns) East Magmoor", regions, world)
+    central_magmoor = create_region("(Magmoor Caverns) Central Magmoor", regions, world)
+    central_magmoor_elevator = create_region("(Magmoor Caverns) Central Magmoor Elevator", regions, world)
+    geothermal_core = create_region("(Magmoor Caverns) Geothermal Core", regions, world)
+    west_magmoor = create_region("(Magmoor Caverns) West Magmoor", regions, world)
+
+    # Phendrana Drifts
+    east_phendrana = create_region("(Phendrana Drifts) East Phendrana", regions, world)
+    west_phendrana_elevator = create_region("(Phendrana Drifts) West Phendrana Elevator", regions, world)
+
+    # Phazon Mines
+    west_phazon_mines_elevator = create_region("(Phazon Mines) West Phazon Mines Elevator", regions, world)
+
     world.multiworld.regions += regions
 
     # Connect regions
@@ -71,6 +85,8 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
 
     _ = east_tallon.connect(gated_east_tallon, "East Tallon to Gated East Tallon")
     _ = east_tallon.connect(upper_reflecting_pool, "East Tallon to Upper Reflecting Pool")
+
+    _ = west_tallon.connect(central_magmoor_elevator)
     
     _ = gated_east_tallon.connect(life_grove, "Gated East Tallon to Life Grove")
 
@@ -79,6 +95,7 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = west_ruins.connect(ruined_shrine, "West Ruins to Ruined Shrine")
 
     _ = upper_west_ruins.connect(sun_tower_and_flaahgra, "Upper West Ruins to Flaahgra")
+    _ = upper_west_ruins.connect(east_magmoor)
 
     _ = ruined_shrine.connect(tower_of_light, "Ruined Shrine to Tower of Light")
 
@@ -106,6 +123,26 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
 
     _ = upper_reflecting_pool.connect(overgrown_cavern, "Upper Reflecting Pool to Overgrown Cavern")
     _ = upper_reflecting_pool.connect(east_tallon, "Upper Reflecting Pool to East Tallon")
+
+    _ = east_magmoor.connect(upper_west_ruins)
+    _ = east_magmoor.connect(central_magmoor, "East Magmoor to Central Magmoor")
+
+    _ = central_magmoor.connect(east_magmoor, "Central Magmoor to East Magmoor")
+    _ = central_magmoor.connect(east_phendrana, "Central Magmoor to East Phendrana")
+    _ = central_magmoor.connect(central_magmoor_elevator, "Central Magmoor to Central Elevator")
+
+    _ = central_magmoor_elevator.connect(central_magmoor, "Central Elevator to Central Magmoor")
+    _ = central_magmoor_elevator.connect(west_tallon)
+    _ = central_magmoor_elevator.connect(geothermal_core, "Central Elevator to Geothermal Core")
+
+    _ = geothermal_core.connect(central_magmoor_elevator, "Geothermal Core to Central Elevator")
+    _ = geothermal_core.connect(west_magmoor)
+
+    _ = west_magmoor.connect(geothermal_core, "West Magmoor to Geothermal Core")
+    _ = west_magmoor.connect(west_phendrana_elevator, "West Magmoor to West Phendrana")
+    _ = west_magmoor.connect(west_phazon_mines_elevator, "West Magmoor to West Phazon")
+
+    _ = west_phendrana_elevator.connect(west_magmoor, "West Phendrana to West Magmoor")
     # Add events
     create_event(inside_frigate, "Open East Tallon Gate")
     create_event(upper_west_ruins, "Enter Main Plaza From Ledge")
