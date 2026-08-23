@@ -39,53 +39,70 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
 
     # Grapple across the top of the lake, or use gravity suit and morph + walljumps to go through the tunnel
     set_entrance_rule("Crash Site Left to Right", Has("Grapple Beam") | (Has("Gravity Suit") & Has("Morph Ball")), world)
+
     # Get through the fire door, morph through the tunnel, get up the underwater ledge, shoot the conduit, break bomb blocks
     set_entrance_rule("Crash Site Right to Frigate", Has("Ice Beam") & Has("Morph Ball") & CAN_TRAVERSE_FRIGATE, world)
-    set_entrance_rule("Inside Frigate to East Tallon", CAN_TRAVERSE_FRIGATE & CAN_BOOST, world)
-    set_entrance_rule("East Tallon to Gated East Tallon", Has("Open East Tallon Gate"), world)
-    set_entrance_rule("Gated East Tallon to Life Grove", CAN_TRAVERSE_LOW_OVERHANG & CAN_PB, world)
     set_entrance_rule("Crash Site Right to Overgrown Cavern", CAN_TRAVERSE_LOW_OVERHANG & Has("Ice Beam"), world)
+
+    set_entrance_rule("Inside Frigate to East Tallon", CAN_TRAVERSE_FRIGATE & CAN_BOOST, world)
+
+    set_entrance_rule("East Tallon to Gated East Tallon", Has("Open East Tallon Gate"), world)
+
+    set_entrance_rule("Gated East Tallon to Life Grove", CAN_TRAVERSE_LOW_OVERHANG & CAN_PB, world)
     
     set_entrance_rule("West Ruins to Upper West Ruins", Has("Missile Tank") & Has("Morph Ball"), world)
     set_entrance_rule("West Ruins to Central Ruins", Has("Morph Ball"), world)
     set_entrance_rule("West Ruins to Past Magma Pool", Has("Grapple Beam"), world)
     set_entrance_rule("West Ruins to Ruined Shrine", Has("Missile Tank"), world)
 
+    set_entrance_rule("Upper West Ruins to Flaahgra", CAN_SUPER_MISSILE & CAN_TRAVERSE_HIGH_OVERHANG, world)
+
+    set_entrance_rule("Ruined Shrine to Tower of Light", Has("Wave Beam") & (CAN_SPIDER | Has("Grapple Beam")), world)
+
     # Lenient rule
     set_entrance_rule("Central Ruins to Past Magma Pool", Has("Varia Suit") & Has("Wave Beam") & Has("Grapple Beam"), world)
-    
     set_entrance_rule("Central Ruins to Arboretum", Has("Missile Tank"), world)
+    
     set_entrance_rule("Arboretum to Gathering Hall", Has("Missile Tank"), world)
+    set_entrance_rule("Arboretum to Flaahgra", Has("Morph Ball") & CAN_DESTROY_BOMB_BLOCKS & Has("Missile Tank"), world)
+
     set_entrance_rule("Gathering Hall to Dynamo", Has("Missile Tank") & CAN_DESTROY_BOMB_BLOCKS, world)
     set_entrance_rule("Gathering Hall to Energy Core", Has("Morph Ball"), world)
 
     set_entrance_rule("Energy Core to Furnace", (Has("Gravity Suit") & CAN_TRAVERSE_LOW_OVERHANG) | Has("Grapple Beam") | CAN_BOMB, world)
+
     set_entrance_rule("Furnace to Upper Furnace", Has("Morph Ball") & CAN_DESTROY_BOMB_BLOCKS & (CAN_SPIDER | Has("Grapple Beam")), world)
+
     set_entrance_rule("Upper Furnace to Crossway", Has("Morph Ball"), world)
-    set_entrance_rule("Crossway to Elder Hall", CAN_BOOST & ((Has("Ice Beam") & Has("Morph Ball")) | Has("Missile Tank")), world)
     set_entrance_rule("Upper Furnace to Elder Hall", Has("Ice Beam"), world)
+
+    set_entrance_rule("Crossway to Elder Hall", CAN_BOOST & ((Has("Ice Beam") & Has("Morph Ball")) | Has("Missile Tank")), world)
+
     set_entrance_rule("Elder Hall to Lower Reflecting Pool", Has("Wave Beam") & CAN_BOMB & CAN_TRAVERSE_LOW_OVERHANG, world)
+
     set_entrance_rule("Lower Pool to Upper Pool", (CAN_DESTROY_BOMB_BLOCKS & CAN_BOOST) | Has("Grapple Beam"), world)
 
-    set_entrance_rule("Ruined Shrine to Tower of Light", Has("Wave Beam") & (CAN_SPIDER | Has("Grapple Beam")), world)
-    set_entrance_rule("Arboretum to Flaahgra", Has("Morph Ball") & CAN_DESTROY_BOMB_BLOCKS & Has("Missile Tank"), world)
-    set_entrance_rule("Upper West Ruins to Flaahgra", CAN_SUPER_MISSILE & CAN_TRAVERSE_HIGH_OVERHANG, world)
 
 def set_location_rules(world: MetroidPrimeOriginsWorld):
     # Tallon
     # Melt the ice then traverse the overhang
+    set_location_rule("(Tallon Overworld) Life Grove - Lake", CAN_BOOST & CAN_DESTROY_BOMB_BLOCKS & (Has("Screw Attack") | CAN_PB), world)
+    set_location_rule("(Tallon Overworld) Life Grove Tunnel", CAN_BOOST & CAN_DESTROY_BOMB_BLOCKS, world)
+
+    set_location_rule("(Tallon Overworld) Cargo Freight Lift to Deck Gamma", Has("Missile Tank"), world)
+    set_location_rule("(Tallon Overworld) Hydro Access Tunnel", CAN_BOOST, world)
+    set_location_rule("(Tallon Overworld) Biohazard Containment", CAN_SUPER_MISSILE, world)
+
     set_location_rule("(Tallon Overworld) Arbor Chamber", Has("Plasma Beam") & CAN_TRAVERSE_LOW_OVERHANG, world)
 
     set_location_rule("(Tallon Overworld) Crash Site - Underwater Ledge", (Has("Gravity Suit") & CAN_TRAVERSE_LOW_OVERHANG) | Has("Grapple Beam"), world)
-    set_location_rule("(Tallon Overworld) Cargo Freight Lift to Deck Gamma", Has("Missile Tank"), world)
-    set_location_rule("(Tallon Overworld) Biohazard Containment", CAN_SUPER_MISSILE, world)
-    set_location_rule("(Tallon Overworld) Hydro Access Tunnel", CAN_BOOST, world)
-    set_location_rule("Open East Tallon Gate)", CAN_BOOST, world)
+
     set_location_rule("(Tallon Overworld) Great Tree Chamber", Has("Screw Attack"), world)
-    set_location_rule("(Tallon Overworld) Life Grove Tunnel", CAN_BOOST & CAN_DESTROY_BOMB_BLOCKS, world)
+
     # Screw through the wall or blow up the secret path
-    set_location_rule("(Tallon Overworld) Life Grove - Lake", CAN_BOOST & CAN_DESTROY_BOMB_BLOCKS & (Has("Screw Attack") | CAN_PB), world)
     set_location_rule("(Tallon Overworld) Overgrown Cavern", Has("Morph Ball"), world)
+
+    set_location_rule("Open East Tallon Gate)", CAN_BOOST, world)
 
     # Chozo Ruins
     set_location_rule("(Chozo Ruins) Main Plaza - Super Missile Blocks", CAN_SUPER_MISSILE & CAN_TRAVERSE_LOW_OVERHANG, world)
@@ -122,6 +139,7 @@ def set_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Chozo Ruins) Hall of the Elders - Ceiling", Has("Ice Beam") & CAN_BOMB & CAN_SPIDER, world)
     # TODO: On remix you can use the secret path
     set_location_rule("(Chozo Ruins) Elder Chamber", (Has("Plasma Beam") & CAN_BOMB), world)
+
     set_location_rule("(Chozo Ruins) Antechamber", Has("Missile Tank") & (CAN_BOMB | CAN_PB), world)
 
     set_location_rule("(Chozo Ruins) Magma Pool", CAN_PB, world)
