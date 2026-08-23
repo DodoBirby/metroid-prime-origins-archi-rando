@@ -8,6 +8,7 @@ if TYPE_CHECKING:
 
 class LocationData(NamedTuple):
     location_key: str
+    region: str
 
 class MetroidPrimeOriginsLocation(Location):
     game = "Metroid Prime Origins"
@@ -98,21 +99,21 @@ LOCATION_TABLE: dict[str, LocationData] = {
     "(Phendrana Drifts) Research Lab Hydra": LocationData("Missiles Max phe_Research_Lab_Hydra_subB x376 y160"),
     "(Phendrana Drifts) Ice Ruins West": LocationData("Power Bombs Max phe_Ice_Ruins_West x360 y248"),
     "(Phendrana Drifts) Security Cave": LocationData("Power Bombs Max phe_Security_Cave x168 y120"),
-    "(Tallon Overworld) Cipher Site - Podium": LocationData("Artifact 1 tal_Cipher_Site x288 y371"),
-    "(Tallon Overworld) Life Grove - Lake": LocationData("Artifact 7 tal_Life_Grove x488 y320"),
-    "(Tallon Overworld) Life Grove - Cave": LocationData("Screw Attack tal_Life_Grove x72 y344"),
-    "(Tallon Overworld) Life Grove Tunnel": LocationData("Missiles Max tal_Life_Grove_Tunnel x304 y96"),
-    "(Tallon Overworld) Cargo Freight Lift to Deck Gamma": LocationData("Energy Tanks Max tal_Cargo_Freight_Lift_to_Deck_Gamma x233 y124"),
-    "(Tallon Overworld) Hydro Access Tunnel": LocationData("Energy Tanks Max tal_Hydro_Access_Tunnel x576 y144"),
-    "(Tallon Overworld) Arbor Chamber": LocationData("Missiles Max tal_Arbor_Chamber x144 y80"),
-    "(Tallon Overworld) Biohazard Containment": LocationData("Missiles Max tal_Biohazard_Containment x265 y384"),
-    "(Tallon Overworld) Crash Site - Underwater Ledge": LocationData("Missiles Max tal_Crash_Site x616 y296"),
-    "(Tallon Overworld) Great Tree Chamber": LocationData("Missiles Max tal_Great_Tree_Chamber x152 y136"),
-    "(Tallon Overworld) Alcove - Above Landing Site": LocationData("Space Jump Boots tal_Alcove x224 y128"),
-    "(Tallon Overworld) Landing Site - Grass": LocationData("Missiles Max tal_Landing_Site x800 y528"),
-    "(Tallon Overworld) Overgrown Cavern": LocationData("Missiles Max tal_Overgrown_Cavern x144 y128"),
-    "(Tallon Overworld) Root Cave": LocationData("Missiles Max tal_Root_Cave x48 y208"),
-    "(Tallon Overworld) Transport Tunnel B": LocationData("Missiles Max tal_Transport_Tunnel_B x152 y160"),
+    "(Tallon Overworld) Cipher Site - Podium": LocationData("Artifact 1 tal_Cipher_Site x288 y371", "(Tallon Overworld) Artifact Temple"),
+    "(Tallon Overworld) Life Grove - Lake": LocationData("Artifact 7 tal_Life_Grove x488 y320", "(Tallon Overworld) Life Grove"),
+    "(Tallon Overworld) Life Grove - Cave": LocationData("Screw Attack tal_Life_Grove x72 y344", "(Tallon Overworld) Life Grove"),
+    "(Tallon Overworld) Life Grove Tunnel": LocationData("Missiles Max tal_Life_Grove_Tunnel x304 y96", "(Tallon Overworld) Life Grove"),
+    "(Tallon Overworld) Cargo Freight Lift to Deck Gamma": LocationData("Energy Tanks Max tal_Cargo_Freight_Lift_to_Deck_Gamma x233 y124", "(Tallon Overworld) Inside Frigate"),
+    "(Tallon Overworld) Hydro Access Tunnel": LocationData("Energy Tanks Max tal_Hydro_Access_Tunnel x576 y144", "(Tallon Overworld) Inside Frigate"),
+    "(Tallon Overworld) Arbor Chamber": LocationData("Missiles Max tal_Arbor_Chamber x144 y80", "(Tallon Overworld) West Tallon"),
+    "(Tallon Overworld) Biohazard Containment": LocationData("Missiles Max tal_Biohazard_Containment x265 y384", "(Tallon Overworld) Inside Frigate"),
+    "(Tallon Overworld) Crash Site - Underwater Ledge": LocationData("Missiles Max tal_Crash_Site x616 y296", "(Tallon Overworld) Crash Site Left of Lake"),
+    "(Tallon Overworld) Great Tree Chamber": LocationData("Missiles Max tal_Great_Tree_Chamber x152 y136", "(Tallon Overworld) Gated East Tallon"),
+    "(Tallon Overworld) Alcove - Above Landing Site": LocationData("Space Jump Boots tal_Alcove x224 y128", "(Tallon Overworld) Landing Site"),
+    "(Tallon Overworld) Landing Site - Grass": LocationData("Missiles Max tal_Landing_Site x800 y528", "(Tallon Overworld) Landing Site"),
+    "(Tallon Overworld) Overgrown Cavern": LocationData("Missiles Max tal_Overgrown_Cavern x144 y128", "(Tallon Overworld) Overgrown Cavern"),
+    "(Tallon Overworld) Root Cave": LocationData("Missiles Max tal_Root_Cave x48 y208", "(Tallon Overworld) West Tallon"),
+    "(Tallon Overworld) Transport Tunnel B": LocationData("Missiles Max tal_Transport_Tunnel_B x152 y160", "(Tallon Overworld) West Tallon"),
 }
 
 LOCATION_NAME_TO_ID = { name: i + 1 for i, name in enumerate(LOCATION_TABLE.keys()) }
@@ -121,6 +122,9 @@ def get_location_names_with_ids(location_names: list[str]):
     return { name: LOCATION_NAME_TO_ID[name] for name in location_names }
 
 def create_locations(world: MetroidPrimeOriginsWorld):
-    overworld = world.get_region("Tallon Overworld")
-    # Dump all locations into Tallon Overworld since we have no logic yet
-    overworld.add_locations(LOCATION_NAME_TO_ID, MetroidPrimeOriginsLocation)
+    locations_by_region: dict[str, list[str]] = {}
+    for name, data in LOCATION_TABLE.items():
+        locations_by_region.setdefault(data.region, []).append(name)
+    for region, locations in locations_by_region.items():
+        world_region = world.get_region(region)
+        world_region.add_locations(get_location_names_with_ids(locations), MetroidPrimeOriginsLocation)

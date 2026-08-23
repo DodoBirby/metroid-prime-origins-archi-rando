@@ -46,8 +46,8 @@ ITEM_TABLE: dict[str, ItemData] = {
     "Artifact of Spirit": ItemData(ItemClassification.progression),
     "Artifact of Newborn": ItemData(ItemClassification.progression),
     "Energy Tank": ItemData(ItemClassification.useful, 14),
-    "Power Bomb": ItemData(ItemClassification.filler, 5),
-    "Missile Tank": ItemData(ItemClassification.filler, 50),
+    "Power Bomb": ItemData(ItemClassification.progression_deprioritized_skip_balancing, 5),
+    "Missile Tank": ItemData(ItemClassification.progression_deprioritized_skip_balancing, 50),
 }
 
 ITEM_NAME_TO_ID = { name: i + 1 for i, name in enumerate(ITEM_TABLE.keys()) }
