@@ -149,7 +149,7 @@ def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     # Intentionally not CAN_SPIDER since this is about triggering the event flag
 
     # Flaahgra and ghost
-    set_location_rule("(Chozo Ruins) Sunchamber - Ghost Reward", Has("Spider Ball"), world)
+    set_location_rule("(Chozo Ruins) Sunchamber - Ghost Reward", Has("Spider Ball") | Has(ICE), world)
     
 def set_magmoor_location_rules(world: MetroidPrimeOriginsWorld):
     # East Magmoor
@@ -263,14 +263,16 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
 
     set_entrance_rule("Inside Frigate to East Tallon", CAN_TRAVERSE_FRIGATE & CAN_BOOST, world)
 
-    set_entrance_rule("East Tallon to Gated East Tallon", Has("Open East Tallon Gate"), world)
+    set_entrance_rule("East Tallon to Gated East Tallon", Has("Open East Tallon Gate") | CAN_TRAVERSE_LOW_OVERHANG, world)
     set_entrance_rule("East Tallon to Upper Reflecting Pool", Has(ICE) & CAN_DESTROY_BOMB_BLOCKS, world)
 
     set_entrance_rule("Gated East Tallon to Life Grove", CAN_TRAVERSE_LOW_OVERHANG & CAN_PB, world)
+    set_entrance_rule("Gated East Tallon to Phazon Entrance", Has("Open East Tallon Gate"), world)
     
     set_entrance_rule("West Ruins to Upper West Ruins", Has(MISSILE) & Has(MORPH), world)
     set_entrance_rule("West Ruins to Central Ruins", Has(MORPH), world)
     set_entrance_rule("West Ruins to Ruined Shrine", Has(MISSILE), world)
+    set_entrance_rule("West Ruins to Past Magma Pool", Has(GRAPPLE) & Has(MORPH), world)
 
     set_entrance_rule("Upper West Ruins to Flaahgra", CAN_SUPER_MISSILE & CAN_TRAVERSE_HIGH_OVERHANG, world)
 
