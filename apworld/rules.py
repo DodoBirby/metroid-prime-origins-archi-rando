@@ -87,7 +87,7 @@ def set_tallon_location_rules(world: MetroidPrimeOriginsWorld):
 
 def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     # West Chozo Ruins
-    set_location_rule("(Chozo Ruins) Main Plaza - Super Missile Blocks", CAN_SUPER_MISSILE & CAN_TRAVERSE_LOW_OVERHANG, world)
+    set_location_rule("(Chozo Ruins) Main Plaza - Super Missile Blocks", Has(MISSILE) & CAN_TRAVERSE_LOW_OVERHANG, world)
     set_location_rule("(Chozo Ruins) Main Plaza - Boost Ball Ramp", CAN_BOOST | Has(SPACEJUMP), world)
     set_location_rule("(Chozo Ruins) Main Plaza - Lower Ledge", CAN_TRAVERSE_LOW_OVERHANG | Has("Enter Main Plaza From Ledge"), world)
     set_location_rule("(Chozo Ruins) Main Plaza - Top Ledge", Has(GRAPPLE) | CAN_IBJ, world)
@@ -274,7 +274,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("West Ruins to Ruined Shrine", Has(MISSILE), world)
     set_entrance_rule("West Ruins to Past Magma Pool", Has(GRAPPLE) & Has(MORPH), world)
 
-    set_entrance_rule("Upper West Ruins to Flaahgra", CAN_SUPER_MISSILE & CAN_TRAVERSE_HIGH_OVERHANG, world)
+    set_entrance_rule("Upper West Ruins to Flaahgra", Has(MISSILE) & CAN_TRAVERSE_HIGH_OVERHANG, world)
 
     set_entrance_rule("Ruined Shrine to Tower of Light", Has(WAVE) & (CAN_SPIDER | Has(GRAPPLE)), world)
 
