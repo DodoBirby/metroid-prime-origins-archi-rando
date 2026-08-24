@@ -7,26 +7,6 @@ from rule_builder.rules import Has, Rule
 if TYPE_CHECKING:
     from .world import MetroidPrimeOriginsWorld
 
-CAN_SPIDER = Has("Spider Ball") & Has("Morph Ball")
-CAN_IBJ = Has("Morph Ball") & Has("Morph Ball Bomb")
-CAN_BOMB = Has("Morph Ball") & Has("Morph Ball Bomb")
-CAN_SUPER_MISSILE = Has("Missile Tank") & Has("Super Missile")
-CAN_BOOST = Has("Morph Ball") & Has("Boost Ball")
-CAN_PB = Has("Morph Ball") & Has("Power Bomb")
-CAN_DESTROY_BOMB_BLOCKS = CAN_BOMB | CAN_PB | Has("Screw Attack")
-CAN_DESTROY_BLOCKS_WHILE_MORPHED = CAN_BOMB | CAN_PB
-CAN_TRAVERSE_UNDERWATER = Has("Gravity Suit") | Has("Grapple Beam")
-
-CAN_DESTROY_GLASS_BLOCK = Has("Charge Beam") | Has("Missile Tank")
-
-# Frigate requires shooting conduits, traversing underwater ledges, and destroying bomb blocks + glass to reveal conduits
-CAN_TRAVERSE_FRIGATE = Has("Wave Beam") & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has("Missile Tank") & CAN_TRAVERSE_UNDERWATER
-
-
-# This rule should be used for overhangs where you can't swwj but you can get through with vertical movement or climbing up the side
-CAN_TRAVERSE_LOW_OVERHANG = Has("Space Jump Boots") | CAN_SPIDER | Has("Grapple Beam") | CAN_IBJ
-CAN_TRAVERSE_HIGH_OVERHANG = Has("Grapple Beam") | CAN_SPIDER | CAN_IBJ
-
 # Constants for anti-typo
 MORPH = "Morph Ball"
 MISSILE = "Missile Tank"
@@ -43,6 +23,27 @@ PHAZON = "Phazon Suit"
 SPACEJUMP = "Space Jump Boots"
 GRAPPLE = "Grapple Beam"
 SCREW = "Screw Attack"
+
+CAN_SPIDER = Has("Spider Ball") & Has(MORPH)
+CAN_IBJ = Has(MORPH) & Has("Morph Ball Bomb")
+CAN_BOMB = Has(MORPH) & Has("Morph Ball Bomb")
+CAN_SUPER_MISSILE = Has(MISSILE) & Has("Super Missile")
+CAN_BOOST = Has(MORPH) & Has("Boost Ball")
+CAN_PB = Has(MORPH) & Has("Power Bomb")
+CAN_DESTROY_BOMB_BLOCKS = CAN_BOMB | CAN_PB | Has(SCREW)
+CAN_DESTROY_BLOCKS_WHILE_MORPHED = CAN_BOMB | CAN_PB
+CAN_TRAVERSE_UNDERWATER = Has(GRAVITY) | Has(GRAPPLE)
+
+CAN_DESTROY_GLASS_BLOCK = Has(CHARGE) | Has(MISSILE)
+
+# Frigate requires shooting conduits, traversing underwater ledges, and destroying bomb blocks + glass to reveal conduits
+CAN_TRAVERSE_FRIGATE = Has(WAVE) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(MISSILE) & CAN_TRAVERSE_UNDERWATER
+
+# This rule should be used for overhangs where you can't swwj but you can get through with vertical movement or climbing up the side
+CAN_TRAVERSE_LOW_OVERHANG = Has(SPACEJUMP) | CAN_SPIDER | Has(GRAPPLE) | CAN_IBJ
+CAN_TRAVERSE_HIGH_OVERHANG = Has(GRAPPLE) | CAN_SPIDER | CAN_IBJ
+
+CAN_BEAT_ENDGAME = Has("Energy Tank", 4) & Has(WAVE) & Has(PLASMA) & Has(ICE) & Has(CHARGE) & Has(PHAZON) & Has(GRAPPLE)
 
 def set_location_rule(name: str, rule: Rule[Any], world: MetroidPrimeOriginsWorld):
     world.set_rule(world.get_location(name), rule)
@@ -79,7 +80,7 @@ def set_tallon_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Tallon Overworld) Overgrown Cavern", Has(MORPH), world)
 
     # Artifact Temple
-    set_location_rule("Victory", Has("Kill Flaahgra") & Has("Kill Thardus") & Has("Kill Omega Pirate"), world)
+    set_location_rule("Victory", Has("Kill Flaahgra") & Has("Kill Thardus") & Has("Kill Omega Pirate") & CAN_BEAT_ENDGAME, world)
 
     # Landing Site
     set_location_rule("(Tallon Overworld) Landing Site - Grass", Has(MORPH), world)
