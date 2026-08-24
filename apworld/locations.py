@@ -79,23 +79,37 @@ LOCATION_TABLE: dict[str, LocationData] = {
 
     "(Magmoor Caverns) Fiery Shores - Top Left": LocationData("Missiles Max mag_Fiery_Shores x48 y64", "(Magmoor Caverns) Central Magmoor Elevator"),
 
-    "(Phazon Mines) Elite Research - Elite Fight Reward": LocationData("Artifact 6 pha_Elite_Research x112 y96"),
-    "(Phazon Mines) Elite Research - Stone Block": LocationData("Missiles Max pha_Elite_Research_subB x128 y32"),
-    "(Phazon Mines) Phazon Mining Tunnel": LocationData("Artifact 12 pha_Phazon_Mining_Tunnel x104 y347"),
-    "(Phazon Mines) Storage Depot A": LocationData("Incinerator pha_Storage_Depot_A x160 y120"),
-    "(Phazon Mines) Storage Depot B": LocationData("Grapple Beam pha_Storage_Depot_B x208 y139"),
-    "(Phazon Mines) Elite Quarters - Omega Pirate Fight Reward": LocationData("Phazon Suit pha_Elite_Quarters x320 y352"),
-    "(Phazon Mines) Processing Center Access": LocationData("Energy Tanks Max pha_Processing_Center_Access x72 y120"),
-    "(Phazon Mines) Ventilation Shaft": LocationData("Energy Tanks Max pha_Ventilation_Shaft x152 y352"),
-    "(Phazon Mines) Elite Control Access": LocationData("Missiles Max pha_Elite_Control_Access x224 y48"),
-    "(Phazon Mines) Fungal Hall Access": LocationData("Missiles Max pha_Fungal_Hall_Access x208 y400"),
-    "(Phazon Mines) Fungal Hall B": LocationData("Missiles Max pha_Fungal_Hall_B x912 y240"),
-    "(Phazon Mines) Main Quarry": LocationData("Missiles Max pha_Main_Quarry x592 y48"),
-    "(Phazon Mines) Metroid Quarantine A": LocationData("Missiles Max pha_Metroid_Quarantine_A x512 y48"),
-    "(Phazon Mines) Metroid Quarantine B": LocationData("Missiles Max pha_Metroid_Quarantine_B x888 y304"),
-    "(Phazon Mines) Phazon Processing Center": LocationData("Missiles Max pha_Phazon_Processing_Center x568 y632"),
-    "(Phazon Mines) Security Access A": LocationData("Missiles Max pha_Security_Access_A x192 y176"),
-    "(Phazon Mines) Central Dynamo": LocationData("Power Bombs Max pha_Central_Dynamo x312 y296"),
+    "(Phazon Mines) Elite Research - Elite Fight Reward": LocationData("Artifact 6 pha_Elite_Research x112 y96", "(Phazon Mines) Elite Research"),
+    "(Phazon Mines) Elite Research - Stone Block": LocationData("Missiles Max pha_Elite_Research_subB x128 y32", "(Phazon Mines) Elite Research"),
+
+    "(Phazon Mines) Phazon Mining Tunnel": LocationData("Artifact 12 pha_Phazon_Mining_Tunnel x104 y347", "(Phazon Mines) Phazon Mining Tunnel"),
+
+    "(Phazon Mines) Storage Depot A": LocationData("Incinerator pha_Storage_Depot_A x160 y120", "(Phazon Mines) Corridor to Elite Research"),
+    "(Phazon Mines) Security Access A": LocationData("Missiles Max pha_Security_Access_A x192 y176", "(Phazon Mines) Corridor to Elite Research"),
+
+    "(Phazon Mines) Storage Depot B": LocationData("Grapple Beam pha_Storage_Depot_B x208 y139", "(Phazon Mines) Storage Depot B"),
+
+    "(Phazon Mines) Elite Quarters - Omega Pirate Fight Reward": LocationData("Phazon Suit pha_Elite_Quarters x320 y352", "(Phazon Mines) Omega Pirate Area"),
+
+    "(Phazon Mines) Processing Center Access": LocationData("Energy Tanks Max pha_Processing_Center_Access x72 y120", "(Phazon Mines) Processing Center Access"),
+
+    "(Phazon Mines) Ventilation Shaft": LocationData("Energy Tanks Max pha_Ventilation_Shaft x152 y352", "(Phazon Mines) Ventilation Shaft"),
+
+    "(Phazon Mines) Elite Control Access": LocationData("Missiles Max pha_Elite_Control_Access x224 y48", "(Phazon Mines) Elite Control Access"),
+
+    "(Phazon Mines) Fungal Hall Access": LocationData("Missiles Max pha_Fungal_Hall_Access x208 y400", "(Phazon Mines) Fungal Hall Access"),
+
+    "(Phazon Mines) Fungal Hall B": LocationData("Missiles Max pha_Fungal_Hall_B x912 y240", "(Phazon Mines) Fungal Hall B"),
+
+    "(Phazon Mines) Main Quarry": LocationData("Missiles Max pha_Main_Quarry x592 y48", "(Phazon Mines) Entrance"),
+
+    "(Phazon Mines) Metroid Quarantine A": LocationData("Missiles Max pha_Metroid_Quarantine_A x512 y48", "(Phazon Mines) Metroid Quarantine A"),
+
+    "(Phazon Mines) Metroid Quarantine B": LocationData("Missiles Max pha_Metroid_Quarantine_B x888 y304", "(Phazon Mines) Metroid Quarantine B"),
+
+    "(Phazon Mines) Phazon Processing Center": LocationData("Missiles Max pha_Phazon_Processing_Center x568 y632", "(Phazon Mines) Processing Center"),
+
+    "(Phazon Mines) Central Dynamo": LocationData("Power Bombs Max pha_Central_Dynamo x312 y296", "(Phazon Mines) Central Dynamo"),
 
     "(Phendrana Drifts) Control Tower": LocationData("Artifact 3 phe_Control_Tower_subC x240 y128", "(Phendrana Drifts) Research Lab Aether"),
     "(Phendrana Drifts) Research Lab Aether - Display Case": LocationData("Energy Tanks Max phe_Research_Lab_Aether_subB x169 y144", "(Phendrana Drifts) Research Lab Aether"),

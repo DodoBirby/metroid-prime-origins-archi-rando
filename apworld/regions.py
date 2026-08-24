@@ -76,6 +76,22 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
 
     # Phazon Mines
     west_phazon_mines_elevator = create_region("(Phazon Mines) West Phazon Mines Elevator", regions, world)
+    phazon_mines_entrance = create_region("(Phazon Mines) Entrance", regions, world)
+    corridor_to_elite_research = create_region("(Phazon Mines) Corridor to Elite Research", regions, world)
+    elite_research = create_region("(Phazon Mines) Elite Research", regions, world)
+    colored_blocks_chamber = create_region("(Phazon Mines) Colored Blocks", regions, world)
+    grapple_chamber = create_region("(Phazon Mines) Storage Depot B", regions, world)
+    elite_control_access = create_region("(Phazon Mines) Elite Control Access", regions, world)
+    ventilation_shaft = create_region("(Phazon Mines) Ventilation Shaft", regions, world)
+    central_dynamo = create_region("(Phazon Mines) Central Dynamo", regions, world)
+    metroid_quarantine_a = create_region("(Phazon Mines) Metroid Quarantine A", regions, world)
+    fungal_hall_access = create_region("(Phazon Mines) Fungal Hall Access", regions, world)
+    phazon_mining_tunnel = create_region("(Phazon Mines) Phazon Mining Tunnel", regions, world)
+    fungal_hall_b = create_region("(Phazon Mines) Fungal Hall B", regions, world)
+    metroid_quarantine_b = create_region("(Phazon Mines) Metroid Quarantine B", regions, world)
+    omega_pirate_area = create_region("(Phazon Mines) Omega Pirate Area", regions, world)
+    processing_center_access = create_region("(Phazon Mines) Processing Center Access", regions, world)
+    processing_center = create_region("(Phazon Mines) Processing Center", regions, world)
 
     world.multiworld.regions += regions
 
@@ -102,6 +118,7 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = west_tallon.connect(central_magmoor_elevator)
     
     _ = gated_east_tallon.connect(life_grove, "Gated East Tallon to Life Grove")
+    _ = gated_east_tallon.connect(phazon_mines_entrance)
 
     _ = west_ruins.connect(upper_west_ruins, "West Ruins to Upper West Ruins")
     _ = west_ruins.connect(central_ruins, "West Ruins to Central Ruins")
@@ -195,6 +212,43 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = true_phendrana_edge.connect(hunter_cave, "True Edge to Hunter Cave")
 
     _ = hunter_cave.connect(phendrana_edge_lower, "Hunter Cave to Lower Edge")
+
+    _ = phazon_mines_entrance.connect(corridor_to_elite_research, "Phazon Entrance to Corridor")
+    _ = phazon_mines_entrance.connect(grapple_chamber, "Phazon Entrance to Storage Depot B")
+
+    _ = corridor_to_elite_research.connect(elite_research, "Corridor to Elite Research")
+
+    _ = elite_research.connect(colored_blocks_chamber, "Elite Research to Colored Blocks")
+
+    _ = colored_blocks_chamber.connect(grapple_chamber, "Colored Blocks to Storage Depot")
+    _ = colored_blocks_chamber.connect(elite_control_access, "Colored Blocks to Elite Control Access")
+
+    _ = elite_control_access.connect(ventilation_shaft, "Elite Control Access to Ventilation Shaft")
+    _ = elite_control_access.connect(processing_center, "Elite Control Access to Processing Center")
+    _ = elite_control_access.connect(west_phazon_mines_elevator, "Elite Control Access to West Elevator")
+
+    _ = ventilation_shaft.connect(central_dynamo, "Ventilation Shaft to Central Dynamo")
+
+    _ = central_dynamo.connect(metroid_quarantine_a,  "Central Dynamo to Metroid Quarantine A")
+
+    _ = metroid_quarantine_a.connect(fungal_hall_access, "Metroid Quarantine A to Fungal Hall Access")
+
+    _ = fungal_hall_access.connect(phazon_mining_tunnel, "Fungal Hall Access to Phazon Mining Tunnel")
+
+    _ = phazon_mining_tunnel.connect(fungal_hall_b, "Phazon Mining Tunnel to Fungal Hall B")
+
+    _ = fungal_hall_b.connect(metroid_quarantine_b, "Fungal Hall B to Metroid Quarantine B")
+
+    _ = metroid_quarantine_b.connect(omega_pirate_area, "Metroid Quarantine B to Omega Pirate Area")
+
+    _ = omega_pirate_area.connect(processing_center_access, "Omega Pirate to Processing Center Access")
+    _ = omega_pirate_area.connect(metroid_quarantine_b, "Omega Pirate to Metroid Quarantine B")
+
+    _ = processing_center_access.connect(processing_center, "Processing Center Access to Processing Center")
+    _ = processing_center_access.connect(omega_pirate_area, "Processing Center Access to Omega Pirate Area")
+
+    _ = processing_center.connect(processing_center_access, "Processing Center to Processing Center Access")
+    _ = processing_center.connect(west_phazon_mines_elevator, "Processing Center to West Elevator")
     # Add events
     create_event(inside_frigate, "Open East Tallon Gate")
     create_event(upper_west_ruins, "Enter Main Plaza From Ledge")

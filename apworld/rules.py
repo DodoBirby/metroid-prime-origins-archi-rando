@@ -207,7 +207,42 @@ def set_phendrana_location_rules(world: MetroidPrimeOriginsWorld):
     # Hunter Cave
     set_location_rule("(Phendrana Drifts) Gravity Chamber - Spike Tunnel", Has(GRAPPLE), world)
     set_location_rule("(Phendrana Drifts) Gravity Chamber", CAN_TRAVERSE_UNDERWATER | Has(MISSILE) | Has(SPACEJUMP), world)
-    
+
+def set_phazon_location_rules(world: MetroidPrimeOriginsWorld):
+    # Entrance
+    set_location_rule("(Phazon Mines) Main Quarry", CAN_TRAVERSE_HIGH_OVERHANG & Has(WAVE), world)
+
+    # Corridor to Elite Research
+    set_location_rule("(Phazon Mines) Storage Depot A", CAN_PB & Has(PLASMA), world)
+    set_location_rule("(Phazon Mines) Security Access A", CAN_PB, world)
+
+    # Elite Research
+    set_location_rule("(Phazon Mines) Elite Research - Elite Fight Reward", CAN_PB, world)
+    set_location_rule("(Phazon Mines) Elite Research - Stone Block", CAN_BOOST & CAN_TRAVERSE_LOW_OVERHANG, world)
+
+    # Elite Control Access
+    set_location_rule("(Phazon Mines) Elite Control Access", Has(MORPH), world)
+
+    # Ventilation Shaft
+    set_location_rule("(Phazon Mines) Ventilation Shaft", CAN_PB, world)
+
+    # Metroid Quarantine A
+    set_location_rule("(Phazon Mines) Metroid Quarantine A", CAN_TRAVERSE_LOW_OVERHANG & Has(SCREW) & CAN_PB, world)
+
+    # Fungal Hall Access
+    set_location_rule("(Phazon Mines) Fungal Hall Access", Has(MORPH) & Has(PHAZON), world)
+
+    # Phazon Mining Tunnel
+    set_location_rule("(Phazon Mines) Phazon Mining Tunnel", Has(MORPH) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(PHAZON), world)
+
+    # Fungal Hall B
+    set_location_rule("(Phazon Mines) Fungal Hall B", CAN_TRAVERSE_LOW_OVERHANG & CAN_DESTROY_BLOCKS_WHILE_MORPHED, world)
+
+    # Metroid Quarantine B
+    set_location_rule("(Phazon Mines) Metroid Quarantine B", CAN_SUPER_MISSILE, world)
+
+    # Phazon Processing Center
+    set_location_rule("(Phazon Mines) Phazon Processing Center", CAN_PB, world)
 
 def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Landing Site to West Tallon", Has(MISSILE), world)
@@ -315,11 +350,50 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
 
     set_entrance_rule("Hunter Cave to Lower Edge", Has(MORPH), world)
 
+    set_entrance_rule("Phazon Entrance to Corridor", Has(ICE), world)
+    set_entrance_rule("Phazon Entrance to Storage Depot B", Has(GRAPPLE), world)
+
+    set_entrance_rule("Corridor to Elite Research", (Has(ICE) & Has(WAVE)) | (CAN_PB & Has("Power Bomb", 3)), world)
+
+    set_entrance_rule("Elite Research to Colored Blocks", CAN_BOOST & CAN_TRAVERSE_LOW_OVERHANG, world)
+
+    set_entrance_rule("Colored Blocks to Storage Depot", Has(MORPH) & CAN_BOMB & CAN_PB & CAN_DESTROY_BOMB_BLOCKS, world)
+    set_entrance_rule("Colored Blocks to Elite Control Access", Has(MORPH) & CAN_BOMB & CAN_DESTROY_BLOCKS_WHILE_MORPHED, world)
+
+    set_entrance_rule("Elite Control Access to Ventilation Shaft", Has(WAVE) & Has(ICE) & (Has(SPACEJUMP) | Has(GRAPPLE) | CAN_IBJ), world)
+    set_entrance_rule("Elite Control Access to Processing Center", Has(WAVE) & CAN_PB, world)
+    set_entrance_rule("Elite Control Access to West Elevator", Has(WAVE) & CAN_PB & Has(MORPH) & Has(ICE), world)
+
+    # This connection feels really bad with no combat logic, so requiring some weapons for now
+    set_entrance_rule("Ventilation Shaft to Central Dynamo", CAN_BOOST & Has(CHARGE) & Has(PLASMA) & Has("Energy Tank", 4), world)
+
+    set_entrance_rule("Central Dynamo to Metroid Quarantine A", Has(ICE) & Has(WAVE) & CAN_PB, world)
+
+    set_entrance_rule("Metroid Quarantine A to Fungal Hall Access", CAN_TRAVERSE_LOW_OVERHANG & Has(PLASMA) & (Has(SCREW) | CAN_DESTROY_BOMB_BLOCKS), world)
+
+    set_entrance_rule("Fungal Hall Access to Phazon Mining Tunnel", Has(GRAPPLE) & CAN_PB & Has(ICE), world)
+
+    set_entrance_rule("Phazon Mining Tunnel to Fungal Hall B", Has(MORPH) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & (Has(GRAPPLE) | Has(PHAZON)), world)
+
+    set_entrance_rule("Fungal Hall B to Metroid Quarantine B", Has(MORPH) & CAN_DESTROY_BOMB_BLOCKS & Has(GRAPPLE) & Has(PLASMA), world)
+
+    set_entrance_rule("Metroid Quarantine B to Omega Pirate Area", Has(PLASMA), world)
+
+    set_entrance_rule("Omega Pirate to Processing Center Access", Has(PHAZON) & (Has(GRAPPLE) | CAN_IBJ | Has(SPACEJUMP)), world)
+    set_entrance_rule("Omega Pirate to Metroid Quarantine B", Has(PLASMA), world)
+
+    set_entrance_rule("Processing Center Access to Processing Center", Has(PHAZON) & Has(PLASMA), world)
+    set_entrance_rule("Processing Center Access to Omega Pirate Area", Has(PHAZON), world)
+
+    set_entrance_rule("Processing Center to Processing Center Access", Has(PHAZON) & Has(PLASMA), world)
+    set_entrance_rule("Processing Center to West Elevator", CAN_TRAVERSE_LOW_OVERHANG & Has(MORPH) & Has(ICE), world)
+
 def set_location_rules(world: MetroidPrimeOriginsWorld):
     set_tallon_location_rules(world)
     set_chozo_ruins_location_rules(world)
     set_magmoor_location_rules(world)
     set_phendrana_location_rules(world)
+    set_phazon_location_rules(world)
 
 def set_completion_rule(world: MetroidPrimeOriginsWorld):
     pass
