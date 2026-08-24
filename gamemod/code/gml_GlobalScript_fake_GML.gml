@@ -92,6 +92,14 @@ function soft_reset()
     {
         persistent = 1;
     }
+    with (obj_escape_frigate_spawner)
+    {
+        persistent = 1;
+    }
+    with (obj_escape_impact_spawner)
+    {
+        persistent = 1;
+    }
     cleanse_memory();
     audio_stop_all();
     global.now_playing = -4;

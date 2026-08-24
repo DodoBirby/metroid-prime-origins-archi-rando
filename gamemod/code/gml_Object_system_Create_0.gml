@@ -1,3 +1,4 @@
+global.skip_intro = 0;
 global.hint_on = 0;
 global.hint_time = 0;
 global.endings_array = [];

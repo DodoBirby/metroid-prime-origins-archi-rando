@@ -127,6 +127,7 @@ function start_game()
     ds_write("Grapple Beam");
     ds_write("Missiles", 15);
     ds_write("Missiles Max", 15);
+    ds_write("Missile Launcher", 1);
     spawn(obj_intro_0);
     room_goto(rm_Intro_0);
     */
@@ -145,6 +146,7 @@ function start_game()
 ds_write("New Game", 1);
 event_user(0);
 event_user(2);
+ds_write("Real Milliseconds", 0);
 ds_write("Milliseconds", 0);
 ds_write("Seconds", 0);
 ds_write("Hours", 0);
