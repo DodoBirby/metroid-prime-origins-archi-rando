@@ -81,6 +81,9 @@ def set_tallon_location_rules(world: MetroidPrimeOriginsWorld):
     # Artifact Temple
     set_location_rule("Victory", Has("Kill Flaahgra") & Has("Kill Thardus") & Has("Kill Omega Pirate"), world)
 
+    # Landing Site
+    set_location_rule("(Tallon Overworld) Landing Site - Grass", Has(MORPH), world)
+
 def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     # West Chozo Ruins
     set_location_rule("(Chozo Ruins) Main Plaza - Super Missile Blocks", CAN_SUPER_MISSILE & CAN_TRAVERSE_LOW_OVERHANG, world)
