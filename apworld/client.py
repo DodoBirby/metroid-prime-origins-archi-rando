@@ -3,7 +3,13 @@ from asyncio import StreamReader, StreamWriter
 import json
 
 from Utils import async_start, gui_enabled
-from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, logger, server_loop 
+tracker_loaded = False
+try:
+    from worlds.tracker.TrackerClient import TrackerGameContext as SuperContext
+    tracker_loaded = True
+except ModuleNotFoundError:
+    from CommonClient import CommonContext as SuperContext
+from CommonClient import ClientCommandProcessor, get_base_parser, logger, server_loop 
 
 from .locations import LOCATION_NAME_TO_ID, LOCATION_TABLE
 from .items import ITEM_NAME_TO_ID
@@ -22,7 +28,7 @@ item_id_to_item_name = { id: name for name, id in ITEM_NAME_TO_ID.items() }
 game_key_to_location_id = { key: id for id, key in location_id_to_game_key.items() }
 
 class MPOCommandProcessor(ClientCommandProcessor):
-    def __init__(self, ctx: CommonContext):
+    def __init__(self, ctx: SuperContext):
         super().__init__(ctx)
 
     def _cmd_mpo(self):
@@ -30,7 +36,8 @@ class MPOCommandProcessor(ClientCommandProcessor):
         if isinstance(self.ctx, MPOContext):
             logger.info(f"Connection Status: {self.ctx.mpo_status}")
 
-class MPOContext(CommonContext):
+class MPOContext(SuperContext):
+    tags = { "AP" }
     game = "Metroid Prime Origins"
     items_handling = 0b111 # full remote
     command_processor = MPOCommandProcessor
@@ -48,18 +55,10 @@ class MPOContext(CommonContext):
         await self.get_username()
         await self.send_connect()
 
-    def run_gui(self):
-        """Import kivy UI system and start running it as self.ui_task."""
-        from kvui import GameManager
-
-        class MPOManager(GameManager):
-            logging_pairs = [
-                ("Client", "Archipelago")
-            ]
-            base_title = "Metroid Prime Origins Archipelago Client"
-
-        self.ui = MPOManager(self)
-        self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI") 
+    def make_gui(self):
+        ui = super().make_gui()
+        ui.base_title = "Metroid Prime Origins Client"
+        return ui
 
 def create_items_payload(ctx: MPOContext) -> str:
     itemnames_received = [ item_id_to_item_name[netitem.item] for netitem in ctx.items_received if netitem.item in item_id_to_item_name ]
@@ -175,6 +174,8 @@ async def main(args):
     ctx = MPOContext(args.connect, args.password)
     ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
     ctx.mpo_sync_task = asyncio.create_task(mpo_sync_task(ctx), name="mpo sync task")
+    if tracker_loaded:
+        ctx.run_generator()
     if gui_enabled:
         ctx.run_gui()
     ctx.run_cli()
