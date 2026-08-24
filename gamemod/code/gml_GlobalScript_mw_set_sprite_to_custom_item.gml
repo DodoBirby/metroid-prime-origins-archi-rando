@@ -47,15 +47,12 @@ function mw_set_sprite_to_custom_item()
             break;
         case "Varia Suit":
             sprite_index = sprItemVaria;
-            self.sends_message = false;
             break;
         case "Gravity Suit":
             sprite_index = sprItemGravity_strip3;
-            self.sends_message = false;
             break;
         case "Phazon Suit":
             sprite_index = sprItemPhazon_strip3;
-            self.sends_message = false;
             break;
         case "Boost Ball":
             sprite_index = sprItemBoostBall;
