@@ -252,3 +252,7 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     # Add events
     create_event(inside_frigate, "Open East Tallon Gate")
     create_event(upper_west_ruins, "Enter Main Plaza From Ledge")
+    create_event(sun_tower_and_flaahgra, "Kill Flaahgra")
+    create_event(thardus_area, "Kill Thardus")
+    create_event(omega_pirate_area, "Kill Omega Pirate")
+    create_event(artifact_temple, "Victory")

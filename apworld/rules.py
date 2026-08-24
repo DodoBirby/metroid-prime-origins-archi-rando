@@ -64,7 +64,7 @@ def set_tallon_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Tallon Overworld) Cargo Freight Lift to Deck Gamma", Has(MISSILE), world)
     set_location_rule("(Tallon Overworld) Hydro Access Tunnel", CAN_BOOST, world)
     set_location_rule("(Tallon Overworld) Biohazard Containment", CAN_SUPER_MISSILE, world)
-    set_location_rule("Open East Tallon Gate)", CAN_BOOST, world)
+    set_location_rule("Open East Tallon Gate", CAN_BOOST, world)
 
     # West Tallon
     set_location_rule("(Tallon Overworld) Arbor Chamber", Has(PLASMA) & CAN_TRAVERSE_LOW_OVERHANG, world)
@@ -78,6 +78,8 @@ def set_tallon_location_rules(world: MetroidPrimeOriginsWorld):
     # Overgrown Cavern
     set_location_rule("(Tallon Overworld) Overgrown Cavern", Has(MORPH), world)
 
+    # Artifact Temple
+    set_location_rule("Victory", Has("Kill Flaahgra") & Has("Kill Thardus") & Has("Kill Omega Pirate"), world)
 
 def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     # West Chozo Ruins
@@ -396,4 +398,4 @@ def set_location_rules(world: MetroidPrimeOriginsWorld):
     set_phazon_location_rules(world)
 
 def set_completion_rule(world: MetroidPrimeOriginsWorld):
-    pass
+    world.set_completion_rule(Has("Victory"))
