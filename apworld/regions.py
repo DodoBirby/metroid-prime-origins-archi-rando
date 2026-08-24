@@ -183,6 +183,7 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = phendrana_shorelines.connect(central_phendrana, "Shorelines to Central Phendrana")
 
     _ = west_phazon_mines_elevator.connect(west_magmoor, "West Phazon to West Magmoor")
+    _ = west_phazon_mines_elevator.connect(processing_center, "West Phazon to Processing Center")
 
     _ = central_phendrana.connect(thardus_area, "Central Phendrana to Thardus Area")
     _ = central_phendrana.connect(research_lab_hydra, "Central Phendrana to Research Lab Hydra")
@@ -195,6 +196,7 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = top_observatory.connect(research_lab_aether, "Observatory to Aether")
 
     _ = research_lab_aether.connect(research_core)
+    _ = research_lab_aether.connect(top_observatory, "Aether to Observatory")
 
     _ = research_core.connect(research_lab_aether, "Core to Aether")
     _ = research_core.connect(phendrana_edge_upper, "Core to Upper Edge")

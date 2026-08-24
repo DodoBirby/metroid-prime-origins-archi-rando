@@ -327,6 +327,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Shorelines to Central Phendrana", CAN_TRAVERSE_LOW_OVERHANG & Has(WAVE), world)
 
     set_entrance_rule("West Phazon to West Magmoor", Has(VARIA) & CAN_PB & Has(ICE), world)
+    set_entrance_rule("West Phazon to Processing Center", Has(ICE) & Has(MORPH), world)
 
     set_entrance_rule("Central Phendrana to Thardus Area", Has(MORPH) & Has(MISSILE) & Has(WAVE), world)
     set_entrance_rule("Central Phendrana to Research Lab Hydra", Has(WAVE), world)
@@ -337,6 +338,8 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Hydra to Top Observatory", CAN_BOOST & CAN_BOMB, world)
 
     set_entrance_rule("Observatory to Aether", Has(MISSILE), world)
+
+    set_entrance_rule("Aether to Observatory", Has(MISSILE), world)
 
     set_entrance_rule("Core to Aether", Has(WAVE), world)
     set_entrance_rule("Core to Upper Edge", Has(ICE) & Has(MORPH) & Has(WAVE), world)
