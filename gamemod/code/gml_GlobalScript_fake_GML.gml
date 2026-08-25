@@ -100,6 +100,7 @@ function soft_reset()
     {
         persistent = 1;
     }
+    instance_destroy(obj_samus_new_suit);
     cleanse_memory();
     audio_stop_all();
     global.now_playing = -4;

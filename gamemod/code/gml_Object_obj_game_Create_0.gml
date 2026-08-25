@@ -171,6 +171,18 @@ if (room == rm_Load_Game)
         obj_samus.pose = 100;
         obj_samus.y += 32;
     }
+    arr = dz("Teleport Array");
+    pos = 0;
+    repeat (array_length(arr))
+    {
+        if (arr[pos][3] == "fri_Exterior_Docking_Hangar")
+        {
+            array_delete(arr, pos, 1);
+            break;
+        }
+        pos += 1;
+    }
+    ds_write("Teleport Array", arr);
     exit;
 }
 if (room == rm_New_Game)
