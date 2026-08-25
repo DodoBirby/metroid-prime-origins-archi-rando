@@ -21,15 +21,22 @@ The release has several files, here is what they are for:
 First you need to apply the randomizer patches to your copy of Metroid Prime Origins, you only have to do this once (until the randomizer gets an update).
 
 I will be referring to the Metroid Prime Origins folder (the one with the exe you use to run the game) as `GAME_FOLDER`.
+
 I recommend making a copy of `GAME_FOLDER` before performing any of the following steps so you can still play the vanilla game.
 
 **MAKE SURE YOU ARE USING THE 1.0.4 RELEASE OF METROID PRIME ORIGINS OR THE PATCH WON'T WORK**
 
-You'll need to apply the randomizer_patch.xdelta to the `data.win` file in `GAME_FOLDER`. There are many ways to apply an xdelta patch but the easiest way is to use this online patcher [https://kotcrab.github.io/xdelta-wasm/]. If the patch succeeded you will have a new file, rename this file to `data.win` and put it in the same place as the old `data.win` (I recommend keeping the old `data.win` around somewhere since it may be required if you want to patch the game again, like when the randomizer gets an update).
+You'll need to apply the `randomizer_patch.xdelta` to the `data.win` file in `GAME_FOLDER`.
+
+There are many ways to apply an xdelta patch but the easiest way is to use this online patcher https://kotcrab.github.io/xdelta-wasm/.
+
+If the patch succeeded you will have a new file, rename this file to `data.win` and put it in the same place as the old `data.win` (I recommend keeping the old `data.win` around somewhere since it may be required if you want to patch the game again, like when the randomizer gets an update).
 
 ## Running the client
 
-Now that you have patched your game, you are ready to actually play! I will be assuming you know how to install the apworld and generate a seed (or you have a host who can generate a seed for you).
+Now that you have patched your game, you are ready to actually play!
+
+I will be assuming you know how to install the apworld and generate a seed (or you have a host who can generate a seed for you).
 
 You need to run 2 things:
 
@@ -40,13 +47,15 @@ The python client can be run from the archipelago menu (assuming you have the ap
 
 The patched game can be run by just running your Metroid Prime Origins exe (assuming you already patched the `data.win` as described above).
 
-If both of these are running you should see a message pop up in game saying "Connected to Python Client", and hitting the F1 key in game should show a message saying "Status: Connected". Additionally, using the `/mpo` command in the python client should give a connected status.
+If both of these are running you should see a message pop up in game saying "Connected to Python Client", and hitting the F1 key in game should show a message saying "Status: Connected".
 
-Once both things are running you can connect to the archipelago server using the python client by typing the ip into the bar at the top and hitting the `connect` button.
+Additionally, using the `/mpo` command in the python client should give a connected status.
 
-Once you're connected then you can start your save file, you should pick `remix mode`, other modes have not been tested and the logic won't be correct.
+Once both things are running you can connect to the archipelago server using the python client by typing the server ip into the bar at the top and hitting the `connect` button.
 
-The randomizer has been tested with the following settings:
+Now that you're connected, you can start your save file. Make sure to pick `remix mode`, other modes have not been tested and the logic won't be correct.
+
+The other settings are less important but for reference, the randomizer has been tested with the following settings:
 
 - Difficulty: 100%
 - Hint System: Off
