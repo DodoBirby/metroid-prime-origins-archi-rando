@@ -83,6 +83,23 @@ If you encounter any bugs or any other issues then please let me know about them
 
 Please don't send bug reports via Github issues (since I won't check it), or via the Official Archipelago Discord Server (since nintendo fangame discussion is not allowed there).
 
+### Logic issue reporting
+
+If you are reporting a logic issue where the logic is too strict (you can do something in game but the logic says you can't), note that there are some tricks which are intentionally not in logic yet.
+
+They are the following:
+
+- Missile Glides (firing a missile to reset y velocity)
+- Boost ball jumps
+- Hellruns (except for Chozo ruins acid runs which are in logic because I forgot about it)
+- Going through Phazon mines fully backwards (omega pirate is backdoorable though)
+- Super Metroid style walljumping
+- Horizontal bomb jumping
+
+If you are reporting a logic issue where something is in logic but shouldn't be, then please let me know about it.
+
+Combat logic is not fully complete yet so there may be cases where some really hard fights are in logic. (you should report these).
+
 # Build Instructions ("I want to help develop the randomizer")
 
 If you're just planning on playing then you can ignore everything below.
