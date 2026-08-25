@@ -43,7 +43,7 @@ CAN_TRAVERSE_FRIGATE = Has(WAVE) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(MISSIL
 CAN_TRAVERSE_LOW_OVERHANG = Has(SPACEJUMP) | CAN_SPIDER | Has(GRAPPLE) | CAN_IBJ
 CAN_TRAVERSE_HIGH_OVERHANG = Has(GRAPPLE) | CAN_SPIDER | CAN_IBJ
 
-CAN_BEAT_ENDGAME = Has("Energy Tank", 4) & Has(WAVE) & Has(PLASMA) & Has(ICE) & Has(CHARGE) & Has(PHAZON) & Has(GRAPPLE)
+CAN_BEAT_ENDGAME = Has("Energy Tank", 4) & Has(WAVE) & Has(PLASMA) & Has(ICE) & Has(CHARGE) & Has(PHAZON) & Has(GRAPPLE) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(MORPH)
 
 def set_location_rule(name: str, rule: Rule[Any], world: MetroidPrimeOriginsWorld):
     world.set_rule(world.get_location(name), rule)
@@ -149,7 +149,7 @@ def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     # Intentionally not CAN_SPIDER since this is about triggering the event flag
 
     # Flaahgra and ghost
-    set_location_rule("(Chozo Ruins) Sunchamber - Ghost Reward", Has("Spider Ball") | Has(ICE), world)
+    set_location_rule("(Chozo Ruins) Sunchamber - Ghost Reward", (Has("Spider Ball") | Has(ICE)) & Has(CHARGE), world)
     
 def set_magmoor_location_rules(world: MetroidPrimeOriginsWorld):
     # East Magmoor
@@ -196,7 +196,7 @@ def set_phendrana_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Phendrana Drifts) Research Lab Hydra", CAN_SUPER_MISSILE, world)
 
     # Research Lab Aether
-    set_location_rule("(Phendrana Drifts) Control Tower", CAN_DESTROY_GLASS_BLOCK & CAN_TRAVERSE_LOW_OVERHANG, world)
+    set_location_rule("(Phendrana Drifts) Control Tower", Has(MISSILE) & CAN_DESTROY_GLASS_BLOCK & CAN_TRAVERSE_LOW_OVERHANG, world)
     set_location_rule("(Phendrana Drifts) Research Lab Aether - Hidden Passage", Has(MORPH), world)
     set_location_rule("(Phendrana Drifts) Research Lab Aether - Display Case", Has(MISSILE), world)
 
