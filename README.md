@@ -69,7 +69,9 @@ Things should still work if you don't have these set, but there might be issues 
 
 You might've forgotten to connect the python client to the archipelago server. Type the ip of the server into the address bar at the top of the python client and hit `connect`.
 
-### TODO: List more common issues
+### I started a second seed after the first one and it sent all the items immediately
+
+This is currently a known bug, I will hopefully have this fixed next patch. For now just make sure you close the python client in-between seeds.
 
 ## Potentially unintuitive item locations
 
