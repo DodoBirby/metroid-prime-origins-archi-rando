@@ -71,6 +71,18 @@ You might've forgotten to connect the python client to the archipelago server. T
 
 ### TODO: List more common issues
 
+## Potentially unintuitive item locations
+
+Some locations in the game have weird requirements or event flags, here is a list of them in case you're stuck.
+
+### (Chozo Ruins) Main Plaza - Boost Ball Ramp
+
+This item is normally blocked by boost ball blocks, but if you have Space Jump Boots equipped and Boost ball unequipped then the boost ball blocks will be gone.
+
+### (Phendrana Drifts) Phendrana Canyon
+
+You can move the platforms back to their normal positions by unequipping boost ball and re-entering the room.
+
 ## Bug reporting
 
 Since this randomizer is still in a prerelease stage I expect there will be bugs. You may want to hold off on putting this apworld into a proper multiworld until it's more stable.
