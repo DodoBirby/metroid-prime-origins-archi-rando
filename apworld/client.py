@@ -130,14 +130,13 @@ async def connect_to_mpo(ctx: MPOContext):
 async def mpo_sync_task(ctx: MPOContext):
     logger.info("Staring MPO connector.")
     while not ctx.exit_event.is_set():
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.5)
         if not ctx.mpo_streams:
             await connect_to_mpo(ctx)
             continue
         (reader, writer) = ctx.mpo_streams
         msg = get_payload(ctx).encode()
-        writer.write(msg)
-        writer.write(b'\n')
+        writer.write(msg + b'\n')
         try:
             await asyncio.wait_for(writer.drain(), timeout=1.5)
             try:
