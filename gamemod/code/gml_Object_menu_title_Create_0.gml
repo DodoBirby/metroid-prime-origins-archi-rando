@@ -23,6 +23,4 @@ bg_frame = 0;
 menu_transitioning = 0;
 // -- MW Changes Start
 global.mwcompleted = 0;
-global.seedreceived = 0;
-ds_map_clear(global.mwLocations);
 // -- MW Changes End

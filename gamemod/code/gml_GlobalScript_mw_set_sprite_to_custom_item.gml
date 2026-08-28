@@ -1,6 +1,6 @@
 function mw_set_sprite_to_custom_item()
 {
-    var item = ds_map_find_value(global.mwLocations, self.key);
+    var item = dz("MWLocation " + self.key);
     self.is_aeon = false;
     self._fanfare = bgmFanfareItem;
     self.sends_message = true;

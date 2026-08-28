@@ -2,12 +2,11 @@ function handle_locations_cmd(payload)
 {
     var locationsMap = ds_map_find_value(payload, "locations");
     ds_map_copy(global.mwLocations, locationsMap);
-    global.seedreceived = 1;
 }
 
 function handle_items_cmd(payload)
 {
-    if (!instance_exists(obj_samus))
+    if (!instance_exists(obj_game))
     {
         return;
     }
@@ -97,7 +96,6 @@ function generate_return_map()
         }
     }
     ds_map_add_list(returnMap, "items", checkList);
-    ds_map_add(returnMap, "seedreceived", global.seedreceived);
     ds_map_add(returnMap, "gamecompleted", global.mwcompleted);
     return returnMap;
 }
@@ -108,6 +106,7 @@ switch type_event
     case network_type_connect:
         socket = ds_map_find_value(async_load, "socket");
         connectedToClient = true;
+        ds_map_clear(global.mwLocations);
         bitsound(sndMessageConfirm);
         show_item_pickup_text("Connected to python client");
         break;

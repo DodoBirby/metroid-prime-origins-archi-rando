@@ -45,7 +45,7 @@ class MPOContext(SuperContext):
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
         self.mpo_streams: tuple[StreamReader, StreamWriter] | None = None
-        self.client_requesting_scouts: bool = False
+        self.send_locations_to_client: bool = False
         self.mpo_sync_task: asyncio.Task[None] | None = None
         self.mpo_status: str = CONNECTION_INITIAL_STATUS
 
@@ -54,6 +54,15 @@ class MPOContext(SuperContext):
             _ = await super(MPOContext, self).server_auth(password_requested)
         await self.get_username()
         await self.send_connect()
+
+    def on_package(self, cmd: str, args: dict):
+        super().on_package(cmd, args)
+        if cmd == "Connected":
+            async_start(self.send_msgs([{ "cmd": "LocationScouts", "locations": list(LOCATION_NAME_TO_ID.values()), "create_as_hint": 0 }]))
+            return
+        if cmd == "LocationInfo":
+            self.send_locations_to_client = True
+            return
 
     def make_gui(self):
         ui = super().make_gui()
@@ -84,12 +93,8 @@ def create_items_payload(ctx: MPOContext) -> str:
         "majors": majors
     })
 
-def get_payload(ctx: MPOContext) -> str:
-    if not ctx.locations_info:
-        async_start(ctx.send_msgs([{ "cmd": "LocationScouts", "locations": list(LOCATION_NAME_TO_ID.values()), "create_as_hint": 0 }]))
-        return create_items_payload(ctx)
-
-    if ctx.client_requesting_scouts:
+async def get_payload(ctx: MPOContext) -> str:
+    if ctx.send_locations_to_client and ctx.locations_info:
         items_dict: dict[str, str] = {}
         for locationid, netitem in ctx.locations_info.items():
             # TODO: Handle sprites for other games
@@ -97,6 +102,7 @@ def get_payload(ctx: MPOContext) -> str:
                 continue
             location_key = location_id_to_game_key[locationid]
             items_dict[location_key] = item_id_to_item_name[netitem.item]
+        ctx.send_locations_to_client = False
         return json.dumps({
             "cmd": "locations",
             "locations": items_dict,
@@ -106,12 +112,8 @@ def get_payload(ctx: MPOContext) -> str:
 async def parse_payload(ctx: MPOContext, data_decoded: dict[str, str]):
     locations_checked = [game_key_to_location_id[location] for location in data_decoded["items"]]
     game_finished = bool(int(data_decoded["gamecompleted"]))
-    ctx.client_requesting_scouts = not bool(int(data_decoded["seedreceived"]))
-    location_set = set(locations_checked)
-    ctx.locations_checked = location_set
-    new_locations = [location for location in ctx.missing_locations if location in location_set]
-    if new_locations:
-        await ctx.send_msgs([{"cmd": "LocationChecks", "locations": new_locations}])
+    ctx.locations_checked = set(locations_checked)
+    _ = await ctx.check_locations(locations_checked)
     if game_finished and not ctx.finished_game:
         await ctx.send_msgs([{"cmd": "StatusUpdate", "status": 30}])
         ctx.finished_game = True
@@ -120,6 +122,7 @@ async def connect_to_mpo(ctx: MPOContext):
     try:
         ctx.mpo_streams = await asyncio.wait_for(asyncio.open_connection("127.0.0.1", PORT_NUMBER), timeout=10)
         ctx.mpo_status = CONNECTION_TENTATIVE_STATUS
+        ctx.send_locations_to_client = True
     except TimeoutError:
         logger.debug("Connection timed out, trying again...")
         ctx.mpo_status = CONNECTION_TIMING_OUT_STATUS
@@ -128,14 +131,14 @@ async def connect_to_mpo(ctx: MPOContext):
         ctx.mpo_status = CONNECTION_REFUSED_STATUS
 
 async def mpo_sync_task(ctx: MPOContext):
-    logger.info("Staring MPO connector.")
+    logger.info("Starting MPO connector")
     while not ctx.exit_event.is_set():
         await asyncio.sleep(0.5)
         if not ctx.mpo_streams:
             await connect_to_mpo(ctx)
             continue
         (reader, writer) = ctx.mpo_streams
-        msg = get_payload(ctx).encode()
+        msg = (await get_payload(ctx)).encode()
         writer.write(msg + b'\n')
         try:
             await asyncio.wait_for(writer.drain(), timeout=1.5)

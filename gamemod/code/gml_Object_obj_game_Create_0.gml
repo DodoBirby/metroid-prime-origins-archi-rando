@@ -131,6 +131,15 @@ function start_game()
     spawn(obj_intro_0);
     room_goto(rm_Intro_0);
     */
+    // Store rando seed in save file
+    var mwLocSize = ds_map_size(global.mwLocations);
+    var key = ds_map_find_first(global.mwLocations);
+    for (var i = 0; i < mwLocSize; i++)
+    {
+        var name = "MWLocation " + key;
+        ds_write(name, ds_map_find_value(global.mwLocations, key));
+        key = ds_map_find_next(global.mwLocations, key);
+    }
     // Ship start
     ds_write("Save X", 400);
     ds_write("Save Y", 516);
