@@ -45,8 +45,6 @@ class MPOContext(SuperContext):
 
     want_slot_data = True
 
-
-
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
         self.mpo_streams: tuple[StreamReader, StreamWriter] | None = None
@@ -75,6 +73,10 @@ class MPOContext(SuperContext):
         ui = super().make_gui()
         ui.base_title = "Metroid Prime Origins Client"
         return ui
+
+    async def disconnect(self, allow_autoreconnect: bool = False):
+        self.seed_name = None
+        await super().disconnect(allow_autoreconnect)
 
 def create_items_payload(ctx: MPOContext) -> str:
     itemnames_received = [ item_id_to_item_name[netitem.item] for netitem in ctx.items_received if netitem.item in item_id_to_item_name ]
