@@ -193,8 +193,10 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = thardus_area.connect(central_phendrana, "Thardus Area to Central Phendrana")
 
     _ = research_lab_hydra.connect(top_observatory, "Hydra to Top Observatory")
+    _ = research_lab_hydra.connect(central_phendrana)
 
     _ = top_observatory.connect(research_lab_aether, "Observatory to Aether")
+    _ = top_observatory.connect(research_lab_hydra)
 
     _ = research_lab_aether.connect(research_core)
     _ = research_lab_aether.connect(top_observatory, "Aether to Observatory")
