@@ -35,5 +35,10 @@ class MetroidPrimeOriginsWorld(World):
     def create_item(self, name: str) -> MetroidPrimeOriginsItem:
         return create_item_with_correct_classification(self, name)
 
+    def fill_slot_data(self):
+        return self.options.as_dict(
+            "end_at_ridley"
+        )
+
     def get_filler_item_name(self) -> str:
         return "Missile Tank"

@@ -4,6 +4,7 @@ function handle_locations_cmd(payload)
     var remoteLocationsMap = ds_map_find_value(payload, "remote_items");
     ds_map_copy(global.mwLocations, locationsMap);
     ds_map_copy(global.mwRemoteLocations, remoteLocationsMap);
+    global.mwEndAtRidley = ds_map_find_value(payload, "end_at_ridley");
 }
 
 function handle_items_cmd(payload)

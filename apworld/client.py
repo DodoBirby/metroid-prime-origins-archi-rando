@@ -43,12 +43,17 @@ class MPOContext(SuperContext):
     items_handling = 0b111 # full remote
     command_processor = MPOCommandProcessor
 
+    want_slot_data = True
+
+
+
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
         self.mpo_streams: tuple[StreamReader, StreamWriter] | None = None
         self.send_locations_to_client: bool = False
         self.mpo_sync_task: asyncio.Task[None] | None = None
         self.mpo_status: str = CONNECTION_INITIAL_STATUS
+        self.end_at_ridley: bool = False
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
@@ -60,6 +65,7 @@ class MPOContext(SuperContext):
         super().on_package(cmd, args)
         if cmd == "Connected":
             async_start(self.send_msgs([{ "cmd": "LocationScouts", "locations": list(LOCATION_NAME_TO_ID.values()), "create_as_hint": 0 }]))
+            self.end_at_ridley = args["slot_data"]["end_at_ridley"]
             return
         if cmd == "LocationInfo":
             self.send_locations_to_client = True
@@ -125,7 +131,8 @@ def get_payload(ctx: MPOContext) -> str:
         return json.dumps({
             "cmd": "locations",
             "locations": items_dict,
-            "remote_items": remote_items_dict
+            "remote_items": remote_items_dict,
+            "end_at_ridley": ctx.end_at_ridley
         })
     return create_items_payload(ctx)
 

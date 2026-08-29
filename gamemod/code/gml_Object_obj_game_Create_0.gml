@@ -149,6 +149,8 @@ function start_game()
         ds_write(name, ds_map_find_value(global.mwRemoteLocations, key));
         key = ds_map_find_next(global.mwRemoteLocations, key);
     }
+    
+    ds_write("MWEndAtRidley", global.mwEndAtRidley);
     // Ship teleport unlock
     var identity = string(tal_Landing_Site) + " Save Point";
     var room_nombre = string(room_get_name(tal_Landing_Site));

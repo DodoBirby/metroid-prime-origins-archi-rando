@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any
 from rule_builder.options import OptionFilter
 from rule_builder.rules import Has, Rule
 
-from .options import IBJInLogic
+from .options import EndAtRidley, IBJInLogic
 
 if TYPE_CHECKING:
     from .world import MetroidPrimeOriginsWorld
@@ -46,8 +46,11 @@ CAN_TRAVERSE_FRIGATE = Has(WAVE) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(MISSIL
 CAN_TRAVERSE_LOW_OVERHANG = Has(SPACEJUMP) | CAN_SPIDER | Has(GRAPPLE) | CAN_IBJ
 CAN_TRAVERSE_HIGH_OVERHANG = Has(GRAPPLE) | CAN_SPIDER | CAN_IBJ
 
-CAN_BEAT_ENDGAME = Has("Energy Tank", 4) & Has(WAVE) & Has(PLASMA) & Has(ICE) & Has(CHARGE) & Has(PHAZON) & Has(GRAPPLE) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(MORPH)
+CAN_BEAT_CRATER = Has("Energy Tank", 4) & Has(WAVE) & Has(PLASMA) & Has(ICE) & Has(CHARGE) & Has(PHAZON) & Has(GRAPPLE) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(MORPH) & Has(MISSILE)
+# This is possibly too difficult as a base setting, open to changing it
+CAN_BEAT_RIDLEY = Has("Energy Tank", 4) & Has(CHARGE) & Has(PLASMA)
 
+CAN_BEAT_ENDGAME = OptionFilter(EndAtRidley, False) & CAN_BEAT_CRATER | OptionFilter(EndAtRidley, True) & CAN_BEAT_RIDLEY
 def set_location_rule(name: str, rule: Rule[Any], world: MetroidPrimeOriginsWorld):
     world.set_rule(world.get_location(name), rule)
 
