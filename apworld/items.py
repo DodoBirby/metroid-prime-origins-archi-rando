@@ -52,7 +52,7 @@ ITEM_TABLE: dict[str, ItemData] = {
     "Artifact of Spirit": ItemData(ItemClassification.progression),
     "Artifact of Newborn": ItemData(ItemClassification.progression),
     "Energy Tank": ItemData(ItemClassification.useful, 14, 4),
-    "Power Bomb": ItemData(ItemClassification.useful, 5, 1, ItemClassification.progression_deprioritized_skip_balancing),
+    "Power Bomb": ItemData(ItemClassification.useful, 5, 2, ItemClassification.progression_deprioritized_skip_balancing),
     "Missile Tank": ItemData(ItemClassification.filler, 50, 1, ItemClassification.progression_deprioritized_skip_balancing),
 }
 
@@ -64,12 +64,7 @@ def create_item_with_correct_classification(world: MetroidPrimeOriginsWorld, nam
 def create_fixed_pool(world: MetroidPrimeOriginsWorld) -> list[Item]:
     itempool: list[Item] = []
     for name, data in ITEM_TABLE.items():
-        count = 1
-
-        match name:
-            case "Energy Tank":
-                count = 4
-            case _: pass
+        count = 1 if data.progression_count == 0 else data.progression_count
 
         for i in range(count):
             if i < data.progression_count:

@@ -370,7 +370,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Phazon Entrance to Corridor", Has(ICE), world)
     set_entrance_rule("Phazon Entrance to Storage Depot B", Has(GRAPPLE), world)
 
-    set_entrance_rule("Corridor to Elite Research", (Has(ICE) & Has(WAVE)) | (CAN_PB & Has("Power Bomb", 3)), world)
+    set_entrance_rule("Corridor to Elite Research", (Has(ICE) & Has(WAVE)) | (CAN_PB & Has("Power Bomb", 2)), world)
 
     set_entrance_rule("Elite Research to Colored Blocks", CAN_BOOST & CAN_TRAVERSE_LOW_OVERHANG, world)
 
