@@ -100,7 +100,7 @@ def add_items_to_multiworld(world: MetroidPrimeOriginsWorld):
         assert len(itempool) == len(world.multiworld.get_unfilled_locations(world.player))
     else:
         itempool = create_fixed_pool(world)
-        filler_needed = len(itempool) - len(world.multiworld.get_unfilled_locations(world.player))
+        filler_needed = len(world.multiworld.get_unfilled_locations(world.player)) - len(itempool)
         itempool += create_filler_items(world, filler_needed)
 
     world.multiworld.itempool += itempool

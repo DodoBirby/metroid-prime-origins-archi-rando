@@ -1,6 +1,5 @@
 from __future__ import annotations
 from typing import Any
-from Options import Option
 from worlds.AutoWorld import World
 from .locations import LOCATION_NAME_TO_ID, create_locations
 from .items import ITEM_NAME_TO_ID, MetroidPrimeOriginsItem, create_item_with_correct_classification, add_items_to_multiworld
@@ -42,7 +41,8 @@ class MetroidPrimeOriginsWorld(World):
     def fill_slot_data(self):
         return {
             "options": self.options.as_dict(
-                "end_at_ridley"
+                "end_at_ridley",
+                "ibj_in_logic"
             )
         }
 
