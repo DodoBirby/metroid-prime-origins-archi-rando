@@ -15,10 +15,5 @@ if (instance_exists(obj_boss_flaagrah))
 else
 {
     depth = 256;
-    // -- MW Changes: Added flaahgra defeated check and ice beam
-    if ((dz("Spider Ball") || dz("Ice Beam")) && dz("Flaahgra Defeated"))
-    {
-        sprite_index = spr_flaagrah_flower_1;
-        mask_index = mask_flaagrah_flower_1;
-    }
+    // -- MW Changes: Moved big flower code to create
 }

@@ -1,0 +1,45 @@
+{
+  "$type": "GameObject",
+  "DataName": null,
+  "Sprite": "spr_flaagrah_flower",
+  "Visible": true,
+  "Solid": false,
+  "Depth": 0,
+  "Persistent": false,
+  "ParentObject": "par_scanable_solid",
+  "MaskSprite": "mask_flaagrah_flower",
+  "UsesPhysics": false,
+  "IsSensor": false,
+  "CollisionShape": "Box",
+  "Density": 0.5,
+  "Restitution": 0.1,
+  "Group": 1,
+  "LinearDamping": 0.1,
+  "AngularDamping": 0.1,
+  "Friction": 0.2,
+  "Awake": true,
+  "Kinematic": false,
+  "PhysicsVertices": [],
+  "Events": [
+    {
+      "Category": "Create",
+      "Subtype": "",
+      "CodeEntry": "gml_Object_obj_flaagrah_flower_Create_0"
+    },
+    {
+      "Category": "Step",
+      "Subtype": "Step",
+      "CodeEntry": "gml_Object_obj_flaagrah_flower_Step_0"
+    },
+    {
+      "Category": "Draw",
+      "Subtype": "Draw",
+      "CodeEntry": "gml_Object_obj_flaagrah_flower_Draw_0"
+    },
+    {
+      "Category": "PreCreate",
+      "Subtype": "0",
+      "CodeEntry": "gml_Object_obj_flaagrah_flower_PreCreate_0"
+    }
+  ]
+}
