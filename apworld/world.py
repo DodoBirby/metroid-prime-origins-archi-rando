@@ -4,6 +4,7 @@ from .locations import LOCATION_NAME_TO_ID, create_locations
 from .items import ITEM_NAME_TO_ID, MetroidPrimeOriginsItem, create_item_with_correct_classification, add_items_to_multiworld
 from .regions import create_and_connect_regions
 from .rules import set_all_rules
+from .options import MPOOptions
 
 class MetroidPrimeOriginsWorld(World):
     """
@@ -16,6 +17,9 @@ class MetroidPrimeOriginsWorld(World):
 
     origin_region_name = "(Tallon Overworld) Landing Site"
     topology_present = True
+
+    options_dataclass = MPOOptions
+    options: MPOOptions
 
     def create_regions(self) -> None:
         create_and_connect_regions(self)
