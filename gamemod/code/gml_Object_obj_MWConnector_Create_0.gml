@@ -3,6 +3,7 @@ global.mwcompleted = 0;
 ds_map_clear(global.mwLocations);
 ds_map_clear(global.mwRemoteLocations);
 connectedToClient = false;
+receivedSeedFromClient = false;
 
 locationKeys = [
     "Ice Spreader mag_Shore_Tunnel x152 y148",

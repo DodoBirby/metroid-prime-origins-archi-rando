@@ -5,6 +5,7 @@ function handle_locations_cmd(payload)
     ds_map_copy(global.mwLocations, locationsMap);
     ds_map_copy(global.mwRemoteLocations, remoteLocationsMap);
     global.mwEndAtRidley = ds_map_find_value(payload, "end_at_ridley");
+    receivedSeedFromClient = true;
 }
 
 function handle_items_cmd(payload)
@@ -109,12 +110,14 @@ switch type_event
     case network_type_connect:
         socket = ds_map_find_value(async_load, "socket");
         connectedToClient = true;
+        receivedSeedFromClient = false;
         ds_map_clear(global.mwLocations);
         bitsound(sndMessageConfirm);
         show_item_pickup_text("Connected to python client");
         break;
     case network_type_disconnect:
         connectedToClient = false;
+        receivedSeedFromClient = false;
         bitsound(sndMessageConfirm);
         show_item_pickup_text("Lost connection to python client");
         break;
