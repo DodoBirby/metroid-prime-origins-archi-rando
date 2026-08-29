@@ -139,8 +139,8 @@ async def mpo_sync_task(ctx: MPOContext):
             continue
         (reader, writer) = ctx.mpo_streams
         msg = get_payload(ctx).encode()
-        writer.write(msg + b'\n')
         try:
+            writer.write(msg + b'\n')
             await asyncio.wait_for(writer.drain(), timeout=1.5)
             try:
                 data = await asyncio.wait_for(reader.readline(), timeout=5)
@@ -170,6 +170,8 @@ async def mpo_sync_task(ctx: MPOContext):
             writer.close()
             ctx.mpo_streams = None
             ctx.mpo_status = CONNECTION_RESET_STATUS
+        except Exception as e:
+            logger.debug(e)
 
 
 async def main(args):
