@@ -79,11 +79,7 @@ Some locations in the game have weird requirements or event flags, here is a lis
 
 ### (Chozo Ruins) Main Plaza - Boost Ball Ramp
 
-This item is normally blocked by boost ball blocks, but if you have Space Jump Boots equipped and Boost ball unequipped then the boost ball blocks will be gone.
-
-### (Phendrana Drifts) Phendrana Canyon
-
-You can move the platforms back to their normal positions by unequipping boost ball and re-entering the room.
+This item is normally blocked by boost ball blocks, but if you have Space Jump Boots equipped the blocks will be gone.
 
 ## Bug reporting
 
