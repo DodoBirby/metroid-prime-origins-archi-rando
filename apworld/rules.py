@@ -143,9 +143,9 @@ def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Chozo Ruins) Antechamber", Has(MISSILE) & CAN_BOMB, world)
 
     # Past Magma Pool
-    set_location_rule("(Chozo Ruins) Magma Pool", CAN_PB, world)
+    set_location_rule("(Chozo Ruins) Magma Pool", CAN_PB & Has(VARIA), world)
     set_location_rule("(Chozo Ruins) Training Chamber Access", Has(MORPH), world)
-    set_location_rule("(Chozo Ruins) Training Chamber", (CAN_BOOST | CAN_TRAVERSE_LOW_OVERHANG) & CAN_BOMB & Has(MORPH), world)
+    set_location_rule("(Chozo Ruins) Training Chamber", (CAN_BOOST | CAN_TRAVERSE_LOW_OVERHANG) & CAN_BOMB & Has(MORPH) & Has(ICE), world)
 
     # Ruined Shrine
     set_location_rule("(Chozo Ruins) Ruined Shrine - Ceiling", CAN_BOOST, world)
