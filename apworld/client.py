@@ -93,7 +93,7 @@ def create_items_payload(ctx: MPOContext) -> str:
         "majors": majors
     })
 
-async def get_payload(ctx: MPOContext) -> str:
+def get_payload(ctx: MPOContext) -> str:
     if ctx.send_locations_to_client and ctx.locations_info:
         items_dict: dict[str, str] = {}
         for locationid, netitem in ctx.locations_info.items():
@@ -138,7 +138,7 @@ async def mpo_sync_task(ctx: MPOContext):
             await connect_to_mpo(ctx)
             continue
         (reader, writer) = ctx.mpo_streams
-        msg = (await get_payload(ctx)).encode()
+        msg = get_payload(ctx).encode()
         writer.write(msg + b'\n')
         try:
             await asyncio.wait_for(writer.drain(), timeout=1.5)
