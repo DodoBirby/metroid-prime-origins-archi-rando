@@ -1,4 +1,6 @@
 from __future__ import annotations
+from typing import Any
+from Options import Option
 from worlds.AutoWorld import World
 from .locations import LOCATION_NAME_TO_ID, create_locations
 from .items import ITEM_NAME_TO_ID, MetroidPrimeOriginsItem, create_item_with_correct_classification, add_items_to_multiworld
@@ -18,6 +20,8 @@ class MetroidPrimeOriginsWorld(World):
     origin_region_name = "(Tallon Overworld) Landing Site"
     topology_present = True
 
+    ut_can_gen_without_yaml = True
+
     options_dataclass = MPOOptions
     options: MPOOptions
 
@@ -36,9 +40,26 @@ class MetroidPrimeOriginsWorld(World):
         return create_item_with_correct_classification(self, name)
 
     def fill_slot_data(self):
-        return self.options.as_dict(
-            "end_at_ridley"
-        )
+        return {
+            "options": self.options.as_dict(
+                "end_at_ridley"
+            )
+        }
+
+    def generate_early(self):
+        re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
+        if re_gen_passthrough and self.game in re_gen_passthrough:
+            slot_data: dict[str, Any] = re_gen_passthrough[self.game]
+
+            slot_options: dict[str, Any] = slot_data.get("options", {})
+            for key, value in slot_options.items():
+                opt = getattr(self.options, key, None)
+                if opt is not None:
+                    setattr(self.options, key, opt.from_any(value))
+
+    @staticmethod
+    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
+        return slot_data
 
     def get_filler_item_name(self) -> str:
         return "Missile Tank"

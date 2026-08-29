@@ -65,7 +65,7 @@ class MPOContext(SuperContext):
         super().on_package(cmd, args)
         if cmd == "Connected":
             async_start(self.send_msgs([{ "cmd": "LocationScouts", "locations": list(LOCATION_NAME_TO_ID.values()), "create_as_hint": 0 }]))
-            self.end_at_ridley = args["slot_data"]["end_at_ridley"]
+            self.end_at_ridley = args["slot_data"]["options"]["end_at_ridley"]
             return
         if cmd == "LocationInfo":
             self.send_locations_to_client = True
