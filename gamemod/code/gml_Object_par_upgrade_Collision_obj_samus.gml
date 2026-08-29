@@ -6,6 +6,12 @@ if (!(place_meeting(x, y, other) && !other.grappling && visible) && sprite_index
 {
     exit;
 }
+// -- MW Changes Start: Prevent collection through tube
+if (position_meeting(x, y, obj_pirate_tube_0) || position_meeting(x, y, obj_pirate_tube_1))
+{
+    exit;
+}
+// -- MW Changes End
 ds_write(key, 1);
 ds_add("Completion", 1);
 instance_create(x, y, obj_collected);
