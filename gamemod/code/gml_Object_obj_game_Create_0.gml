@@ -140,6 +140,15 @@ function start_game()
         ds_write(name, ds_map_find_value(global.mwLocations, key));
         key = ds_map_find_next(global.mwLocations, key);
     }
+    
+    mwLocSize = ds_map_size(global.mwRemoteLocations);
+    key = ds_map_find_first(global.mwRemoteLocations);
+    for (var i = 0; i < mwLocSize; i++)
+    {
+        var name = "MWRemoteLocation " + key;
+        ds_write(name, ds_map_find_value(global.mwRemoteLocations, key));
+        key = ds_map_find_next(global.mwRemoteLocations, key);
+    }
     // Ship teleport unlock
     var identity = string(tal_Landing_Site) + " Save Point";
     var room_nombre = string(room_get_name(tal_Landing_Site));

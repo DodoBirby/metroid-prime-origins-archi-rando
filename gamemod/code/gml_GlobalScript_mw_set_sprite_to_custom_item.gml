@@ -1,3 +1,13 @@
+function get_remote_item_name(key)
+{
+    var name = dz("MWRemoteLocation " + key);
+    if (name == 0)
+    {
+        return "Unknown";
+    }
+    return name;
+}
+
 function mw_set_sprite_to_custom_item()
 {
     var item = dz("MWLocation " + self.key);
@@ -6,9 +16,9 @@ function mw_set_sprite_to_custom_item()
     self.sends_message = true;
     if (is_undefined(item))
     {
-        sprite_index = sprItemArchi;
-        self.upgrade_name = "Archipelago Item";
-        self.description = "You feel as if this item is not for you.";
+        sprite_index = spr_hive_mecha;
+        self.upgrade_name = "a bug"
+        self.description = "I've messed something up here.";
         return;
     }
     self.upgrade_name = item;
@@ -180,6 +190,22 @@ function mw_set_sprite_to_custom_item()
             self._fanfare = bgmFanfareMinorItem;
             sprite_index = sprItemMissile_strip3;
             self.description = item_descriptions("Missile");
+            break;
+        case "APMajor":
+            self.upgrade_name = get_remote_item_name(self.key);
+            sprite_index = sprItemArchiMajor;
+            self.description = "You feel like someone can progress now.";
+            break;
+        case "APFiller":
+            self.upgrade_name = get_remote_item_name(self.key);
+            self._fanfare = bgmFanfareMinorItem;
+            sprite_index = sprItemArchiMinor;
+            self.description = "You feel a bit disappointed.";
+            break;
+        case "APUseful":
+            self.upgrade_name = get_remote_item_name(self.key);
+            sprite_index = sprItemArchi;
+            self.description = "You feel you've done something useful.";
             break;
         default:
             sprite_index = spr_hive_mecha;

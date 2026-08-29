@@ -2,6 +2,7 @@ import asyncio
 from asyncio import StreamReader, StreamWriter
 import json
 
+from NetUtils import NetworkItem
 from Utils import async_start, gui_enabled
 tracker_loaded = False
 try:
@@ -93,19 +94,38 @@ def create_items_payload(ctx: MPOContext) -> str:
         "majors": majors
     })
 
+def get_remote_item_name(ctx: MPOContext, netitem: NetworkItem):
+    return f"{ctx.item_names.lookup_in_slot(netitem.item, netitem.player)} for {ctx.slot_info[netitem.player].name}"
+
 def get_payload(ctx: MPOContext) -> str:
     if ctx.send_locations_to_client and ctx.locations_info:
         items_dict: dict[str, str] = {}
+        remote_items_dict: dict[str, str] = {}
         for locationid, netitem in ctx.locations_info.items():
-            # TODO: Handle sprites for other games
             if not ctx.slot_concerns_self(netitem.player):
+                location_key = location_id_to_game_key[locationid]
+                remote_items_dict[location_key] = get_remote_item_name(ctx, netitem)
+                
+                if netitem.flags & 0b001:
+                    # progression
+                    items_dict[location_key] = "APMajor"
+                    continue
+                if netitem.flags & 0b010:
+                    # useful
+                    items_dict[location_key] = "APUseful"
+                    continue
+                # TODO: SNEAKY TRAPS FROM AM2R
+                items_dict[location_key] = "APFiller"
                 continue
+                    
             location_key = location_id_to_game_key[locationid]
             items_dict[location_key] = item_id_to_item_name[netitem.item]
+
         ctx.send_locations_to_client = False
         return json.dumps({
             "cmd": "locations",
             "locations": items_dict,
+            "remote_items": remote_items_dict
         })
     return create_items_payload(ctx)
 
