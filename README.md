@@ -59,7 +59,6 @@ The other settings are less important but for reference, the randomizer has been
 
 - Difficulty: 100%
 - Hint System: Off
-- Auto Save: Off
 
 Things should still work if you don't have these set, but there might be issues (let me know if you try these settings and run into anything).
 
