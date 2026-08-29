@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import PerGameCommonOptions, Range, Toggle
+from Options import DefaultOnToggle, PerGameCommonOptions, Range, Toggle
 
 
 class IBJInLogic(Toggle):
@@ -15,7 +15,7 @@ class EndAtRidley(Toggle):
     """
     display_name = "End at Ridley"
 
-class UseVanillaItemPool(Toggle):
+class UseVanillaItemPool(DefaultOnToggle):
     """
     Choose whether to use the vanilla item pool. If this setting is enabled then the filler percent options won't be used.
     """
@@ -29,7 +29,7 @@ class PowerBombFillerPercent(Range):
     display_name = "Power Bomb filler percent"
     range_start = 0
     range_end = 100
-    default = 10
+    default = 20
 
 class EnergyTankFillerPercent(Range):
     """
@@ -39,7 +39,7 @@ class EnergyTankFillerPercent(Range):
     display_name = "Energy Tank filler percent"
     range_start = 0
     range_end = 100
-    default = 10
+    default = 30
 
 @dataclass
 class MPOOptions(PerGameCommonOptions):
