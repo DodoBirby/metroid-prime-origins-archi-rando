@@ -140,6 +140,14 @@ function start_game()
         ds_write(name, ds_map_find_value(global.mwLocations, key));
         key = ds_map_find_next(global.mwLocations, key);
     }
+    // Ship teleport unlock
+    var identity = string(tal_Landing_Site) + " Save Point";
+    var room_nombre = string(room_get_name(tal_Landing_Site));
+    room_nombre = string_copy(room_nombre, 5, string_length(room_nombre));
+    var teleport_name = "Tallon Overworld" + " - " + room_nombre;
+    array_push(ds_zero("Teleport Array"), [teleport_name, 400, 516, room_get_name(tal_Landing_Site)]);
+    ds_write(identity, 1);
+    
     // Ship start
     ds_write("Save X", 400);
     ds_write("Save Y", 516);
