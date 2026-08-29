@@ -2,7 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
+from rule_builder.options import OptionFilter
 from rule_builder.rules import Has, Rule
+
+from .options import IBJInLogic
 
 if TYPE_CHECKING:
     from .world import MetroidPrimeOriginsWorld
@@ -25,7 +28,7 @@ GRAPPLE = "Grapple Beam"
 SCREW = "Screw Attack"
 
 CAN_SPIDER = Has("Spider Ball") & Has(MORPH)
-CAN_IBJ = Has(MORPH) & Has("Morph Ball Bomb")
+CAN_IBJ = Has(MORPH) & Has("Morph Ball Bomb") & OptionFilter(IBJInLogic, True)
 CAN_BOMB = Has(MORPH) & Has("Morph Ball Bomb")
 CAN_SUPER_MISSILE = Has(MISSILE) & Has("Super Missile")
 CAN_BOOST = Has(MORPH) & Has("Boost Ball")
