@@ -20,7 +20,21 @@ function bitvar(arg0, arg1 = 0, arg2 = id)
 
 function butt(arg0, arg1 = 0)
 {
-    return input_verb_get_icon(arg0, arg1);
+    static _system = __InputSystem();
+    
+    if (is_string(arg0))
+    {
+        var _def = variable_struct_get(_system.__verbExportNameDict, arg0);
+        
+        if (_def == undefined) 
+        {
+            return "";
+        }
+        
+        arg0 = _def.__verbIndex;
+    }
+    
+    return InputIconGet(arg0, 0, arg1);
 }
 
 function soft_reset()
@@ -88,7 +102,7 @@ function soft_reset()
     {
         persistent = 0;
     }
-    with (input_controller_object)
+    with (__InputUpdateController)
     {
         persistent = 1;
     }
@@ -121,7 +135,7 @@ function deactivate()
     instance_activate_object(par_menu);
     instance_activate_object(par_submenu);
     instance_activate_object(par_subsubmenu);
-    instance_activate_object(input_controller_object);
+    instance_activate_object(__InputUpdateController);
     // -- MW Changes Start
     // make sure connector is active
     instance_activate_object(obj_MWConnector);
@@ -236,7 +250,7 @@ function in_view(arg0 = sprite_get_width(sprite_index) / 2)
 
 function bitroom_goto(arg0)
 {
-    room_goto(argument0);
+    room_goto(arg0);
 }
 
 function frame_count()
@@ -246,8 +260,8 @@ function frame_count()
 
 function sprite_set(arg0, arg1 = 1, arg2 = -1)
 {
-    sprite_index = argument0;
-    image_speed = argument1;
+    sprite_index = arg0;
+    image_speed = arg1;
     if (arg2 != -1)
     {
         image_index = arg2;
@@ -256,11 +270,11 @@ function sprite_set(arg0, arg1 = 1, arg2 = -1)
 
 function quick_sprite(arg0, arg1 = 1)
 {
-    if (sprite_index != argument0)
+    if (sprite_index != arg0)
     {
         image_index = 0;
     }
-    sprite_index = argument0;
+    sprite_index = arg0;
     image_speed = arg1;
 }
 
@@ -291,21 +305,46 @@ function destroy_tile()
 
 function cursor_selection(arg0, arg1, arg2, arg3)
 {
-    boob = input_check_opposing_pressed(argument1, argument2) + input_check_opposing_repeat(argument1, argument2);
-    variable_instance_set(id, argument0, variable_instance_get(id, argument0) + boob);
-    if (variable_instance_get(id, argument0) > argument3)
+    static _system = __InputSystem();
+    
+    var _up = arg1;
+    var _down = arg2;
+    
+    if (is_string(_up))
     {
-        variable_instance_set(id, argument0, 0);
+        var _defU = variable_struct_get(_system.__verbExportNameDict, _up);
+        
+        if (_defU != undefined)
+        {
+            _up = _defU.__verbIndex;
+        }
     }
-    if (variable_instance_get(id, argument0) < 0)
+    
+    if (is_string(_down))
     {
-        variable_instance_set(id, argument0, argument3);
+        var _defD = variable_struct_get(_system.__verbExportNameDict, _down);
+        
+        if (_defD != undefined)
+        {
+            _down = _defD.__verbIndex;
+        }
+    }
+    
+    boob = menu_opposing_delta(_up, _down);
+    variable_instance_set(id, arg0, variable_instance_get(id, arg0) + boob);
+    if (variable_instance_get(id, arg0) > arg3)
+    {
+        variable_instance_set(id, arg0, 0);
+    }
+    if (variable_instance_get(id, arg0) < 0)
+    {
+        variable_instance_set(id, arg0, arg3);
     }
 }
 
 function door(arg0)
 {
-    dest = argument0;
+    dest = arg0;
 }
 
 function delete_spr_screen()

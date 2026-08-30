@@ -14,7 +14,7 @@ function selection_vertical(arg0, arg1 = 0, arg2 = 0, arg3 = 5)
     {
         selection_sound = 0;
     }
-    selection += (input_check_opposing_pressed("up", "down", arg2) + input_check_opposing_repeat("up", "down", arg2, false, arg3));
+    selection += menu_opposing_delta(UnknownEnum.Value_0, UnknownEnum.Value_1, arg2, arg3);
     if (selection < 0)
     {
         selection = arg0;
@@ -45,7 +45,7 @@ function selection_horizontal(arg0, arg1 = 0, arg2 = 0)
     {
         selection_sound = 0;
     }
-    selection += (input_check_opposing_pressed("left", "right", arg2) + input_check_opposing_repeat("left", "right", arg2));
+    selection += menu_opposing_delta(UnknownEnum.Value_2, UnknownEnum.Value_3, arg2);
     if (selection < 0)
     {
         selection = arg0;
@@ -66,8 +66,8 @@ function selection_horizontal(arg0, arg1 = 0, arg2 = 0)
 
 function selection_vertical_two_columns(arg0, arg1 = 0, arg2 = 0, arg3 = "selection")
 {
-    variable_instance_set(id, arg3, variable_instance_get(id, arg3) + (2 * (input_check_opposing_pressed("up", "down", arg2) + input_check_opposing_repeat("up", "down", arg2))) + (2 * (input_check_opposing_pressed("d_up", "d_down", arg2) + input_check_opposing_repeat("d_up", "d_down", arg2))));
-    variable_instance_set(id, arg3, variable_instance_get(id, arg3) + input_check_opposing_pressed("left", "right", arg2) + input_check_opposing_repeat("left", "right", arg2) + input_check_opposing_pressed("d_left", "d_right", arg2) + input_check_opposing_repeat("d_left", "d_right", arg2));
+    variable_instance_set(id, arg3, variable_instance_get(id, arg3) + (2 * menu_opposing_delta(UnknownEnum.Value_0, UnknownEnum.Value_1, arg2)));
+    variable_instance_set(id, arg3, variable_instance_get(id, arg3) + menu_opposing_delta(UnknownEnum.Value_2, UnknownEnum.Value_3, arg2));
     if (variable_instance_get(id, arg3) < 0)
     {
         variable_instance_set(id, arg3, 0);
@@ -106,6 +106,14 @@ function new_damage_number(arg0, arg1 = x, arg2 = y, arg3 = 16777215, arg4 = 0)
     arg2 += (-7 + irandom(14));
     arg2 -= 14;
     array_push(global.damage_number_queue, [arg0, 0, 0, arg1, arg2, arg3]);
+}
+
+enum UnknownEnum
+{
+    Value_0,
+    Value_1,
+    Value_2,
+    Value_3
 }
 
 // -- MW Changes Start
