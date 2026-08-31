@@ -154,8 +154,8 @@ LOCATION_TABLE: dict[str, LocationData] = {
     "(Tallon Overworld) Life Grove Tunnel": LocationData("Missiles Max tal_Life_Grove_Tunnel x304 y96", "(Tallon Overworld) Life Grove"),
 
     "(Tallon Overworld) Cargo Freight Lift to Deck Gamma": LocationData("Energy Tanks Max tal_Cargo_Freight_Lift_to_Deck_Gamma x233 y124", "(Tallon Overworld) Inside Frigate"),
-    "(Tallon Overworld) Hydro Access Tunnel": LocationData("Energy Tanks Max tal_Hydro_Access_Tunnel x576 y144", "(Tallon Overworld) Inside Frigate"),
-    "(Tallon Overworld) Biohazard Containment": LocationData("Missiles Max tal_Biohazard_Containment x265 y384", "(Tallon Overworld) Inside Frigate"),
+    "(Tallon Overworld) Hydro Access Tunnel": LocationData("Energy Tanks Max tal_Hydro_Access_Tunnel x576 y144", "(Tallon Overworld) Right Frigate"),
+    "(Tallon Overworld) Biohazard Containment": LocationData("Missiles Max tal_Biohazard_Containment x265 y384", "(Tallon Overworld) Biohazard Containment"),
 
     "(Tallon Overworld) Arbor Chamber": LocationData("Missiles Max tal_Arbor_Chamber x144 y80", "(Tallon Overworld) West Tallon"),
     "(Tallon Overworld) Root Cave": LocationData("Missiles Max tal_Root_Cave x48 y208", "(Tallon Overworld) West Tallon"),

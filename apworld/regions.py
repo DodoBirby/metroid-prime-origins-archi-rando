@@ -27,6 +27,8 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     crash_site_right = create_region("(Tallon Overworld) Crash Site Right of Lake", regions, world)
     overgrown_cavern = create_region("(Tallon Overworld) Overgrown Cavern", regions, world)
     inside_frigate = create_region("(Tallon Overworld) Inside Frigate", regions, world)
+    biohazard_containment = create_region("(Tallon Overworld) Biohazard Containment", regions, world)
+    right_frigate = create_region("(Tallon Overworld) Right Frigate", regions, world)
     east_tallon = create_region("(Tallon Overworld) East Tallon", regions, world)
     gated_east_tallon = create_region("(Tallon Overworld) Gated East Tallon", regions, world)
     life_grove = create_region("(Tallon Overworld) Life Grove", regions, world)
@@ -114,10 +116,17 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = overgrown_cavern.connect(upper_reflecting_pool, "Overgrown Cavern to Upper Reflecting Pool")
     _ = overgrown_cavern.connect(crash_site_right, "Overgrown Cavern to Crash Site Right")
 
-    _ = inside_frigate.connect(east_tallon, "Inside Frigate to East Tallon")
+    _ = inside_frigate.connect(biohazard_containment, "Inside Frigate to Biohazard Containment")
+
+    _ = biohazard_containment.connect(right_frigate, "Biohazard Containment to Right Frigate")
+    _ = biohazard_containment.connect(inside_frigate, "Biohazard Containment to Inside Frigate")
+
+    _ = right_frigate.connect(biohazard_containment, "Right Frigate to Biohazard Containment")
+    _ = right_frigate.connect(east_tallon, "Right Frigate to East Tallon")
 
     _ = east_tallon.connect(gated_east_tallon, "East Tallon to Gated East Tallon")
     _ = east_tallon.connect(upper_reflecting_pool, "East Tallon to Upper Reflecting Pool")
+    _ = east_tallon.connect(right_frigate, "East Tallon to Right Frigate")
 
     _ = west_tallon.connect(central_magmoor_elevator)
     _ = west_tallon.connect(landing_site)
@@ -244,6 +253,8 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = phazon_mines_entrance.connect(corridor_to_elite_research, "Phazon Entrance to Corridor")
     _ = phazon_mines_entrance.connect(grapple_chamber, "Phazon Entrance to Storage Depot B")
     _ = phazon_mines_entrance.connect(colored_blocks_chamber, "Phazon Entrance to Colored Blocks")
+    _ = phazon_mines_entrance.connect(gated_east_tallon, "Phazon Entrance to Gated East Tallon")
+    _ = phazon_mines_entrance.connect(right_frigate)
 
     _ = corridor_to_elite_research.connect(elite_research, "Corridor to Elite Research")
 
@@ -282,7 +293,7 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = processing_center.connect(west_phazon_mines_elevator, "Processing Center to West Elevator")
     _ = processing_center.connect(elite_control_access, "Processing Center to Elite Control Access")
     # Add events
-    create_event(inside_frigate, "Open East Tallon Gate")
+    create_event(right_frigate, "Open East Tallon Gate")
     create_event(sun_tower_and_flaahgra, "Kill Flaahgra")
     create_event(thardus_area, "Kill Thardus")
     create_event(omega_pirate_area, "Kill Omega Pirate")

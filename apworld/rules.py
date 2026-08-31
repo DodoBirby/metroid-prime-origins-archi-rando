@@ -40,7 +40,7 @@ CAN_TRAVERSE_UNDERWATER = Has(GRAVITY) | Has(GRAPPLE)
 CAN_DESTROY_GLASS_BLOCK = Has(CHARGE) | Has(MISSILE)
 
 # Frigate requires shooting conduits, traversing underwater ledges, and destroying bomb blocks + glass to reveal conduits
-CAN_TRAVERSE_FRIGATE = Has(WAVE) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(MISSILE) & CAN_TRAVERSE_UNDERWATER
+CAN_TRAVERSE_FRIGATE = Has(WAVE) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & CAN_TRAVERSE_UNDERWATER
 
 # This rule should be used for overhangs where you can't swwj but you can get through with vertical movement or climbing up the side
 CAN_TRAVERSE_LOW_OVERHANG = Has(SPACEJUMP) | CAN_SPIDER | Has(GRAPPLE) | CAN_IBJ
@@ -71,7 +71,7 @@ def set_tallon_location_rules(world: MetroidPrimeOriginsWorld):
 
     # Inside Frigate
     set_location_rule("(Tallon Overworld) Cargo Freight Lift to Deck Gamma", Has(MISSILE), world)
-    set_location_rule("(Tallon Overworld) Hydro Access Tunnel", CAN_BOOST, world)
+    set_location_rule("(Tallon Overworld) Hydro Access Tunnel", CAN_BOOST & CAN_TRAVERSE_UNDERWATER, world)
     set_location_rule("(Tallon Overworld) Biohazard Containment", CAN_SUPER_MISSILE, world)
     set_location_rule("Open East Tallon Gate", CAN_BOOST, world)
 
@@ -264,16 +264,23 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Crash Site Left to Right", Has(GRAPPLE) | (Has(GRAVITY) & Has(MORPH)) | CAN_IBJ | Has(SPACEJUMP), world)
     set_entrance_rule("Crash Site Left to Landing Site", Has(MORPH), world)
 
-    set_entrance_rule("Crash Site Right to Frigate", Has(ICE) & Has(MORPH) & CAN_TRAVERSE_FRIGATE, world)
+    set_entrance_rule("Crash Site Right to Frigate", Has(ICE) & Has(MORPH) & Has(WAVE) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & CAN_TRAVERSE_UNDERWATER, world)
     set_entrance_rule("Crash Site Right to Overgrown Cavern", CAN_TRAVERSE_LOW_OVERHANG & Has(ICE), world)
 
     set_entrance_rule("Overgrown Cavern to Upper Reflecting Pool", Has(MORPH) & CAN_DESTROY_BOMB_BLOCKS, world)
     set_entrance_rule("Overgrown Cavern to Crash Site Right", Has(ICE), world)
 
-    set_entrance_rule("Inside Frigate to East Tallon", CAN_TRAVERSE_FRIGATE & CAN_BOOST, world)
+    set_entrance_rule("Inside Frigate to Biohazard Containment", Has(WAVE) & Has(MORPH) & CAN_TRAVERSE_UNDERWATER, world)
+
+    set_entrance_rule("Biohazard Containment to Right Frigate", Has(MISSILE) & Has(WAVE) & CAN_TRAVERSE_UNDERWATER & CAN_DESTROY_BLOCKS_WHILE_MORPHED & CAN_BOOST, world)
+    set_entrance_rule("Biohazard Containment to Inside Frigate", CAN_TRAVERSE_UNDERWATER, world)
+
+    set_entrance_rule("Right Frigate to Biohazard Containment", CAN_BOOST & CAN_TRAVERSE_UNDERWATER & CAN_DESTROY_BOMB_BLOCKS, world)
+    set_entrance_rule("Right Frigate to East Tallon", Has("Open East Tallon Gate"), world)
 
     set_entrance_rule("East Tallon to Gated East Tallon", Has("Open East Tallon Gate") | CAN_TRAVERSE_LOW_OVERHANG, world)
     set_entrance_rule("East Tallon to Upper Reflecting Pool", Has(ICE) & CAN_DESTROY_BOMB_BLOCKS, world)
+    set_entrance_rule("East Tallon to Right Frigate", Has("Open East Tallon Gate"), world)
 
     set_entrance_rule("Gated East Tallon to Life Grove", CAN_TRAVERSE_LOW_OVERHANG & CAN_PB, world)
     set_entrance_rule("Gated East Tallon to Phazon Entrance", Has("Open East Tallon Gate"), world)
@@ -386,6 +393,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Phazon Entrance to Corridor", Has(ICE), world)
     set_entrance_rule("Phazon Entrance to Storage Depot B", Has(GRAPPLE) & Has(MORPH), world)
     set_entrance_rule("Phazon Entrance to Colored Blocks", (Has(GRAPPLE) | (CAN_TRAVERSE_UNDERWATER & CAN_IBJ)) & Has(MORPH), world)
+    set_entrance_rule("Phazon Entrance to Gated East Tallon", Has("Open East Tallon Gate"), world)
 
     set_entrance_rule("Corridor to Elite Research", (Has(ICE) & Has(WAVE)) | (CAN_PB & Has("Power Bomb", 2)), world)
 
@@ -398,7 +406,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Elite Control Access to Ventilation Shaft", Has(WAVE) & Has(ICE) & (Has(SPACEJUMP) | Has(GRAPPLE) | CAN_IBJ), world)
     set_entrance_rule("Elite Control Access to Processing Center", Has(WAVE) & CAN_PB, world)
     set_entrance_rule("Elite Control Access to West Elevator", Has(WAVE) & CAN_PB & Has(MORPH) & Has(ICE), world)
-    set_entrance_rule("Elite Control Access to Colored Blocks", Has(MORPH) & CAN_PB, world)
+    set_entrance_rule("Elite Control Access to Colored Blocks", Has(MORPH) & CAN_PB & (Has(WAVE) | Has(SCREW)), world)
 
     # This connection feels really bad with no combat logic, so requiring some weapons for now
     set_entrance_rule("Ventilation Shaft to Central Dynamo", CAN_BOOST & Has(CHARGE) & Has(PLASMA) & Has("Energy Tank", 4), world)
