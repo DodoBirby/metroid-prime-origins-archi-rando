@@ -18,6 +18,10 @@ instance_create(x, y, obj_collected);
 ds_write("Hint Timer", 0);
 instance_destroy();
 // -- MW Changes Start
+if dz("MWLocal")
+{
+    grant_item(self.upgrade_name);
+}
 exit;
 // -- MW Changes End
 

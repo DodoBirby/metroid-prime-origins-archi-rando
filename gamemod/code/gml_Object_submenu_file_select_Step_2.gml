@@ -102,8 +102,9 @@ if (global.key_accept && !global.key_up && !global.key_down && !global.key_left 
     else
     {
         // -- MW Changes Start
-        if (is_undefined(newish) && (!obj_MWConnector.connectedToClient || !obj_MWConnector.receivedSeedFromClient))
+        if (is_undefined(newish) && !global.localSeed && (!obj_MWConnector.connectedToClient || !obj_MWConnector.receivedSeedFromClient))
         {
+            bitsound(sndPauseReject);
             var msg = "";
             if (!obj_MWConnector.connectedToClient)
             {

@@ -152,6 +152,17 @@ function start_game()
     }
     
     ds_write("MWEndAtRidley", global.mwEndAtRidley);
+    
+    // local seed handling
+    ds_write("MWLocal", global.localSeed);
+    if (global.localSeed)
+    {
+        for (var i = 0; i < ds_list_size(global.localStarterItems); i++)
+        {
+            grant_item(ds_list_find_value(global.localStarterItems, i));
+        }
+    }
+    
     // Ship teleport unlock
     var identity = string(tal_Landing_Site) + " Save Point";
     var room_nombre = string(room_get_name(tal_Landing_Site));

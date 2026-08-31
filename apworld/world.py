@@ -1,11 +1,18 @@
 from __future__ import annotations
+import base64
+import json
+import os
 from typing import Any
 from worlds.AutoWorld import World
-from .locations import LOCATION_NAME_TO_ID, create_locations
+from .locations import LOCATION_NAME_TO_ID, LOCATION_TABLE, create_locations
 from .items import ITEM_NAME_TO_ID, MetroidPrimeOriginsItem, create_item_with_correct_classification, add_items_to_multiworld
 from .regions import create_and_connect_regions
 from .rules import set_all_rules
 from .options import MPOOptions
+
+
+#TODO: Clean up and deduplicate this with the one in client
+location_name_to_game_key = { location_name: data.location_key for location_name, data in LOCATION_TABLE.items() }
 
 class MetroidPrimeOriginsWorld(World):
     """
@@ -63,3 +70,17 @@ class MetroidPrimeOriginsWorld(World):
 
     def get_filler_item_name(self) -> str:
         return "Missile Tank"
+
+    def generate_output(self, output_directory: str) -> None:
+        if (self.multiworld.players != 1):
+            return
+        data = {
+            "items": {location_name_to_game_key[location.name]: location.item.name for location in self.multiworld.get_filled_locations(self.player) if location.name in location_name_to_game_key},
+            "starter_items": [item.name for item in self.multiworld.precollected_items[self.player]],
+        }
+
+        mod_name = self.multiworld.get_out_file_name_base(self.player)
+        out_file = os.path.join(output_directory, mod_name + ".mposeed")
+        out_string = base64.standard_b64encode(json.dumps(data).encode()).decode()
+        with open(out_file, 'w') as f:
+            _ = f.write(out_string)

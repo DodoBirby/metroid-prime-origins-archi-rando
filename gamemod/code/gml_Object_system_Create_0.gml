@@ -122,5 +122,7 @@ global.mwcompleted = 0;
 global.mwLocations = ds_map_create();
 global.mwRemoteLocations = ds_map_create();
 global.mwEndAtRidley = 0;
+global.localSeed = false;
+global.localStarterItems = ds_list_create();
 spawn(obj_MWConnector);
 // -- MW Changes End
