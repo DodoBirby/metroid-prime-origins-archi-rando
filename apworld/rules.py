@@ -332,7 +332,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
 
     set_entrance_rule("West Phendrana to West Magmoor", Has(VARIA), world)
     set_entrance_rule("West Phendrana to Thardus Area", Has(MORPH) & CAN_BEAT_THARDUS, world)
-    set_entrance_rule("West Phendrana Elevator to Edge Lower", CAN_TRAVERSE_LOW_OVERHANG & Has(ICE), world)
+    set_entrance_rule("West Phendrana Elevator to Edge Lower", CAN_TRAVERSE_LOW_OVERHANG & Has(ICE) & Has(MORPH), world)
 
     set_entrance_rule("Shorelines to Ice Temple", CAN_DESTROY_GLASS_BLOCK & Has("Boost Ball"), world)
     set_entrance_rule("Shorelines to Central Phendrana", CAN_TRAVERSE_LOW_OVERHANG & Has(WAVE), world)
@@ -340,8 +340,8 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("West Phazon to West Magmoor", Has(VARIA) & CAN_PB & Has(ICE), world)
     set_entrance_rule("West Phazon to Processing Center", Has(ICE) & Has(MORPH), world)
 
-    set_entrance_rule("Central Phendrana to Thardus Area", Has(MORPH) & Has(MISSILE) & Has(WAVE) & CAN_BEAT_THARDUS, world)
-    set_entrance_rule("Central Phendrana to Research Lab Hydra", Has(WAVE), world)
+    set_entrance_rule("Central Phendrana to Thardus Area", Has(MORPH) & Has(MISSILE) & Has(WAVE) & CAN_BEAT_THARDUS & (CAN_TRAVERSE_LOW_OVERHANG | (CAN_BOOST & CAN_BOMB)), world)
+    set_entrance_rule("Central Phendrana to Research Lab Hydra", Has(WAVE) & (CAN_TRAVERSE_LOW_OVERHANG | (CAN_BOOST & CAN_BOMB)), world)
 
     set_entrance_rule("Thardus Area to West Phendrana Elevator", Has(MORPH), world)
     set_entrance_rule("Thardus Area to Central Phendrana", Has(MORPH), world)
