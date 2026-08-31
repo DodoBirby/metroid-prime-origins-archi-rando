@@ -62,7 +62,7 @@ LOCATION_TABLE: dict[str, LocationData] = {
     "(Chozo Ruins) Training Chamber Access": LocationData("Missiles Max cho_Training_Chamber_Access x288 y144", "(Chozo Ruins) Past the Magma Pool"),
     "(Chozo Ruins) Magma Pool": LocationData("Power Bombs Max cho_Magma_Pool x584 y168", "(Chozo Ruins) Past the Magma Pool"),
 
-    "(Chozo Ruins) Vault": LocationData("Missiles Max cho_Vault x192 y112", "(Chozo Ruins) Upper West Chozo Ruins"),
+    "(Chozo Ruins) Vault": LocationData("Missiles Max cho_Vault x192 y112", "(Chozo Ruins) Vault"),
 
     "(Magmoor Caverns) Warrior Shrine - Statue": LocationData("Artifact 2 mag_Warrior_Shrine x112 y64", "(Magmoor Caverns) Central Magmoor"),
     "(Magmoor Caverns) Shore Tunnel - Glass Tube": LocationData("Ice Spreader mag_Shore_Tunnel x152 y148", "(Magmoor Caverns) Central Magmoor"),

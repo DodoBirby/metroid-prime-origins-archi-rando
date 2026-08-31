@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from rule_builder.options import OptionFilter
-from rule_builder.rules import Has, Rule
+from rule_builder.rules import CanReachRegion, Has, Rule
 
 from .options import EndAtRidley, IBJInLogic
 
@@ -97,16 +97,15 @@ def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     # West Chozo Ruins
     set_location_rule("(Chozo Ruins) Main Plaza - Super Missile Blocks", Has(MISSILE) & CAN_TRAVERSE_LOW_OVERHANG, world)
     set_location_rule("(Chozo Ruins) Main Plaza - Boost Ball Ramp", CAN_BOOST | Has(SPACEJUMP), world)
-    set_location_rule("(Chozo Ruins) Main Plaza - Lower Ledge", CAN_TRAVERSE_LOW_OVERHANG | Has("Enter Main Plaza From Ledge"), world)
+    set_location_rule("(Chozo Ruins) Main Plaza - Lower Ledge", CAN_TRAVERSE_LOW_OVERHANG | CanReachRegion("(Chozo Ruins) Vault"), world)
     set_location_rule("(Chozo Ruins) Main Plaza - Top Ledge", Has(GRAPPLE) | CAN_IBJ, world)
     set_location_rule("(Chozo Ruins) Ruined Nursery", CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(MORPH), world)
     set_location_rule("(Chozo Ruins) Ruined Gallery - Right Tunnel", Has(MORPH), world)
     set_location_rule("(Chozo Ruins) Ruined Gallery - Left Wall", Has(MISSILE), world)
     set_location_rule("(Chozo Ruins) Transport Access North", Has(MISSILE), world)
 
-    # Upper West Chozo Ruins
+    # Vault
     set_location_rule("(Chozo Ruins) Vault", CAN_BOMB & Has(MORPH), world)
-    set_location_rule("Enter Main Plaza From Ledge", Has(MORPH), world)
 
     # Central Ruins
     set_location_rule("(Chozo Ruins) Ruined Fountain", CAN_BOOST | CAN_SPIDER | CAN_IBJ, world)
@@ -263,11 +262,13 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Landing Site to Crash Site", Has(MORPH) & Has(MISSILE), world)
 
     set_entrance_rule("Crash Site Left to Right", Has(GRAPPLE) | (Has(GRAVITY) & Has(MORPH)) | CAN_IBJ | Has(SPACEJUMP), world)
+    set_entrance_rule("Crash Site Left to Landing Site", Has(MORPH), world)
 
     set_entrance_rule("Crash Site Right to Frigate", Has(ICE) & Has(MORPH) & CAN_TRAVERSE_FRIGATE, world)
     set_entrance_rule("Crash Site Right to Overgrown Cavern", CAN_TRAVERSE_LOW_OVERHANG & Has(ICE), world)
 
     set_entrance_rule("Overgrown Cavern to Upper Reflecting Pool", Has(MORPH) & CAN_DESTROY_BOMB_BLOCKS, world)
+    set_entrance_rule("Overgrown Cavern to Crash Site Right", Has(ICE), world)
 
     set_entrance_rule("Inside Frigate to East Tallon", CAN_TRAVERSE_FRIGATE & CAN_BOOST, world)
 
@@ -281,14 +282,21 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("West Ruins to Central Ruins", Has(MORPH), world)
     set_entrance_rule("West Ruins to Ruined Shrine", Has(MISSILE), world)
     set_entrance_rule("West Ruins to Past Magma Pool", Has(GRAPPLE) & Has(MORPH), world)
+    set_entrance_rule("West Ruins to Vault", CAN_TRAVERSE_LOW_OVERHANG & Has(WAVE), world)
 
-    set_entrance_rule("Upper West Ruins to Flaahgra", Has(MISSILE) & CAN_TRAVERSE_HIGH_OVERHANG, world)
+    set_entrance_rule("Vault to Upper West Ruins", Has(MORPH), world)
+
+    set_entrance_rule("Upper West Ruins to Flaahgra", Has(MISSILE) & CAN_TRAVERSE_HIGH_OVERHANG & CAN_DESTROY_BOMB_BLOCKS, world)
+    set_entrance_rule("Upper West Ruins to Vault", Has(MORPH), world)
+
+    set_entrance_rule("Sun Tower to Upper West Ruins", Has(MORPH) & (CAN_BOMB | (CAN_PB & Has("Power Bomb", 2)) | Has(SCREW)), world)
 
     set_entrance_rule("Ruined Shrine to Tower of Light", Has(WAVE) & (CAN_SPIDER | Has(GRAPPLE)), world)
 
     # Lenient rule
     set_entrance_rule("Central Ruins to Past Magma Pool", Has(VARIA) & Has(WAVE) & Has(GRAPPLE), world)
     set_entrance_rule("Central Ruins to Arboretum", Has(MISSILE), world)
+    set_entrance_rule("Central Ruins to West Ruins", Has(MORPH), world)
     
     set_entrance_rule("Arboretum to Gathering Hall", Has(MISSILE), world)
     set_entrance_rule("Arboretum to Flaahgra", Has(MORPH) & CAN_DESTROY_BOMB_BLOCKS & Has(MISSILE), world)
@@ -297,6 +305,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Gathering Hall to Energy Core", Has(MORPH), world)
 
     set_entrance_rule("Energy Core to Furnace", CAN_TRAVERSE_LOW_OVERHANG | CAN_BOMB, world)
+    set_entrance_rule("Energy Core to Gathering Hall", Has(MORPH), world)
 
     set_entrance_rule("Furnace to Upper Furnace", Has(MORPH) & CAN_DESTROY_BOMB_BLOCKS & (CAN_SPIDER | Has(GRAPPLE)), world)
 
@@ -336,9 +345,11 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
 
     set_entrance_rule("Shorelines to Ice Temple", CAN_DESTROY_GLASS_BLOCK & Has("Boost Ball"), world)
     set_entrance_rule("Shorelines to Central Phendrana", CAN_TRAVERSE_LOW_OVERHANG & Has(WAVE), world)
+    set_entrance_rule("Shorelines to East Phendrana", CAN_DESTROY_GLASS_BLOCK, world)
 
     set_entrance_rule("West Phazon to West Magmoor", Has(VARIA) & CAN_PB & Has(ICE), world)
     set_entrance_rule("West Phazon to Processing Center", Has(ICE) & Has(MORPH), world)
+    set_entrance_rule("West Phazon to Elite Control Access", Has(ICE) & Has(MORPH) & CAN_PB, world)
 
     set_entrance_rule("Central Phendrana to Thardus Area", Has(MORPH) & Has(MISSILE) & Has(WAVE) & CAN_BEAT_THARDUS & (CAN_TRAVERSE_LOW_OVERHANG | (CAN_BOOST & CAN_BOMB)), world)
     set_entrance_rule("Central Phendrana to Research Lab Hydra", Has(WAVE) & (CAN_TRAVERSE_LOW_OVERHANG | (CAN_BOOST & CAN_BOMB)), world)
@@ -364,24 +375,30 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Lower Edge to Hunter Cave", CAN_TRAVERSE_UNDERWATER & Has(MORPH), world)
 
     set_entrance_rule("Frost Cave to True Edge", Has(MISSILE) & Has(MORPH), world)
+    set_entrance_rule("Frost Cave to Upper Edge", Has(MORPH), world)
 
     set_entrance_rule("True Edge to Hunter Cave", Has(MORPH), world)
+    set_entrance_rule("True Edge to Frost Cave", Has(MISSILE) & Has(MORPH), world)
 
     set_entrance_rule("Hunter Cave to Lower Edge", Has(MORPH), world)
+    set_entrance_rule("Hunter Cave to True Edge", Has(MORPH) & CAN_TRAVERSE_UNDERWATER, world)
 
     set_entrance_rule("Phazon Entrance to Corridor", Has(ICE), world)
-    set_entrance_rule("Phazon Entrance to Storage Depot B", Has(GRAPPLE), world)
+    set_entrance_rule("Phazon Entrance to Storage Depot B", Has(GRAPPLE) & Has(MORPH), world)
+    set_entrance_rule("Phazon Entrance to Colored Blocks", (Has(GRAPPLE) | (CAN_TRAVERSE_UNDERWATER & CAN_IBJ)) & Has(MORPH), world)
 
     set_entrance_rule("Corridor to Elite Research", (Has(ICE) & Has(WAVE)) | (CAN_PB & Has("Power Bomb", 2)), world)
 
     set_entrance_rule("Elite Research to Colored Blocks", CAN_BOOST & CAN_TRAVERSE_LOW_OVERHANG, world)
 
     set_entrance_rule("Colored Blocks to Storage Depot", Has(MORPH) & CAN_BOMB & CAN_PB & CAN_DESTROY_BOMB_BLOCKS, world)
-    set_entrance_rule("Colored Blocks to Elite Control Access", Has(MORPH) & CAN_BOMB & CAN_DESTROY_BLOCKS_WHILE_MORPHED, world)
+    set_entrance_rule("Colored Blocks to Elite Control Access", Has(MORPH) & (CAN_BOMB | CAN_PB) & CAN_DESTROY_BLOCKS_WHILE_MORPHED, world)
+    set_entrance_rule("Colored Blocks to Phazon Entrance", Has(GRAPPLE) & CAN_PB & CAN_BOMB & Has(MORPH), world)
 
     set_entrance_rule("Elite Control Access to Ventilation Shaft", Has(WAVE) & Has(ICE) & (Has(SPACEJUMP) | Has(GRAPPLE) | CAN_IBJ), world)
     set_entrance_rule("Elite Control Access to Processing Center", Has(WAVE) & CAN_PB, world)
     set_entrance_rule("Elite Control Access to West Elevator", Has(WAVE) & CAN_PB & Has(MORPH) & Has(ICE), world)
+    set_entrance_rule("Elite Control Access to Colored Blocks", Has(MORPH) & CAN_PB, world)
 
     # This connection feels really bad with no combat logic, so requiring some weapons for now
     set_entrance_rule("Ventilation Shaft to Central Dynamo", CAN_BOOST & Has(CHARGE) & Has(PLASMA) & Has("Energy Tank", 4), world)
@@ -406,6 +423,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
 
     set_entrance_rule("Processing Center to Processing Center Access", Has(PHAZON) & Has(PLASMA), world)
     set_entrance_rule("Processing Center to West Elevator", CAN_TRAVERSE_LOW_OVERHANG & Has(MORPH) & Has(ICE), world)
+    set_entrance_rule("Processing Center to Elite Control Access", CAN_TRAVERSE_LOW_OVERHANG & CAN_PB & Has(MORPH), world)
 
 def set_location_rules(world: MetroidPrimeOriginsWorld):
     set_tallon_location_rules(world)

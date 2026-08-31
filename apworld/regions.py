@@ -49,6 +49,7 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     upper_reflecting_pool = create_region("(Chozo Ruins) Upper Reflecting Pool", regions, world)
     tower_of_light = create_region("(Chozo Ruins) Tower of Light", regions, world)
     sun_tower_and_flaahgra = create_region("(Chozo Ruins) Sun Tower and Flaahgra", regions, world)
+    vault = create_region("(Chozo Ruins) Vault", regions, world)
 
     # Magmoor Caverns
     east_magmoor = create_region("(Magmoor Caverns) East Magmoor", regions, world)
@@ -104,11 +105,14 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = landing_site.connect(west_ruins)
 
     _ = crash_site_left.connect(crash_site_right, "Crash Site Left to Right")
+    _ = crash_site_left.connect(landing_site, "Crash Site Left to Landing Site")
 
     _ = crash_site_right.connect(inside_frigate, "Crash Site Right to Frigate")
     _ = crash_site_right.connect(overgrown_cavern, "Crash Site Right to Overgrown Cavern")
+    _ = crash_site_right.connect(crash_site_left)
 
     _ = overgrown_cavern.connect(upper_reflecting_pool, "Overgrown Cavern to Upper Reflecting Pool")
+    _ = overgrown_cavern.connect(crash_site_right, "Overgrown Cavern to Crash Site Right")
 
     _ = inside_frigate.connect(east_tallon, "Inside Frigate to East Tallon")
 
@@ -116,30 +120,43 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = east_tallon.connect(upper_reflecting_pool, "East Tallon to Upper Reflecting Pool")
 
     _ = west_tallon.connect(central_magmoor_elevator)
+    _ = west_tallon.connect(landing_site)
     
     _ = gated_east_tallon.connect(life_grove, "Gated East Tallon to Life Grove")
     _ = gated_east_tallon.connect(phazon_mines_entrance, "Gated East Tallon to Phazon Entrance")
+    _ = gated_east_tallon.connect(east_tallon)
 
     _ = west_ruins.connect(upper_west_ruins, "West Ruins to Upper West Ruins")
     _ = west_ruins.connect(central_ruins, "West Ruins to Central Ruins")
     _ = west_ruins.connect(ruined_shrine, "West Ruins to Ruined Shrine")
     _ = west_ruins.connect(past_ruins_magma_pool, "West Ruins to Past Magma Pool")
+    _ = west_ruins.connect(landing_site)
+    _ = west_ruins.connect(vault, "West Ruins to Vault")
+
+    _ = vault.connect(upper_west_ruins, "Vault to Upper West Ruins")
+    _ = vault.connect(west_ruins)
 
     _ = upper_west_ruins.connect(sun_tower_and_flaahgra, "Upper West Ruins to Flaahgra")
     _ = upper_west_ruins.connect(east_magmoor)
+    _ = upper_west_ruins.connect(vault, "Upper West Ruins to Vault")
+
+    _ = sun_tower_and_flaahgra.connect(upper_west_ruins, "Sun Tower to Upper West Ruins")
 
     _ = ruined_shrine.connect(tower_of_light, "Ruined Shrine to Tower of Light")
 
     _ = central_ruins.connect(past_ruins_magma_pool, "Central Ruins to Past Magma Pool")
     _ = central_ruins.connect(arboretum, "Central Ruins to Arboretum")
+    _ = central_ruins.connect(west_ruins, "Central Ruins to West Ruins")
 
     _ = arboretum.connect(gathering_hall, "Arboretum to Gathering Hall")
     _ = arboretum.connect(sun_tower_and_flaahgra, "Arboretum to Flaahgra")
+    _ = arboretum.connect(central_ruins)
 
     _ = gathering_hall.connect(dynamo, "Gathering Hall to Dynamo")
     _ = gathering_hall.connect(energy_core, "Gathering Hall to Energy Core")
 
     _ = energy_core.connect(furnace, "Energy Core to Furnace")
+    _ = energy_core.connect(gathering_hall, "Energy Core to Gathering Hall")
 
     _ = furnace.connect(upper_furnace, "Furnace to Upper Furnace")
 
@@ -182,12 +199,15 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
 
     _ = phendrana_shorelines.connect(ice_temple, "Shorelines to Ice Temple")
     _ = phendrana_shorelines.connect(central_phendrana, "Shorelines to Central Phendrana")
+    _ = phendrana_shorelines.connect(east_phendrana, "Shorelines to East Phendrana")
 
     _ = west_phazon_mines_elevator.connect(west_magmoor, "West Phazon to West Magmoor")
     _ = west_phazon_mines_elevator.connect(processing_center, "West Phazon to Processing Center")
+    _ = west_phazon_mines_elevator.connect(elite_control_access, "West Phazon to Elite Control Access")
 
     _ = central_phendrana.connect(thardus_area, "Central Phendrana to Thardus Area")
     _ = central_phendrana.connect(research_lab_hydra, "Central Phendrana to Research Lab Hydra")
+    _ = central_phendrana.connect(phendrana_shorelines)
 
     _ = thardus_area.connect(west_phendrana_elevator, "Thardus Area to West Phendrana Elevator")
     _ = thardus_area.connect(central_phendrana, "Thardus Area to Central Phendrana")
@@ -213,13 +233,17 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = phendrana_edge_lower.connect(hunter_cave, "Lower Edge to Hunter Cave")
 
     _ = frost_cave.connect(true_phendrana_edge, "Frost Cave to True Edge")
+    _ = frost_cave.connect(phendrana_edge_upper, "Frost Cave to Upper Edge")
 
     _ = true_phendrana_edge.connect(hunter_cave, "True Edge to Hunter Cave")
+    _ = true_phendrana_edge.connect(frost_cave, "True Edge to Frost Cave")
 
     _ = hunter_cave.connect(phendrana_edge_lower, "Hunter Cave to Lower Edge")
+    _ = hunter_cave.connect(true_phendrana_edge, "Hunter Cave to True Edge")
 
     _ = phazon_mines_entrance.connect(corridor_to_elite_research, "Phazon Entrance to Corridor")
     _ = phazon_mines_entrance.connect(grapple_chamber, "Phazon Entrance to Storage Depot B")
+    _ = phazon_mines_entrance.connect(colored_blocks_chamber, "Phazon Entrance to Colored Blocks")
 
     _ = corridor_to_elite_research.connect(elite_research, "Corridor to Elite Research")
 
@@ -227,10 +251,12 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
 
     _ = colored_blocks_chamber.connect(grapple_chamber, "Colored Blocks to Storage Depot")
     _ = colored_blocks_chamber.connect(elite_control_access, "Colored Blocks to Elite Control Access")
+    _ = colored_blocks_chamber.connect(phazon_mines_entrance, "Colored Blocks to Phazon Entrance")
 
     _ = elite_control_access.connect(ventilation_shaft, "Elite Control Access to Ventilation Shaft")
     _ = elite_control_access.connect(processing_center, "Elite Control Access to Processing Center")
     _ = elite_control_access.connect(west_phazon_mines_elevator, "Elite Control Access to West Elevator")
+    _ = elite_control_access.connect(colored_blocks_chamber, "Elite Control Access to Colored Blocks")
 
     _ = ventilation_shaft.connect(central_dynamo, "Ventilation Shaft to Central Dynamo")
 
@@ -254,9 +280,9 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
 
     _ = processing_center.connect(processing_center_access, "Processing Center to Processing Center Access")
     _ = processing_center.connect(west_phazon_mines_elevator, "Processing Center to West Elevator")
+    _ = processing_center.connect(elite_control_access, "Processing Center to Elite Control Access")
     # Add events
     create_event(inside_frigate, "Open East Tallon Gate")
-    create_event(upper_west_ruins, "Enter Main Plaza From Ledge")
     create_event(sun_tower_and_flaahgra, "Kill Flaahgra")
     create_event(thardus_area, "Kill Thardus")
     create_event(omega_pirate_area, "Kill Omega Pirate")
