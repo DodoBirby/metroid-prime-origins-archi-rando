@@ -71,9 +71,13 @@ def set_tallon_location_rules(world: MetroidPrimeOriginsWorld):
 
     # Inside Frigate
     set_location_rule("(Tallon Overworld) Cargo Freight Lift to Deck Gamma", Has(MISSILE), world)
+
+    # Right Frigate
     set_location_rule("(Tallon Overworld) Hydro Access Tunnel", CAN_BOOST & CAN_TRAVERSE_UNDERWATER, world)
-    set_location_rule("(Tallon Overworld) Biohazard Containment", CAN_SUPER_MISSILE, world)
     set_location_rule("Open East Tallon Gate", CAN_BOOST, world)
+
+    # Biohazard Containment
+    set_location_rule("(Tallon Overworld) Biohazard Containment", CAN_SUPER_MISSILE, world)
 
     # West Tallon
     set_location_rule("(Tallon Overworld) Arbor Chamber", Has(PLASMA) & CAN_TRAVERSE_LOW_OVERHANG, world)
@@ -135,8 +139,7 @@ def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
 
     # Elder Hall
     set_location_rule("(Chozo Ruins) Hall of the Elders - Ceiling", Has(ICE) & CAN_BOMB & CAN_SPIDER, world)
-    # TODO: On remix you can use the secret path
-    set_location_rule("(Chozo Ruins) Elder Chamber", (Has(PLASMA) & CAN_BOMB), world)
+    set_location_rule("(Chozo Ruins) Elder Chamber", (Has(PLASMA) & CAN_BOMB) | (CAN_BOOST & CAN_DESTROY_BLOCKS_WHILE_MORPHED), world)
 
     # Upper Reflecting Pool
     set_location_rule("(Chozo Ruins) Antechamber", Has(MISSILE) & CAN_BOMB, world)
@@ -153,7 +156,6 @@ def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     # Tower of Light
     set_location_rule("(Chozo Ruins) Tower of Light", Has(MISSILE), world)
     set_location_rule("(Chozo Ruins) Tower Chamber", CAN_TRAVERSE_UNDERWATER & Has(WAVE), world)
-    # Intentionally not CAN_SPIDER since this is about triggering the event flag
 
     # Flaahgra and ghost
     set_location_rule("(Chozo Ruins) Sunchamber - Ghost Reward", (Has("Spider Ball") | Has(ICE)) & Has(CHARGE), world)
@@ -189,7 +191,7 @@ def set_phendrana_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Phendrana Drifts) Phendrana Shorelines - Hidden Tunnel", Has(MISSILE) & Has("Boost Ball"), world)
 
     # Ice Temple
-    set_location_rule("(Phendrana Drifts) Chozo Ice Temple - Frozen Floor", Has(MORPH) & Has(PLASMA), world)
+    set_location_rule("(Phendrana Drifts) Chozo Ice Temple - Frozen Floor", Has(MORPH) & Has(PLASMA) | CAN_BOOST, world)
     set_location_rule("(Phendrana Drifts) Chapel of the Elders", Has(MORPH) & CAN_BOMB & Has(MISSILE), world)
 
     # Central Phendrana
