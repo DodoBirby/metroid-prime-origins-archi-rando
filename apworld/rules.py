@@ -309,7 +309,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
 
     set_entrance_rule("Lower Pool to Upper Pool", (CAN_DESTROY_BOMB_BLOCKS & CAN_BOOST) | Has(GRAPPLE) | CAN_IBJ, world)
 
-    set_entrance_rule("Upper Reflecting Pool to Overgrown Cavern", Has(MISSILE) | CAN_BOMB, world)
+    set_entrance_rule("Upper Reflecting Pool to Overgrown Cavern", Has(MISSILE) & CAN_BOMB, world)
     set_entrance_rule("Upper Reflecting Pool to East Tallon", CAN_BOMB & Has(ICE), world)
 
     set_entrance_rule("East Magmoor to Central Magmoor", Has(MORPH) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(VARIA), world)
