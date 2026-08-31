@@ -158,7 +158,8 @@ function load_seed_file(path)
     var json = base64_decode(base64);
     var payload = json_decode(json);
     ds_map_copy(global.mwLocations, ds_map_find_value(payload, "items"));
-    ds_list_copy(global.localStarterItems, ds_map_find_value(payload, "starter_items"))
+    ds_list_copy(global.localStarterItems, ds_map_find_value(payload, "starter_items"));
+    ds_map_destroy(payload);
     global.localSeed = true;
     file_text_close(file);
 }
