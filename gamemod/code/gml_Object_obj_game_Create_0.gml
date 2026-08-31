@@ -19,6 +19,7 @@ ds_write("Doors Opened", 0);
 ds_write("Attempted Scans", 0);
 ds_write("Successful Scans", 0);
 ds_write("Save Room Uses", 0);
+ds_write("Sessions", 1);
 ds_write("Deaths", 0);
 ds_write("Energy", 99);
 ds_write("Energy Tanks", 0);
@@ -211,6 +212,7 @@ if (room == rm_Load_Game)
         pos += 1;
     }
     ds_write("Teleport Array", arr);
+    ds_add("Sessions", 1);
     exit;
 }
 if (room == rm_New_Game)
