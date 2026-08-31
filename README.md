@@ -24,7 +24,7 @@ I will be referring to the Metroid Prime Origins folder (the one with the exe yo
 
 I recommend making a copy of `GAME_FOLDER` before performing any of the following steps so you can still play the vanilla game.
 
-**MAKE SURE YOU ARE USING THE 1.0.4 RELEASE OF METROID PRIME ORIGINS OR THE PATCH WON'T WORK**
+**MAKE SURE YOU ARE USING THE 1.0.5 VM RELEASE OF METROID PRIME ORIGINS OR THE PATCH WON'T WORK**
 
 You'll need to apply the `randomizer_patch.xdelta` to the `data.win` file in `GAME_FOLDER`.
 
@@ -35,6 +35,8 @@ If the patch succeeded you will have a new file, rename this file to `data.win` 
 ## Running the client
 
 Now that you have patched your game, you are ready to actually play!
+
+Note if you are playing a solo seed there is an alternate way to play that doesn't even require installing Archipelago! (See below)
 
 I will be assuming you know how to install the apworld and generate a seed (or you have a host who can generate a seed for you).
 
@@ -61,6 +63,24 @@ The other settings are less important but for reference, the randomizer has been
 - Hint System: Off
 
 Things should still work if you don't have these set, but there might be issues (let me know if you try these settings and run into anything).
+
+## Archipelago-Free Play
+
+Note that generating a seed still requires Archipelago, but playing a solo seed does not.
+
+When a seed is generated (and it is a solo Metroid Prime Origins seed), there is an extra file generated in the output zip file.
+
+This file can be identified by the .mposeed extension. This is the file you should share with anyone who wants to play the seed.
+
+Assuming you have received a .mposeed file, here is how to use it.
+
+In your patched version of the game, open the options menu and you should find an option "Load Seed File". Pressing this will bring up a file dialog asking you to select the mposeed file you want to play.
+
+After selecting your mposeed file, exit the options menu and start a new save file on `remix mode`. Enjoy the rando!
+
+If you want to continue playing the seed after quitting out of the game, simply load your save file, the seed has already been applied.
+
+Currently playing a local seed and playing a multiworld are completely separate, so don't try and mix the 2 on the same save file unless you want things to break.
 
 ## Common Issues
 
