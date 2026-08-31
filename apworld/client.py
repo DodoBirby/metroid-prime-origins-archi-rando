@@ -37,6 +37,11 @@ class MPOCommandProcessor(ClientCommandProcessor):
         if isinstance(self.ctx, MPOContext):
             logger.info(f"Connection Status: {self.ctx.mpo_status}")
 
+    def _cmd_mpoconnect(self, connect_string: str):
+        """Connect to MPO on a non-default ip and port"""
+        if isinstance(self.ctx, MPOContext):
+            change_connection_details(self.ctx, connect_string)
+
 class MPOContext(SuperContext):
     tags = { "AP" }
     game = "Metroid Prime Origins"
@@ -52,6 +57,9 @@ class MPOContext(SuperContext):
         self.mpo_sync_task: asyncio.Task[None] | None = None
         self.mpo_status: str = CONNECTION_INITIAL_STATUS
         self.end_at_ridley: bool = False
+        self.mpo_connection_ip: str = "127.0.0.1"
+        self.mpo_connection_port: int = PORT_NUMBER
+        self.mpo_connection_details_changed: bool = False
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
@@ -77,6 +85,18 @@ class MPOContext(SuperContext):
     async def disconnect(self, allow_autoreconnect: bool = False):
         self.seed_name = None
         await super().disconnect(allow_autoreconnect)
+
+def change_connection_details(ctx: MPOContext, connect_string: str):
+    try:
+        ip, port = connect_string.split(':')
+        portnum = int(port)
+        ctx.mpo_connection_ip = ip
+        ctx.mpo_connection_port = portnum
+    except:
+        logger.info("Error when attempting to change connection details (probably a syntax error)")
+        return
+
+    ctx.mpo_connection_details_changed = True
 
 def create_items_payload(ctx: MPOContext) -> str:
     itemnames_received = [ item_id_to_item_name[netitem.item] for netitem in ctx.items_received if netitem.item in item_id_to_item_name ]
@@ -149,7 +169,7 @@ async def parse_payload(ctx: MPOContext, data_decoded: dict[str, str]):
 
 async def connect_to_mpo(ctx: MPOContext):
     try:
-        ctx.mpo_streams = await asyncio.wait_for(asyncio.open_connection("127.0.0.1", PORT_NUMBER), timeout=10)
+        ctx.mpo_streams = await asyncio.wait_for(asyncio.open_connection(ctx.mpo_connection_ip, ctx.mpo_connection_port), timeout=10)
         ctx.mpo_status = CONNECTION_TENTATIVE_STATUS
         ctx.send_locations_to_client = True
     except TimeoutError:
@@ -166,7 +186,15 @@ async def mpo_sync_task(ctx: MPOContext):
         if not ctx.mpo_streams:
             await connect_to_mpo(ctx)
             continue
+
         (reader, writer) = ctx.mpo_streams
+        
+        if ctx.mpo_connection_details_changed:
+            logger.info("Connection details changed, reconnecting to MPO")
+            writer.close()
+            await connect_to_mpo(ctx)
+            continue
+
         msg = get_payload(ctx).encode()
         try:
             writer.write(msg + b'\n')
