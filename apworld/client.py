@@ -1,5 +1,6 @@
 import asyncio
 from asyncio import StreamReader, StreamWriter
+from enum import Enum
 import json
 
 from NetUtils import NetworkItem
@@ -28,6 +29,10 @@ location_id_to_game_key = { id: location_name_to_game_key[name] for name, id in 
 item_id_to_item_name = { id: name for name, id in ITEM_NAME_TO_ID.items() }
 game_key_to_location_id = { key: id for id, key in location_id_to_game_key.items() }
 
+class MPOSyncCommand(Enum):
+    SEND_LOCATION = 1,
+    CHANGE_DETAILS = 2
+
 class MPOCommandProcessor(ClientCommandProcessor):
     def __init__(self, ctx: SuperContext):
         super().__init__(ctx)
@@ -53,13 +58,12 @@ class MPOContext(SuperContext):
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
         self.mpo_streams: tuple[StreamReader, StreamWriter] | None = None
-        self.send_locations_to_client: bool = False
         self.mpo_sync_task: asyncio.Task[None] | None = None
         self.mpo_status: str = CONNECTION_INITIAL_STATUS
         self.end_at_ridley: bool = False
         self.mpo_connection_ip: str = "127.0.0.1"
         self.mpo_connection_port: int = PORT_NUMBER
-        self.mpo_connection_details_changed: bool = False
+        self.command_queue: list[MPOSyncCommand] = []
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
@@ -74,7 +78,7 @@ class MPOContext(SuperContext):
             self.end_at_ridley = args["slot_data"]["options"]["end_at_ridley"]
             return
         if cmd == "LocationInfo":
-            self.send_locations_to_client = True
+            self.command_queue.append(MPOSyncCommand.SEND_LOCATION)
             return
 
     def make_gui(self):
@@ -88,15 +92,24 @@ class MPOContext(SuperContext):
 
 def change_connection_details(ctx: MPOContext, connect_string: str):
     try:
-        ip, port = connect_string.split(':')
+        split_connect = connect_string.strip().split(':', 2)
+        ip = ""
+        port = "64200"
+        if len(split_connect) == 1:
+            ip = split_connect[0]
+        else:
+            ip = split_connect[0]
+            port = split_connect[1]
+
         portnum = int(port)
         ctx.mpo_connection_ip = ip
         ctx.mpo_connection_port = portnum
     except:
         logger.info("Error when attempting to change connection details (probably a syntax error)")
         return
-
-    ctx.mpo_connection_details_changed = True
+    ctx.command_queue.append(MPOSyncCommand.CHANGE_DETAILS)
+    logger.info(f"Connection details changed, new ip: {ctx.mpo_connection_ip}, new port: {ctx.mpo_connection_port}")
+    logger.info("Waiting for next opportunity to reconnect")
 
 def create_items_payload(ctx: MPOContext) -> str:
     itemnames_received = [ item_id_to_item_name[netitem.item] for netitem in ctx.items_received if netitem.item in item_id_to_item_name ]
@@ -125,38 +138,37 @@ def create_items_payload(ctx: MPOContext) -> str:
 def get_remote_item_name(ctx: MPOContext, netitem: NetworkItem):
     return f"{ctx.item_names.lookup_in_slot(netitem.item, netitem.player)} for {ctx.slot_info[netitem.player].name}"
 
-def get_payload(ctx: MPOContext) -> str:
-    if ctx.send_locations_to_client and ctx.locations_info:
-        items_dict: dict[str, str] = {}
-        remote_items_dict: dict[str, str] = {}
-        for locationid, netitem in ctx.locations_info.items():
-            if not ctx.slot_concerns_self(netitem.player):
-                location_key = location_id_to_game_key[locationid]
-                remote_items_dict[location_key] = get_remote_item_name(ctx, netitem)
-                
-                if netitem.flags & 0b001:
-                    # progression
-                    items_dict[location_key] = "APMajor"
-                    continue
-                if netitem.flags & 0b010:
-                    # useful
-                    items_dict[location_key] = "APUseful"
-                    continue
-                # TODO: SNEAKY TRAPS FROM AM2R
-                items_dict[location_key] = "APFiller"
-                continue
-                    
-            location_key = location_id_to_game_key[locationid]
-            items_dict[location_key] = item_id_to_item_name[netitem.item]
+def get_locations_payload(ctx: MPOContext) -> str:
+    if not ctx.locations_info:
+        return ""
 
-        ctx.send_locations_to_client = False
-        return json.dumps({
-            "cmd": "locations",
-            "locations": items_dict,
-            "remote_items": remote_items_dict,
-            "end_at_ridley": ctx.end_at_ridley
-        })
-    return create_items_payload(ctx)
+    items_dict: dict[str, str] = {}
+    remote_items_dict: dict[str, str] = {}
+    for locationid, netitem in ctx.locations_info.items():
+        if not ctx.slot_concerns_self(netitem.player):
+            location_key = location_id_to_game_key[locationid]
+            remote_items_dict[location_key] = get_remote_item_name(ctx, netitem)
+            
+            if netitem.flags & 0b001:
+                # progression
+                items_dict[location_key] = "APMajor"
+                continue
+            if netitem.flags & 0b010:
+                # useful
+                items_dict[location_key] = "APUseful"
+                continue
+            # TODO: SNEAKY TRAPS FROM AM2R
+            items_dict[location_key] = "APFiller"
+            continue
+                
+        location_key = location_id_to_game_key[locationid]
+        items_dict[location_key] = item_id_to_item_name[netitem.item]
+    return json.dumps({
+        "cmd": "locations",
+        "locations": items_dict,
+        "remote_items": remote_items_dict,
+        "end_at_ridley": ctx.end_at_ridley
+    })
 
 async def parse_payload(ctx: MPOContext, data_decoded: dict[str, str]):
     locations_checked = [game_key_to_location_id[location] for location in data_decoded["items"]]
@@ -169,15 +181,54 @@ async def parse_payload(ctx: MPOContext, data_decoded: dict[str, str]):
 
 async def connect_to_mpo(ctx: MPOContext):
     try:
-        ctx.mpo_streams = await asyncio.wait_for(asyncio.open_connection(ctx.mpo_connection_ip, ctx.mpo_connection_port), timeout=10)
+        ctx.mpo_streams = await asyncio.wait_for(asyncio.open_connection(ctx.mpo_connection_ip, ctx.mpo_connection_port), timeout=3)
         ctx.mpo_status = CONNECTION_TENTATIVE_STATUS
-        ctx.send_locations_to_client = True
+        ctx.command_queue.append(MPOSyncCommand.SEND_LOCATION)
     except TimeoutError:
         logger.debug("Connection timed out, trying again...")
         ctx.mpo_status = CONNECTION_TIMING_OUT_STATUS
     except ConnectionRefusedError:
         logger.debug("Connection refused, trying again...")
         ctx.mpo_status = CONNECTION_REFUSED_STATUS
+    except Exception as e:
+        logger.info("Error when attempting to connect to client (perhaps an incorrect ip?)")
+        logger.debug(e)
+
+async def send_packet(ctx: MPOContext, msg: str, reader: StreamReader, writer: StreamWriter):
+    msg_bytes = msg.encode()
+    try:
+        writer.write(msg_bytes + b'\n')
+        await asyncio.wait_for(writer.drain(), timeout=1.5)
+        try:
+            data = await asyncio.wait_for(reader.readline(), timeout=5)
+            data_decoded: dict[str, str] = json.loads(data.decode())
+            await parse_payload(ctx, data_decoded)
+            if ctx.mpo_status == CONNECTION_TENTATIVE_STATUS:
+                logger.info("Successfully connected to MPO")
+                ctx.mpo_status = CONNECTION_CONNECTED_STATUS
+        except TimeoutError:
+            logger.debug("Read timed out, reconnecting...")
+            disconnect(ctx, writer)
+            ctx.mpo_status = CONNECTION_TIMING_OUT_STATUS
+        except ConnectionResetError:
+            logger.debug("Read failed due to connection error, reconnecting...")
+            disconnect(ctx, writer)
+            ctx.mpo_status = CONNECTION_RESET_STATUS
+    except TimeoutError:
+        logger.debug("Connection Timed Out, Reconnecting")
+        disconnect(ctx, writer)
+        ctx.mpo_status = CONNECTION_TIMING_OUT_STATUS
+    except ConnectionResetError:
+        logger.debug("Connection Lost, Reconnecting")
+        disconnect(ctx, writer)
+        ctx.mpo_status = CONNECTION_RESET_STATUS
+    except Exception as e:
+        logger.debug(e)
+    
+def disconnect(ctx: MPOContext, writer: StreamWriter):
+    writer.close()
+    ctx.mpo_streams = None
+    ctx.command_queue = []
 
 async def mpo_sync_task(ctx: MPOContext):
     logger.info("Starting MPO connector")
@@ -188,48 +239,24 @@ async def mpo_sync_task(ctx: MPOContext):
             continue
 
         (reader, writer) = ctx.mpo_streams
-        
-        if ctx.mpo_connection_details_changed:
-            logger.info("Connection details changed, reconnecting to MPO")
-            writer.close()
-            await connect_to_mpo(ctx)
+
+        if not ctx.command_queue:
+            item_packet = create_items_payload(ctx)
+            await send_packet(ctx, item_packet, reader, writer)
             continue
 
-        msg = get_payload(ctx).encode()
-        try:
-            writer.write(msg + b'\n')
-            await asyncio.wait_for(writer.drain(), timeout=1.5)
-            try:
-                data = await asyncio.wait_for(reader.readline(), timeout=5)
-                data_decoded: dict[str, str] = json.loads(data.decode())
-                await parse_payload(ctx, data_decoded)
-                if ctx.mpo_status == CONNECTION_TENTATIVE_STATUS:
-                    logger.info("Successfully connected to MPO")
-                    ctx.mpo_status = CONNECTION_CONNECTED_STATUS
-            except TimeoutError:
-                logger.debug("Read timed out, reconnecting...")
-                writer.close()
-                ctx.mpo_streams = None
-                ctx.mpo_status = CONNECTION_TIMING_OUT_STATUS
-                continue
-            except ConnectionResetError:
-                logger.debug("Read failed due to connection error, reconnecting...")
-                writer.close()
-                ctx.mpo_streams = None
-                ctx.mpo_status = CONNECTION_RESET_STATUS
-        except TimeoutError:
-            logger.debug("Connection Timed Out, Reconnecting")
-            writer.close()
-            ctx.mpo_streams = None
-            ctx.mpo_status = CONNECTION_TIMING_OUT_STATUS
-        except ConnectionResetError:
-            logger.debug("Connection Lost, Reconnecting")
-            writer.close()
-            ctx.mpo_streams = None
-            ctx.mpo_status = CONNECTION_RESET_STATUS
-        except Exception as e:
-            logger.debug(e)
+        command = ctx.command_queue.pop(0)
+        match command:
+            case MPOSyncCommand.SEND_LOCATION:
+                location_packet = get_locations_payload(ctx)
+                if location_packet == "":
+                    ctx.command_queue.append(MPOSyncCommand.SEND_LOCATION)
+                    continue
 
+                await send_packet(ctx, location_packet, reader, writer)
+            case MPOSyncCommand.CHANGE_DETAILS:
+                logger.info("Connection details changed, reconnecting to MPO")
+                disconnect(ctx, writer)
 
 async def main(args):
     ctx = MPOContext(args.connect, args.password)
