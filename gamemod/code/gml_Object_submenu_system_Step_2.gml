@@ -62,7 +62,11 @@ if (global.key_accept && (selection == 4 || selection == 13 || selection == 14) 
     if (selection == 13)
     {
         var path = get_open_filename("seed files|*.mposeed");
-        load_seed_file(path);
+        if (path != "")
+        {
+            load_seed_file(path);
+            show_item_pickup_text("Seed file loaded");
+        }
     }
     if (selection == 14)
     {
