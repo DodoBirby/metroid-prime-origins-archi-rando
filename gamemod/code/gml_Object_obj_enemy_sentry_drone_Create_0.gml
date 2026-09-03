@@ -11,3 +11,4 @@ if (!ds_zero("Spazer phe_Research_Core x160 y552") && !ds_zero("Ice Beam") && ob
 {
     instance_destroy(id, false);
 }
+seen = 0;

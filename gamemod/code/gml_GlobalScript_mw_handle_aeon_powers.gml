@@ -27,7 +27,7 @@ function mw_handle_aeon_powers(major)
             isAeon = true;
             aeon0 = "Chain Missile";
             aeon1 = "Boost-Sprint";
-            aeon2 = "Ricochet Cannon";
+            aeon2 = "Swift Boots";
             aeon3 = "Speed-Ball";
             break;
         case "Artifact 4":
@@ -91,7 +91,7 @@ function mw_handle_aeon_powers(major)
             aeon0 = "Death Ball";
             aeon1 = "Phazon Shield";
             aeon2 = "Phazon Generator";
-            aeon3 = "Swift Boots";
+            aeon3 = "Ricochet Cannon";
             break;
     }
     if (is_array(aeonStatus))

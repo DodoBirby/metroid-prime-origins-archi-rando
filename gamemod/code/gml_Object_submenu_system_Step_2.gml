@@ -1,3 +1,7 @@
+if (ds_zero_options("Hint System") < 3 && ds_zero_options("Hint System") > 0)
+{
+    ds_write_options("Hint System", 15);
+}
 if (instance_exists(par_subsubmenu))
 {
     menu_offset = lerp(menu_offset, global._screen_height, 0.1);
@@ -44,7 +48,7 @@ if (menu_offset > 32)
 {
     exit;
 }
-selection_vertical(14, sndPauseScroll);
+selection_vertical(17, sndPauseScroll);
 if (global.key_cancel || global.key_menu)
 {
     leaving = 1;
@@ -52,7 +56,7 @@ if (global.key_cancel || global.key_menu)
     exit;
 }
 // -- MW Changes: Add new menu item and bump save + return to title item up
-if (global.key_accept && (selection == 4 || selection == 13 || selection == 14) && !global.key_up && !global.key_down && !global.key_left && !global.key_right)
+if (global.key_accept && (selection == 4 || selection == 13 || selection == 17) && !global.key_up && !global.key_down && !global.key_left && !global.key_right)
 {
     bitsound(sndPauseSelect);
     if (selection == 4)
@@ -68,7 +72,7 @@ if (global.key_accept && (selection == 4 || selection == 13 || selection == 14) 
             show_item_pickup_text("Seed file loaded");
         }
     }
-    if (selection == 14)
+    if (selection == 17)
     {
         if (instance_exists(menu_choice))
         {
@@ -89,7 +93,7 @@ if (!global.key_left && !global.key_right && !global.key_up && !global.key_down)
 {
     voluming = 0;
 }
-if ((global.key_left_tap || global.key_left_repeat) && selection != 4 && selection != 13 && !global.key_up && !global.key_down)
+if ((global.key_left_tap || global.key_left_repeat) && selection != 4 && selection != 13 && selection != 17 && !global.key_up && !global.key_down)
 {
     bitsound(sndPauseScroll);
     if (selection == 0)
@@ -170,7 +174,11 @@ if ((global.key_left_tap || global.key_left_repeat) && selection != 4 && selecti
     }
     if (ds_zero_options("Hint System") < 0)
     {
-        ds_write_options("Hint System", 1);
+        ds_write_options("Hint System", 60);
+    }
+    if (ds_zero_options("Hint System") < 3)
+    {
+        ds_write_options("Hint System", 0);
     }
     if (selection == 10)
     {
@@ -178,7 +186,7 @@ if ((global.key_left_tap || global.key_left_repeat) && selection != 4 && selecti
     }
     if (ds_zero_options("Spiciness") < 0.25)
     {
-        ds_write_options("Spiciness", 5);
+        ds_write_options("Spiciness", 3);
     }
     if (selection == 11)
     {
@@ -196,8 +204,36 @@ if ((global.key_left_tap || global.key_left_repeat) && selection != 4 && selecti
     {
         ds_write_options("Auto Charge", 1);
     }
+    if (selection == 14)
+    {
+        ds_add_options("Dual Stick", -1);
+    }
+    if (ds_zero_options("Dual Stick") < 0)
+    {
+        ds_write_options("Dual Stick", 1);
+    }
+    if (selection == 15)
+    {
+        ds_add_options("FPS", -15);
+    }
+    if (ds_zero_options("FPS") < 15)
+    {
+        ds_write_options("FPS", 60);
+    }
+    if (ds_zero_options("FPS") == 60)
+    {
+        instance_destroy(TMC_FrameSkip_v2_Static_obj);
+    }
+    if (selection == 16)
+    {
+        ds_add_options("Tap Ball", -1);
+    }
+    if (ds_zero_options("Tap Ball") < 0)
+    {
+        ds_write_options("Tap Ball", 1);
+    }
 }
-if ((global.key_right_tap || global.key_right_repeat || global.key_accept) && selection != 4 && selection != 13 && !global.key_up && !global.key_down)
+if ((global.key_right_tap || global.key_right_repeat || global.key_accept) && selection != 4 && selection != 13 && selection != 17 && !global.key_up && !global.key_down)
 {
     bitsound(sndPauseScroll);
     if (selection == 0)
@@ -276,15 +312,19 @@ if ((global.key_right_tap || global.key_right_repeat || global.key_accept) && se
     {
         ds_add_options("Hint System", 1);
     }
-    if (ds_zero_options("Hint System") > 1)
+    if (ds_zero_options("Hint System") > 60)
     {
         ds_write_options("Hint System", 0);
+    }
+    if (ds_zero_options("Hint System") < 3 && ds_zero_options("Hint System") > 0)
+    {
+        ds_write_options("Hint System", 3);
     }
     if (selection == 10)
     {
         ds_add_options("Spiciness", 0.05);
     }
-    if (ds_zero_options("Spiciness") > 5)
+    if (ds_zero_options("Spiciness") > 3)
     {
         ds_write_options("Spiciness", 0.25);
     }
@@ -303,5 +343,33 @@ if ((global.key_right_tap || global.key_right_repeat || global.key_accept) && se
     if (ds_zero_options("Auto Charge") > 1)
     {
         ds_write_options("Auto Charge", 0);
+    }
+    if (selection == 14)
+    {
+        ds_add_options("Dual Stick", 1);
+    }
+    if (ds_zero_options("Dual Stick") > 1)
+    {
+        ds_write_options("Dual Stick", 0);
+    }
+    if (selection == 15)
+    {
+        ds_add_options("FPS", 15);
+    }
+    if (ds_zero_options("FPS") == 60)
+    {
+        instance_destroy(TMC_FrameSkip_v2_Static_obj);
+    }
+    if (ds_zero_options("FPS") > 60)
+    {
+        ds_write_options("FPS", 15);
+    }
+    if (selection == 16)
+    {
+        ds_add_options("Tap Ball", 1);
+    }
+    if (ds_zero_options("Tap Ball") > 1)
+    {
+        ds_write_options("Tap Ball", 0);
     }
 }

@@ -29,7 +29,7 @@ if (fade_out > 70)
 }
 if (!leaving)
 {
-    menu_offset = lerp(menu_offset, 0, 0.1);
+    menu_offset = lerp(menu_offset, 0 - ((selection > 3) * 48), 0.1);
 }
 if (leaving)
 {
@@ -90,6 +90,7 @@ if (selected)
 }
 if (global.key_accept && !global.key_up && !global.key_down && !global.key_left && !global.key_right)
 {
+    new_game_plus = 0;
     choice_made = 1;
     // -- MW Change: Move nyoom sound inside if statements
     if (submenu == 0)
@@ -147,12 +148,16 @@ else
     }
     sub_selection = clamp(sub_selection, 0, 1);
 }
-if (global.are_you_sure == 1)
+if (new_game_plus)
+{
+    can_delete = 0;
+}
+if (global.are_you_sure == 1 && !new_game_plus)
 {
     can_delete = 1;
     global.are_you_sure = 0;
 }
-if (can_delete)
+if (can_delete && !new_game_plus)
 {
     can_delete = 0;
     submenu = 0;
@@ -161,4 +166,76 @@ if (can_delete)
     ds_map_destroy(variable_instance_get(id, "map" + string(selection)));
     variable_instance_set(id, "map" + string(selection), ds_map_create());
     read_maps();
+}
+if (global.key_option_y && submenu == 0)
+{
+    if (selection == 0 && clear0)
+    {
+        instance_create(x, y, subsubmenu_are_you_sure);
+        bitsound(sndPauseSelect);
+        selected = 0;
+        choice_made = 0;
+        new_game_plus = 1;
+    }
+    if (selection == 1 && clear1)
+    {
+        instance_create(x, y, subsubmenu_are_you_sure);
+        bitsound(sndPauseSelect);
+        selected = 0;
+        choice_made = 0;
+        new_game_plus = 1;
+    }
+    if (selection == 2 && clear2)
+    {
+        instance_create(x, y, subsubmenu_are_you_sure);
+        bitsound(sndPauseSelect);
+        selected = 0;
+        choice_made = 0;
+        new_game_plus = 1;
+    }
+    if (selection == 3 && clear3)
+    {
+        instance_create(x, y, subsubmenu_are_you_sure);
+        bitsound(sndPauseSelect);
+        selected = 0;
+        choice_made = 0;
+        new_game_plus = 1;
+    }
+    if (selection == 4 && clear4)
+    {
+        instance_create(x, y, subsubmenu_are_you_sure);
+        bitsound(sndPauseSelect);
+        selected = 0;
+        choice_made = 0;
+        new_game_plus = 1;
+    }
+    if (selection == 5 && clear5)
+    {
+        instance_create(x, y, subsubmenu_are_you_sure);
+        bitsound(sndPauseSelect);
+        selected = 0;
+        choice_made = 0;
+        new_game_plus = 1;
+    }
+    if (selection == 6 && clear6)
+    {
+        instance_create(x, y, subsubmenu_are_you_sure);
+        bitsound(sndPauseSelect);
+        selected = 0;
+        choice_made = 0;
+        new_game_plus = 1;
+    }
+    if (selection == 7 && clear7)
+    {
+        instance_create(x, y, subsubmenu_are_you_sure);
+        bitsound(sndPauseSelect);
+        selected = 0;
+        choice_made = 0;
+        new_game_plus = 1;
+    }
+}
+if (global.are_you_sure == 1 && new_game_plus)
+{
+    global.are_you_sure = 0;
+    room_goto(rm_New_Game_Plus);
 }

@@ -11,7 +11,14 @@ function visibility()
 }
 
 visibility();
-key = ds_name + " " + string(room_get_name(room)) + " x" + string(x) + " y" + string(y);
+if (!dz("New Game+"))
+{
+    key = ds_name + " " + string(room_get_name(room)) + " x" + string(x) + " y" + string(y);
+}
+else
+{
+    key = string(dz("New Game+")) + "__" + ds_name + " " + string(room_get_name(room)) + " x" + string(x) + " y" + string(y);
+}
 if (ds_zero(key))
 {
     instance_destroy(self, false);

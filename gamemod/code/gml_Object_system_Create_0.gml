@@ -1,3 +1,8 @@
+global.as_igt_seconds = 0;
+global.as_igt_minutes = 0;
+global.as_igt_hours = 0;
+global.as_space_jump = 0;
+global.cannot_pause = 1;
 global.skip_intro = 0;
 global.hint_on = 0;
 global.hint_time = 0;

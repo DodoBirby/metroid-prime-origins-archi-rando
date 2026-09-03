@@ -98,13 +98,13 @@ if (selection == 9)
     menu_string += cursor_helmet();
 }
 menu_string += txt("Hint System: ");
-if (ds_zero_options("Hint System"))
+if (ds_zero_options("Hint System") == 0)
 {
-    menu_string += (txt("[wave]<[/wave] ON [wave]>[/wave]") + "\n");
+    menu_string += (txt("[wave]< [/wave]NO HINTS[wave] >[/wave]") + "\n");
 }
 else
 {
-    menu_string += (txt("[wave]<[/wave] OFF [wave]>[/wave]") + "\n");
+    menu_string += (txt("After") + " " + txt("[wave]< [/wave]" + string(ds_zero_options("Hint System")) + "[wave] >[/wave] ") + txt("minutes") + "\n");
 }
 if (ds_zero_options("Spiciness") >= 2.5)
 {
@@ -152,6 +152,38 @@ if (selection == 14)
 {
     menu_string += cursor_helmet();
 }
+menu_string += txt("Dual Stick Aim: ");
+if (ds_zero_options("Dual Stick"))
+{
+    menu_string += (txt("[wave]<[/wave] ON [wave]>[/wave]") + "\n");
+}
+else
+{
+    menu_string += (txt("[wave]<[/wave] OFF [wave]>[/wave]") + "\n");
+}
+if (selection == 15)
+{
+    menu_string += cursor_helmet();
+}
+menu_string += txt("FPS: ");
+menu_string += (txt("[wave]<[/wave] " + string(ds_zero_options("FPS")) + " [wave]>[/wave]") + "\n");
+if (selection == 16)
+{
+    menu_string += cursor_helmet();
+}
+menu_string += txt("Double-Tap to Morph: ");
+if (ds_zero_options("Tap Ball"))
+{
+    menu_string += (txt("[wave]<[/wave] ON [wave]>[/wave]") + "\n");
+}
+else
+{
+    menu_string += (txt("[wave]<[/wave] OFF [wave]>[/wave]") + "\n");
+}
+if (selection == 17)
+{
+    menu_string += cursor_helmet();
+}
 menu_string += (txt("Save + Return to Title") + "\n");
-menu_string += ("\n\n" + butt("cancel") + "/" + butt("menu") + txt(" Save Changes & Return"));
-draw_text_scribble(48, (global._screen_height - 12) + menu_offset, menu_string);
+menu_string += ("\n" + butt("cancel") + "/" + butt("menu") + txt(" Save Changes & Return"));
+draw_text_scribble(48, global._screen_height + menu_offset, menu_string);

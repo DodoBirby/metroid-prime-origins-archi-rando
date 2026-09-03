@@ -226,6 +226,37 @@ if (room == rm_Load_Game)
     ds_add("Sessions", 1);
     exit;
 }
+if (room == rm_New_Game_Plus)
+{
+    global.loaded = 0;
+    ds_map_destroy(global.savedata);
+    global.savedata = bitload(global.filename);
+    room_goto(tal_Landing_Site);
+    instance_create(400, 516, obj_samus);
+    ds_write("Ship", 1);
+    obj_samus.pose = 100;
+    obj_samus.y += 32;
+    arr = [];
+    ds_write("Teleport Array", arr);
+    ds_add("Sessions", 1);
+    ds_add("New Game+", 1);
+    ds_write("Flaahgra Defeated", 0);
+    ds_write("Thardus Defeated", 0);
+    ds_write("Omega Pirate Defeated", 0);
+    ds_write("Artifact 1", 0);
+    ds_write("Artifact 2", 0);
+    ds_write("Artifact 3", 0);
+    ds_write("Artifact 4", 0);
+    ds_write("Artifact 5", 0);
+    ds_write("Artifact 6", 0);
+    ds_write("Artifact 7", 0);
+    ds_write("Artifact 8", 0);
+    ds_write("Artifact 9", 0);
+    ds_write("Artifact 10", 0);
+    ds_write("Artifact 11", 0);
+    ds_write("Artifact 12", 0);
+    exit;
+}
 if (room == rm_New_Game)
 {
     start_game();

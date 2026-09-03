@@ -6,6 +6,7 @@ if (!(place_meeting(x, y, other) && !other.grappling && visible) && sprite_index
 {
     exit;
 }
+ds_write("Hint Delay", 0);
 // -- MW Changes Start: Prevent collection through tube
 if (position_meeting(x, y, obj_pirate_tube_0) || position_meeting(x, y, obj_pirate_tube_1))
 {
