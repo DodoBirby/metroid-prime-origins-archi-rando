@@ -31,6 +31,7 @@ class MetroidPrimeOriginsWorld(World):
     options_dataclass = MPOOptions
     options: MPOOptions
 
+    prime_exo_order: list[int] = []
     def create_regions(self) -> None:
         create_and_connect_regions(self)
         create_locations(self)
@@ -50,7 +51,8 @@ class MetroidPrimeOriginsWorld(World):
             "options": self.options.as_dict(
                 "end_at_ridley",
                 "ibj_in_logic"
-            )
+            ),
+            "exo_order": self.prime_exo_order
         }
 
     def generate_early(self):
@@ -63,6 +65,8 @@ class MetroidPrimeOriginsWorld(World):
                 opt = getattr(self.options, key, None)
                 if opt is not None:
                     setattr(self.options, key, opt.from_any(value))
+        self.prime_exo_order = [0, 1, 2, 3]
+        self.multiworld.random.shuffle(self.prime_exo_order)
 
     @staticmethod
     def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
@@ -77,6 +81,7 @@ class MetroidPrimeOriginsWorld(World):
         data = {
             "items": {location_name_to_game_key[location.name]: location.item.name for location in self.multiworld.get_filled_locations(self.player) if location.name in location_name_to_game_key},
             "starter_items": [item.name for item in self.multiworld.precollected_items[self.player]],
+            "exo_order": self.prime_exo_order
         }
 
         mod_name = self.multiworld.get_out_file_name_base(self.player)
