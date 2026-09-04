@@ -53,6 +53,7 @@ function load_seed_file(path)
         ds_list_copy(global.localStarterItems, ds_map_find_value(payload, "starter_items"));
         ds_list_copy(global.mwExoBeams, ds_map_find_value(payload, "exo_order"));
         global.mwPhazonHint = ds_map_find_value(payload, "phazon_hint");
+        global.mwEndAtRidley = ds_map_find_value(payload, "end_at_ridley");
         ds_map_destroy(payload);
         global.localSeed = true;
         result = true;

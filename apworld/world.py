@@ -82,7 +82,8 @@ class MetroidPrimeOriginsWorld(World):
             "items": {location_name_to_game_key[location.name]: location.item.name for location in self.multiworld.get_filled_locations(self.player) if location.name in location_name_to_game_key},
             "starter_items": [item.name for item in self.multiworld.precollected_items[self.player]],
             "exo_order": self.prime_exo_order,
-            "phazon_hint": self.multiworld.find_item("Phazon Suit", self.player).name
+            "phazon_hint": self.multiworld.find_item("Phazon Suit", self.player).name,
+            "end_at_ridley": self.options.end_at_ridley
         }
 
         mod_name = self.multiworld.get_out_file_name_base(self.player)
