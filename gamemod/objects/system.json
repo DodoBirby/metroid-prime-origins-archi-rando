@@ -79,7 +79,7 @@
     {
       "Category": "Other",
       "Subtype": "RoomStart",
-      "CodeEntry": "gml_Object_system_Other_4"
+      "CodeEntry": null
     },
     {
       "Category": "Other",
@@ -90,6 +90,11 @@
       "Category": "Other",
       "Subtype": "User5",
       "CodeEntry": "gml_Object_system_Other_15"
+    },
+    {
+      "Category": "Other",
+      "Subtype": "User6",
+      "CodeEntry": "gml_Object_system_Other_16"
     },
     {
       "Category": "Draw",
