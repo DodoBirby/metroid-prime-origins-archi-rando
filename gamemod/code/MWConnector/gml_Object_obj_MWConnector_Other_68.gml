@@ -25,39 +25,35 @@ function handle_items_cmd(payload)
     var etanks = ds_map_find_value(payload, "etanks");
     ds_write("Energy Tanks Max", etanks);
     var missiletanks = ds_map_find_value(payload, "missiletanks");
-    ds_write("Missiles Max", missiletanks * 5);
     var pbombtanks = ds_map_find_value(payload, "pbombtanks");
     ds_write("Power Bombs Max", pbombtanks * 2);
     
-    if (missiletanks > 0)
+
+    if (prevmissiletanks < missiletanks)
     {
-        ds_write("Missile Launcher", 1);
-        if (prevmissiletanks < missiletanks)
+        lastItemReceived = "Missile Tank";
+        for (var i = 0; i < missiletanks - prevmissiletanks; i++)
         {
-            numItemsReceived += missiletanks - prevmissiletanks;
-            lastItemReceived = "Missile Tank";
-            ds_add("Missiles", (missiletanks - prevmissiletanks) * 5);
+            numItemsReceived += 1;
+            grant_item("Missile Tank");
         }
     }
-    if (pbombtanks > 0)
+    if (prevpbombtanks < pbombtanks)
     {
-        ds_write("Power Bomb Detonator", 1);
-        if (prevpbombtanks < pbombtanks)
+        lastItemReceived = "Power Bomb";
+        for (var i = 0; i < pbombtanks - prevpbombtanks; i++)
         {
-            numItemsReceived += pbombtanks - prevpbombtanks;
-            lastItemReceived = "Power Bomb";
-            ds_add("Power Bombs", (pbombtanks - prevpbombtanks) * 2);
+            numItemsReceived += 1;
+            grant_item("Power Bomb");
         }
     }
-    if (etanks > 0)
+    if (prevetanks < etanks)
     {
-        ds_write("Energy Tank", 1);
-        if (prevetanks < etanks)
+        lastItemReceived = "Energy Tank";
+        for (var i = 0; i < etanks - prevetanks; i++)
         {
-            numItemsReceived += etanks - prevetanks;
-            lastItemReceived = "Energy Tank";
-            ds_write("Energy", 99);
-            ds_write("Energy Tanks", etanks);
+            numItemsReceived += 1;
+            grant_item("Energy Tank");
         }
     }
     
@@ -65,17 +61,9 @@ function handle_items_cmd(payload)
     for (var i = 0; i < ds_list_size(majorsList); i++)
     {
         var major = ds_list_find_value(majorsList, i);
-        var ds_name = convert_mw_name_to_ds_name(major);
-        if (dz(ds_name) == 0)
-        {
-            numItemsReceived += 1;
-            lastItemReceived = major;
-            ds_write(ds_name, 1);
-            if (string_pos("Artifact", ds_name) != 0)
-            {
-                mw_handle_aeon_powers(ds_name);
-            }
-        }
+        lastItemReceived = major;
+        numItemsReceived += 1;
+        grant_item(major);
     }
 
     if (numItemsReceived > 0)
