@@ -61,6 +61,7 @@ class MPOContext(SuperContext):
         self.mpo_sync_task: asyncio.Task[None] | None = None
         self.mpo_status: str = CONNECTION_INITIAL_STATUS
         self.end_at_ridley: bool = False
+        self.exo_order: list[int] = []
         self.mpo_connection_ip: str = "127.0.0.1"
         self.mpo_connection_port: int = PORT_NUMBER
         self.command_queue: list[MPOSyncCommand] = []
@@ -76,6 +77,7 @@ class MPOContext(SuperContext):
         if cmd == "Connected":
             async_start(self.send_msgs([{ "cmd": "LocationScouts", "locations": list(LOCATION_NAME_TO_ID.values()), "create_as_hint": 0 }]))
             self.end_at_ridley = args["slot_data"]["options"]["end_at_ridley"]
+            self.exo_order = args["slot_data"]["exo_order"]
             return
         if cmd == "LocationInfo":
             self.command_queue.append(MPOSyncCommand.SEND_LOCATION)
@@ -167,7 +169,8 @@ def get_locations_payload(ctx: MPOContext) -> str:
         "cmd": "locations",
         "locations": items_dict,
         "remote_items": remote_items_dict,
-        "end_at_ridley": ctx.end_at_ridley
+        "end_at_ridley": ctx.end_at_ridley,
+        "exo_order": ctx.exo_order,
     })
 
 async def parse_payload(ctx: MPOContext, data_decoded: dict[str, str]):
