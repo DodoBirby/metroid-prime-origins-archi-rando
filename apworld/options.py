@@ -15,6 +15,12 @@ class EndAtRidley(Toggle):
     """
     display_name = "End at Ridley"
 
+class ProgressiveGrappleBeam(Toggle):
+    """
+    Choose whether you want grapple beam to be a progressive item (Space Jump -> Grapple Beam).
+    """
+    display_name = "Progressive Grapple Beam"
+
 class UseVanillaItemPool(DefaultOnToggle):
     """
     Choose whether to use the vanilla item pool. If this setting is enabled then the filler percent options won't be used.
@@ -47,6 +53,7 @@ class EnergyTankFillerPercent(Range):
 class MPOOptions(PerGameCommonOptions):
     ibj_in_logic: IBJInLogic
     end_at_ridley: EndAtRidley
+    progressive_grapple_beam: ProgressiveGrappleBeam
     use_vanilla_pool: UseVanillaItemPool
     power_bomb_filler_percent: PowerBombFillerPercent
     energy_tank_filler_percent: EnergyTankFillerPercent

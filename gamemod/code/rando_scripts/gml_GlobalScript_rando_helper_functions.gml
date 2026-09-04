@@ -26,6 +26,17 @@ function grant_item(item)
             ds_add("Missiles", 5);
             ds_add("Missiles Max", 5);
             break;
+        case "Progressive Grapple Beam":
+            ds_add("ProgGrapples", 1);
+            if (dz("ProgGrapples") == 1)
+            {
+                grant_item("Space Jump Boots");
+            }
+            else if (dz("ProgGrapples") == 2)
+            {
+                grant_item("Grapple Beam");
+            }
+            break;
         default:
             var ds_name = convert_mw_name_to_ds_name(item);
             if (dz(ds_name) == 0)

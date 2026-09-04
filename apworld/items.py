@@ -39,18 +39,19 @@ ITEM_TABLE: dict[str, ItemData] = {
     "Spider Ball": ItemData(ItemClassification.progression),
     "Grapple Beam": ItemData(ItemClassification.progression),
     "Super Missile": ItemData(ItemClassification.progression),
-    "Artifact of Truth": ItemData(ItemClassification.progression),
-    "Artifact of Strength": ItemData(ItemClassification.progression),
-    "Artifact of Elder": ItemData(ItemClassification.progression),
-    "Artifact of Wild": ItemData(ItemClassification.progression),
-    "Artifact of Lifegiver": ItemData(ItemClassification.progression),
-    "Artifact of Chozo": ItemData(ItemClassification.progression),
-    "Artifact of Warrior": ItemData(ItemClassification.progression),
-    "Artifact of Nature": ItemData(ItemClassification.progression),
-    "Artifact of Sun": ItemData(ItemClassification.progression),
-    "Artifact of World": ItemData(ItemClassification.progression),
-    "Artifact of Spirit": ItemData(ItemClassification.progression),
-    "Artifact of Newborn": ItemData(ItemClassification.progression),
+    "Progressive Grapple Beam": ItemData(ItemClassification.progression, 0),
+    "Artifact of Truth": ItemData(ItemClassification.useful),
+    "Artifact of Strength": ItemData(ItemClassification.useful),
+    "Artifact of Elder": ItemData(ItemClassification.useful),
+    "Artifact of Wild": ItemData(ItemClassification.useful),
+    "Artifact of Lifegiver": ItemData(ItemClassification.useful),
+    "Artifact of Chozo": ItemData(ItemClassification.useful),
+    "Artifact of Warrior": ItemData(ItemClassification.useful),
+    "Artifact of Nature": ItemData(ItemClassification.useful),
+    "Artifact of Sun": ItemData(ItemClassification.useful),
+    "Artifact of World": ItemData(ItemClassification.useful),
+    "Artifact of Spirit": ItemData(ItemClassification.useful),
+    "Artifact of Newborn": ItemData(ItemClassification.useful),
     "Energy Tank": ItemData(ItemClassification.useful, 14, 4),
     "Power Bomb": ItemData(ItemClassification.useful, 5, 2, ItemClassification.progression_deprioritized_skip_balancing),
     "Missile Tank": ItemData(ItemClassification.filler, 50, 1, ItemClassification.progression_deprioritized_skip_balancing),
@@ -92,6 +93,12 @@ def create_filler_items(world: MetroidPrimeOriginsWorld, filler_needed: int) -> 
     assert len(itempool) == filler_needed
     return itempool
 
+def handle_progressive_grapple(world: MetroidPrimeOriginsWorld, itempool: list[Item]):
+    for i in range(len(itempool)):
+        item = itempool[i]
+        if item.name in ["Space Jump Boots", "Grapple Beam"]:
+            itempool[i] = world.create_item("Progressive Grapple Beam")
+
 def add_items_to_multiworld(world: MetroidPrimeOriginsWorld):
     if world.options.use_vanilla_pool:
         itempool: list[Item] = []
@@ -106,5 +113,8 @@ def add_items_to_multiworld(world: MetroidPrimeOriginsWorld):
         itempool = create_fixed_pool(world)
         filler_needed = len(world.multiworld.get_unfilled_locations(world.player)) - len(itempool)
         itempool += create_filler_items(world, filler_needed)
+
+    if world.options.progressive_grapple_beam:
+        handle_progressive_grapple(world, itempool)
 
     world.multiworld.itempool += itempool

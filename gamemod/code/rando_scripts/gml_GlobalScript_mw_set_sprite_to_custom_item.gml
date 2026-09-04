@@ -14,7 +14,7 @@ function mw_set_sprite_to_custom_item()
     self.is_aeon = false;
     self._fanfare = bgmFanfareItem;
     self.sends_message = true;
-    if (is_undefined(item))
+    if (item == 0)
     {
         sprite_index = spr_hive_mecha;
         self.upgrade_name = "a bug"
@@ -206,6 +206,18 @@ function mw_set_sprite_to_custom_item()
             self.upgrade_name = get_remote_item_name(self.key);
             sprite_index = sprItemArchi;
             self.description = "You feel you've done something useful.";
+            break;
+        case "Progressive Grapple Beam":
+            if (dz("ProgGrapples") == 0)
+            {
+                sprite_index = sprItemSpaceJump_strip3;
+                self.description = item_descriptions("Space Jump Boots");
+            }
+            else
+            {
+                sprite_index = sprItemGrappleBeam;
+                self.description = item_descriptions("Grapple Beam");
+            }
             break;
         default:
             sprite_index = spr_hive_mecha;
