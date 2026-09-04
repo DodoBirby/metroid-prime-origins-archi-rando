@@ -78,7 +78,11 @@ def create_filler_items(world: MetroidPrimeOriginsWorld, filler_needed: int) -> 
     itempool: list[Item] = []
     energy_tank_count = math.ceil(filler_needed * world.options.energy_tank_filler_percent / 100)
     power_bomb_count = math.ceil(filler_needed * world.options.power_bomb_filler_percent / 100)
-    missile_tank_count = filler_needed - energy_tank_count - power_bomb_count
+    missile_tank_count = max(filler_needed - energy_tank_count - power_bomb_count, 0)
+
+    if energy_tank_count + power_bomb_count + missile_tank_count > filler_needed:
+        power_bomb_count = filler_needed - energy_tank_count
+
     for _ in range(energy_tank_count):
         itempool.append(world.create_item("Energy Tank"))
     for _ in range(power_bomb_count):

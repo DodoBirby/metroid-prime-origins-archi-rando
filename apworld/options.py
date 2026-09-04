@@ -25,6 +25,7 @@ class PowerBombFillerPercent(Range):
     """
     Change the percentage of power bombs in the filler item pool. Higher values will make power bombs more common, lower values will make them rarer. Setting this to 0 will remove power bombs from the filler item pool.
     Leftover filler percent will be missile tanks.
+    If energy tank and power bomb filler is > 100% then there will be no missiles in the filler item pool and e-tanks will take priority over power bombs.
     """
     display_name = "Power Bomb filler percent"
     range_start = 0
@@ -35,6 +36,7 @@ class EnergyTankFillerPercent(Range):
     """
     Change the percentage of energy tanks in the filler item pool. Higher values will make energy tanks more common, lower values will make them rarer. Setting this to 0 will remove energy tanks from the filler item pool.
     Leftover filler percent will be missile tanks.
+    If energy tank and power bomb filler is > 100% then there will be no missiles in the filler item pool and e-tanks will take priority over power bombs.
     """
     display_name = "Energy Tank filler percent"
     range_start = 0
