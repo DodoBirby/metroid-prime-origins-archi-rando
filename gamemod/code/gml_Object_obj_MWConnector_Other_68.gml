@@ -2,8 +2,10 @@ function handle_locations_cmd(payload)
 {
     var locationsMap = ds_map_find_value(payload, "locations");
     var remoteLocationsMap = ds_map_find_value(payload, "remote_items");
+    var exoOrder = ds_map_find_value(payload, "exo_order");
     ds_map_copy(global.mwLocations, locationsMap);
     ds_map_copy(global.mwRemoteLocations, remoteLocationsMap);
+    ds_list_copy(global.mwExoBeams, exoOrder);
     global.mwEndAtRidley = ds_map_find_value(payload, "end_at_ridley");
     receivedSeedFromClient = true;
 }

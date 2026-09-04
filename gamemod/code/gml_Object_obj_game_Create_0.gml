@@ -161,7 +161,14 @@ function start_game()
         {
             grant_item(ds_list_find_value(global.localStarterItems, i));
         }
+        ds_write("MWPhazonHint", global.mwPhazonHint);
     }
+    var lockedBeams = [0, 1, 2, 3];
+    for (var i = 0; i < ds_list_size(global.mwExoBeams); i++)
+    {
+        lockedBeams[i] = ds_list_find_value(global.mwExoBeams, i);
+    }
+    ds_write("MWLockedExoBeams", lockedBeams);
     
     // Ship teleport unlock
     var identity = string(tal_Landing_Site) + " Save Point";
