@@ -14,18 +14,18 @@ function grant_item(item)
             ds_write("Power Bomb Detonator", 1);
             ds_add("Power Bombs", 2);
             ds_add("Power Bombs Max", 2);
-            break;
+            return true;
         case "Energy Tank":
             ds_add("Energy Tanks Max", 1);
             ds_write("Energy", 99);
             ds_write("Energy Tanks", dz("Energy Tanks Max"));
             ds_write("Energy Tank", 1);
-            break;
+            return true;
         case "Missile Tank":
             ds_write("Missile Launcher", 1);
             ds_add("Missiles", 5);
             ds_add("Missiles Max", 5);
-            break;
+            return true;
         case "Progressive Grapple Beam":
             ds_add("ProgGrapples", 1);
             if (dz("ProgGrapples") == 1)
@@ -36,7 +36,7 @@ function grant_item(item)
             {
                 grant_item("Grapple Beam");
             }
-            break;
+            return true;
         default:
             var ds_name = convert_mw_name_to_ds_name(item);
             if (dz(ds_name) == 0)
@@ -46,8 +46,9 @@ function grant_item(item)
                 {
                     mw_handle_aeon_powers(ds_name);
                 }
+                return true;
             }
-            break;
+            return false;
     }
 }
 

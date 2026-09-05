@@ -69,9 +69,11 @@ function handle_items_cmd(payload)
     for (var i = 0; i < ds_list_size(majorsList); i++)
     {
         var major = ds_list_find_value(majorsList, i);
-        lastItemReceived = major;
-        numItemsReceived += 1;
-        grant_item(major);
+        if (grant_item(major))
+        {
+            lastItemReceived = major;
+            numItemsReceived += 1;
+        }
     }
 
     if (numItemsReceived > 0)
