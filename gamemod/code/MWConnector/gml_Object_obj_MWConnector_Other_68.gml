@@ -22,12 +22,11 @@ function handle_items_cmd(payload)
     var prevmissiletanks = dz("Missiles Max") / 5;
     var prevetanks = dz("Energy Tanks Max");
     var prevpbombtanks = dz("Power Bombs Max") / 2;
+    var prevproggrapples = dz("ProgGrapples");
     var etanks = ds_map_find_value(payload, "etanks");
-    ds_write("Energy Tanks Max", etanks);
     var missiletanks = ds_map_find_value(payload, "missiletanks");
     var pbombtanks = ds_map_find_value(payload, "pbombtanks");
-    ds_write("Power Bombs Max", pbombtanks * 2);
-    
+    var proggrapples = ds_map_find_value(payload, "proggrapples");
 
     if (prevmissiletanks < missiletanks)
     {
@@ -54,6 +53,15 @@ function handle_items_cmd(payload)
         {
             numItemsReceived += 1;
             grant_item("Energy Tank");
+        }
+    }
+    if (prevproggrapples < proggrapples)
+    {
+        lastItemReceived = "Progressive Grapple";
+        for (var i = 0; i < proggrapples - prevproggrapples; i++)
+        {
+            numItemsReceived += 1;
+            grant_item("Progressive Grapple Beam");
         }
     }
     

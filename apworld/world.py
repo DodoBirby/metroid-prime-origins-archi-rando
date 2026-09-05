@@ -84,7 +84,7 @@ class MetroidPrimeOriginsWorld(World):
             "starter_items": [item.name for item in self.multiworld.precollected_items[self.player]],
             "exo_order": self.prime_exo_order,
             "phazon_hint": self.multiworld.find_item("Phazon Suit", self.player).name,
-            "end_at_ridley": self.options.end_at_ridley
+            "end_at_ridley": self.options.end_at_ridley.value
         }
 
         mod_name = self.multiworld.get_out_file_name_base(self.player)

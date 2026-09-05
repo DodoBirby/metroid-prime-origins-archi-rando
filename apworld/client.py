@@ -119,6 +119,7 @@ def create_items_payload(ctx: MPOContext) -> str:
     etanks = 0
     missiletanks = 0
     pbombtanks = 0
+    proggrapples = 0
     for itemname in itemnames_received:
         match itemname:
             case "Energy Tank":
@@ -127,6 +128,8 @@ def create_items_payload(ctx: MPOContext) -> str:
                 missiletanks += 1
             case "Power Bomb":
                 pbombtanks += 1
+            case "Progressive Grapple Beam":
+                proggrapples += 1
             case _:
                 majors.append(itemname)
     return json.dumps({
@@ -134,6 +137,7 @@ def create_items_payload(ctx: MPOContext) -> str:
         "etanks": etanks,
         "missiletanks": missiletanks,
         "pbombtanks": pbombtanks,
+        "proggrapples": proggrapples,
         "majors": majors
     })
 
