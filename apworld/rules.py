@@ -158,7 +158,7 @@ def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Chozo Ruins) Ruined Shrine - Tunnel", CAN_DESTROY_BOMB_BLOCKS & Has(MORPH), world)
 
     # Tower of Light
-    set_location_rule("(Chozo Ruins) Tower of Light", Has(MISSILE), world)
+    set_location_rule("(Chozo Ruins) Tower of Light", CAN_SUPER_MISSILE, world)
     set_location_rule("(Chozo Ruins) Tower Chamber", CAN_TRAVERSE_UNDERWATER & Has(WAVE), world)
 
     # Flaahgra and ghost
