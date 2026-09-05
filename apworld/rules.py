@@ -35,6 +35,7 @@ CAN_BOOST = Has(MORPH) & Has("Boost Ball")
 CAN_PB = Has(MORPH) & Has("Power Bomb")
 CAN_GRAPPLE = OptionFilter(ProgressiveGrappleBeam, True) & Has("Progressive Grapple Beam", 2) | OptionFilter(ProgressiveGrappleBeam, False) & Has(GRAPPLE)
 CAN_SPACEJUMP = OptionFilter(ProgressiveGrappleBeam, True) & Has("Progressive Grapple Beam", 1) | OptionFilter(ProgressiveGrappleBeam, False) & Has(SPACEJUMP)
+CAN_SPRING = CAN_BOMB
 
 CAN_DESTROY_BOMB_BLOCKS = CAN_BOMB | CAN_PB | Has(SCREW)
 CAN_DESTROY_BLOCKS_WHILE_MORPHED = CAN_BOMB | CAN_PB
@@ -194,7 +195,8 @@ def set_phendrana_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Phendrana Drifts) Phendrana Shorelines - Hidden Tunnel", Has(MISSILE) & Has("Boost Ball"), world)
 
     # Ice Temple
-    set_location_rule("(Phendrana Drifts) Chozo Ice Temple - Frozen Floor", Has(MORPH) & Has(PLASMA) | CAN_BOOST, world)
+    # Spring is needed to break a ceiling boost block in the secret remix tunnel
+    set_location_rule("(Phendrana Drifts) Chozo Ice Temple - Frozen Floor", (Has(MORPH) & Has(PLASMA)) | (CAN_BOOST & CAN_SPRING), world)
     set_location_rule("(Phendrana Drifts) Chapel of the Elders", Has(MORPH) & CAN_BOMB & Has(MISSILE), world)
 
     # Central Phendrana
