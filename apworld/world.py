@@ -52,7 +52,8 @@ class MetroidPrimeOriginsWorld(World):
                 "end_at_ridley",
                 "ibj_in_logic",
                 "progressive_grapple_beam",
-                "sm_walljumps_in_logic"
+                "sm_walljumps_in_logic",
+                "hellruns_in_logic"
             ),
             "exo_order": self.prime_exo_order,
         }

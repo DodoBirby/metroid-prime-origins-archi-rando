@@ -16,6 +16,12 @@ class SMWalljumpsInLogic(Toggle):
     """
     display_name = "SM Walljumps in logic"
 
+class HellrunsInLogic(Toggle):
+    """
+    Choose whether you want hellruns (going through heated rooms/phazon without the corresponding suits) to be in logic.
+    """
+    display_name = "Hellruns in logic"
+
 class EndAtRidley(Toggle):
     """
     Choose whether you want to end the game when defeating Ridley at the Artifact temple (Instead of when you reach your ship after defeating Metroid Prime).
@@ -60,6 +66,7 @@ class EnergyTankFillerPercent(Range):
 class MPOOptions(PerGameCommonOptions):
     ibj_in_logic: IBJInLogic
     sm_walljumps_in_logic: SMWalljumpsInLogic
+    hellruns_in_logic: HellrunsInLogic
     end_at_ridley: EndAtRidley
     progressive_grapple_beam: ProgressiveGrappleBeam
     use_vanilla_pool: UseVanillaItemPool
