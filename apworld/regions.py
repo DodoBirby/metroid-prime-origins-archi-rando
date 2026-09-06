@@ -180,6 +180,7 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
 
     _ = upper_reflecting_pool.connect(overgrown_cavern, "Upper Reflecting Pool to Overgrown Cavern")
     _ = upper_reflecting_pool.connect(east_tallon, "Upper Reflecting Pool to East Tallon")
+    _ = upper_reflecting_pool.connect(lower_reflecting_pool)
 
     _ = east_magmoor.connect(upper_west_ruins)
     _ = east_magmoor.connect(central_magmoor, "East Magmoor to Central Magmoor")
