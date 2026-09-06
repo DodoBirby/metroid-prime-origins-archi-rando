@@ -51,7 +51,8 @@ class MetroidPrimeOriginsWorld(World):
             "options": self.options.as_dict(
                 "end_at_ridley",
                 "ibj_in_logic",
-                "progressive_grapple_beam"
+                "progressive_grapple_beam",
+                "sm_walljumps_in_logic"
             ),
             "exo_order": self.prime_exo_order,
         }

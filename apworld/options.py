@@ -9,6 +9,13 @@ class IBJInLogic(Toggle):
     """
     display_name = "IBJs in logic"
 
+class SMWalljumpsInLogic(Toggle):
+    """
+    Choose whether you want SM style walljumps (tapping the opposite direction to the wall then hitting jump) to be in logic.
+    These walljumps are more versatile than the standard walljump but are trickier to perform.
+    """
+    display_name = "SM Walljumps in logic"
+
 class EndAtRidley(Toggle):
     """
     Choose whether you want to end the game when defeating Ridley at the Artifact temple (Instead of when you reach your ship after defeating Metroid Prime).
@@ -52,6 +59,7 @@ class EnergyTankFillerPercent(Range):
 @dataclass
 class MPOOptions(PerGameCommonOptions):
     ibj_in_logic: IBJInLogic
+    sm_walljumps_in_logic: SMWalljumpsInLogic
     end_at_ridley: EndAtRidley
     progressive_grapple_beam: ProgressiveGrappleBeam
     use_vanilla_pool: UseVanillaItemPool

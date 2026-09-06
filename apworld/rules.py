@@ -3,9 +3,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from rule_builder.options import OptionFilter
-from rule_builder.rules import CanReachRegion, Has, Rule
+from rule_builder.rules import CanReachLocation, CanReachRegion, Has, Rule
 
-from .options import EndAtRidley, IBJInLogic, ProgressiveGrappleBeam
+from .options import EndAtRidley, IBJInLogic, ProgressiveGrappleBeam, SMWalljumpsInLogic
 
 if TYPE_CHECKING:
     from .world import MetroidPrimeOriginsWorld
@@ -23,8 +23,6 @@ VARIA = "Varia Suit"
 GRAVITY = "Gravity Suit"
 PHAZON = "Phazon Suit"
 
-SPACEJUMP = "Space Jump Boots"
-GRAPPLE = "Grapple Beam"
 SCREW = "Screw Attack"
 
 CAN_SPIDER = Has("Spider Ball") & Has(MORPH)
@@ -33,9 +31,11 @@ CAN_BOMB = Has(MORPH) & Has("Morph Ball Bomb")
 CAN_SUPER_MISSILE = Has(MISSILE) & Has("Super Missile")
 CAN_BOOST = Has(MORPH) & Has("Boost Ball")
 CAN_PB = Has(MORPH) & Has("Power Bomb")
-CAN_GRAPPLE = OptionFilter(ProgressiveGrappleBeam, True) & Has("Progressive Grapple Beam", 2) | OptionFilter(ProgressiveGrappleBeam, False) & Has(GRAPPLE)
-CAN_SPACEJUMP = OptionFilter(ProgressiveGrappleBeam, True) & Has("Progressive Grapple Beam", 1) | OptionFilter(ProgressiveGrappleBeam, False) & Has(SPACEJUMP)
+CAN_GRAPPLE = OptionFilter(ProgressiveGrappleBeam, True) & Has("Progressive Grapple Beam", 2) | OptionFilter(ProgressiveGrappleBeam, False) & Has("Grapple Beam")
+CAN_SPACEJUMP = OptionFilter(ProgressiveGrappleBeam, True) & Has("Progressive Grapple Beam", 1) | OptionFilter(ProgressiveGrappleBeam, False) & Has("Space Jump Boots")
 CAN_SPRING = CAN_BOMB
+
+SM_WALLJUMP = OptionFilter(SMWalljumpsInLogic, True)
 
 CAN_DESTROY_BOMB_BLOCKS = CAN_BOMB | CAN_PB | Has(SCREW)
 CAN_DESTROY_BLOCKS_WHILE_MORPHED = CAN_BOMB | CAN_PB
@@ -49,6 +49,7 @@ CAN_TRAVERSE_FRIGATE = Has(WAVE) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & CAN_TRAVER
 # This rule should be used for overhangs where you can't swwj but you can get through with vertical movement or climbing up the side
 CAN_TRAVERSE_LOW_OVERHANG = CAN_SPACEJUMP | CAN_SPIDER | CAN_GRAPPLE | CAN_IBJ
 CAN_TRAVERSE_HIGH_OVERHANG = CAN_GRAPPLE | CAN_SPIDER | CAN_IBJ
+CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ = CAN_TRAVERSE_LOW_OVERHANG | SM_WALLJUMP
 
 CAN_BEAT_THARDUS = Has("Energy Tank", 2) & Has(CHARGE)
 
@@ -56,7 +57,7 @@ CAN_BEAT_CRATER = Has("Energy Tank", 4) & Has(WAVE) & Has(PLASMA) & Has(ICE) & H
 # This is possibly too difficult as a base setting, open to changing it
 CAN_BEAT_RIDLEY = Has("Energy Tank", 4) & Has(CHARGE) & Has(PLASMA)
 
-CAN_BEAT_ENDGAME = OptionFilter(EndAtRidley, False) & CAN_BEAT_CRATER | OptionFilter(EndAtRidley, True) & CAN_BEAT_RIDLEY
+CAN_BEAT_ENDGAME = OptionFilter(EndAtRidley, False) & CAN_BEAT_CRATER & CAN_BEAT_RIDLEY | OptionFilter(EndAtRidley, True) & CAN_BEAT_RIDLEY
 def set_location_rule(name: str, rule: Rule[Any], world: MetroidPrimeOriginsWorld):
     world.set_rule(world.get_location(name), rule)
 
@@ -84,10 +85,10 @@ def set_tallon_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Tallon Overworld) Biohazard Containment", CAN_SUPER_MISSILE, world)
 
     # West Tallon
-    set_location_rule("(Tallon Overworld) Arbor Chamber", Has(PLASMA) & CAN_TRAVERSE_LOW_OVERHANG, world)
+    set_location_rule("(Tallon Overworld) Arbor Chamber", Has(PLASMA) & CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ, world)
 
     # Crash Site Left
-    set_location_rule("(Tallon Overworld) Crash Site - Underwater Ledge", (Has(GRAVITY) & CAN_TRAVERSE_LOW_OVERHANG) | CAN_GRAPPLE, world)
+    set_location_rule("(Tallon Overworld) Crash Site - Underwater Ledge", (Has(GRAVITY) & CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ) | CAN_GRAPPLE, world)
 
     # Gated East Tallon
     set_location_rule("(Tallon Overworld) Great Tree Chamber", Has(SCREW), world)
@@ -103,10 +104,10 @@ def set_tallon_location_rules(world: MetroidPrimeOriginsWorld):
 
 def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     # West Chozo Ruins
-    set_location_rule("(Chozo Ruins) Main Plaza - Super Missile Blocks", Has(MISSILE) & CAN_TRAVERSE_LOW_OVERHANG, world)
+    set_location_rule("(Chozo Ruins) Main Plaza - Super Missile Blocks", Has(MISSILE) & CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ, world)
     set_location_rule("(Chozo Ruins) Main Plaza - Boost Ball Ramp", CAN_BOOST | CAN_SPACEJUMP, world)
-    set_location_rule("(Chozo Ruins) Main Plaza - Lower Ledge", CAN_TRAVERSE_LOW_OVERHANG | CanReachRegion("(Chozo Ruins) Vault"), world)
-    set_location_rule("(Chozo Ruins) Main Plaza - Top Ledge", CAN_GRAPPLE | CAN_IBJ, world)
+    set_location_rule("(Chozo Ruins) Main Plaza - Lower Ledge", CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ | CanReachRegion("(Chozo Ruins) Vault"), world)
+    set_location_rule("(Chozo Ruins) Main Plaza - Top Ledge", CAN_GRAPPLE | CAN_IBJ | (CAN_SPACEJUMP & SM_WALLJUMP), world)
     set_location_rule("(Chozo Ruins) Ruined Nursery", CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(MORPH), world)
     set_location_rule("(Chozo Ruins) Ruined Gallery - Right Tunnel", Has(MORPH), world)
     set_location_rule("(Chozo Ruins) Ruined Gallery - Left Wall", Has(MISSILE), world)
@@ -126,7 +127,7 @@ def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
 
     # Dynamo
     set_location_rule("(Chozo Ruins) Dynamo - Bottom", Has(MISSILE), world)
-    set_location_rule("(Chozo Ruins) Dynamo - Top", CAN_TRAVERSE_LOW_OVERHANG, world)
+    set_location_rule("(Chozo Ruins) Dynamo - Top", CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ, world)
 
     # Energy Core
     set_location_rule("(Chozo Ruins) Burn Dome - Fight Reward", Has(MORPH), world)
@@ -172,15 +173,15 @@ def set_magmoor_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Magmoor Caverns) Triclops Pit", Has(MISSILE) & Has(VARIA), world)
     set_location_rule("(Magmoor Caverns) Storage Cavern", Has(MORPH) & Has(VARIA), world)
     set_location_rule("(Magmoor Caverns) Transport Tunnel A", Has(MORPH) & Has(VARIA), world)
-    set_location_rule("(Magmoor Caverns) Warrior Shrine - Statue", Has(VARIA) & ((CAN_BOOST & CAN_TRAVERSE_LOW_OVERHANG) | CAN_IBJ | CAN_GRAPPLE), world)
-    set_location_rule("(Magmoor Caverns) Fiery Shores - from Warrior Shrine", CAN_PB & Has(MORPH) & Has(VARIA) & ((CAN_BOOST & CAN_TRAVERSE_LOW_OVERHANG) | CAN_IBJ | CAN_GRAPPLE), world)
+    set_location_rule("(Magmoor Caverns) Warrior Shrine - Statue", Has(VARIA) & ((CAN_BOOST & CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ) | CAN_IBJ | CAN_GRAPPLE), world)
+    set_location_rule("(Magmoor Caverns) Fiery Shores - from Warrior Shrine", CAN_PB & Has(MORPH) & CanReachLocation("(Magmoor Caverns) Warrior Shrine - Statue"), world)
     set_location_rule("(Magmoor Caverns) Shore Tunnel - Glass Tube", Has(VARIA) & CAN_PB, world)
 
     # Central Magmoor Elevator
     set_location_rule("(Magmoor Caverns) Fiery Shores - Top Left", Has(VARIA) & Has(MORPH), world)
 
     # Geothermal Core
-    set_location_rule("(Magmoor Caverns) Plasma Processing", Has(MORPH) & Has(ICE) & Has(VARIA) & CAN_TRAVERSE_LOW_OVERHANG & CAN_BOOST & CAN_DESTROY_BLOCKS_WHILE_MORPHED & CAN_GRAPPLE, world)
+    set_location_rule("(Magmoor Caverns) Plasma Processing", Has(MORPH) & Has(ICE) & Has(VARIA) & CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ & CAN_BOOST & CAN_DESTROY_BLOCKS_WHILE_MORPHED & CAN_GRAPPLE, world)
 
     # West Magmoor
     set_location_rule("(Magmoor Caverns) Magmoor Workstation", CAN_BOMB & CAN_SPIDER & Has(WAVE), world)
@@ -210,7 +211,7 @@ def set_phendrana_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Phendrana Drifts) Research Lab Hydra", CAN_SUPER_MISSILE, world)
 
     # Research Lab Aether
-    set_location_rule("(Phendrana Drifts) Control Tower", Has(MISSILE) & CAN_DESTROY_GLASS_BLOCK & CAN_TRAVERSE_LOW_OVERHANG, world)
+    set_location_rule("(Phendrana Drifts) Control Tower", Has(MISSILE) & CAN_DESTROY_GLASS_BLOCK & CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ, world)
     set_location_rule("(Phendrana Drifts) Research Lab Aether - Hidden Passage", Has(MORPH), world)
     set_location_rule("(Phendrana Drifts) Research Lab Aether - Display Case", Has(MISSILE), world)
 
@@ -296,7 +297,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("West Ruins to Central Ruins", Has(MORPH), world)
     set_entrance_rule("West Ruins to Ruined Shrine", Has(MISSILE), world)
     set_entrance_rule("West Ruins to Past Magma Pool", CAN_GRAPPLE & Has(MORPH), world)
-    set_entrance_rule("West Ruins to Vault", CAN_TRAVERSE_LOW_OVERHANG & Has(WAVE), world)
+    set_entrance_rule("West Ruins to Vault", CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ & Has(WAVE), world)
 
     set_entrance_rule("Vault to Upper West Ruins", Has(MORPH), world)
 
@@ -321,14 +322,14 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Energy Core to Furnace", CAN_TRAVERSE_LOW_OVERHANG | CAN_BOMB, world)
     set_entrance_rule("Energy Core to Gathering Hall", Has(MORPH), world)
 
-    set_entrance_rule("Furnace to Upper Furnace", Has(MORPH) & CAN_DESTROY_BOMB_BLOCKS & (CAN_SPIDER | CAN_GRAPPLE), world)
+    set_entrance_rule("Furnace to Upper Furnace", Has(MORPH) & CAN_DESTROY_BOMB_BLOCKS & (CAN_SPIDER | CAN_GRAPPLE | SM_WALLJUMP), world)
 
     set_entrance_rule("Upper Furnace to Crossway", Has(MORPH), world)
     set_entrance_rule("Upper Furnace to Elder Hall", Has(ICE), world)
 
     set_entrance_rule("Crossway to Elder Hall", CAN_BOOST & ((Has(ICE) & Has(MORPH)) | Has(MISSILE)), world)
 
-    set_entrance_rule("Elder Hall to Lower Reflecting Pool", Has(WAVE) & CAN_BOMB & CAN_TRAVERSE_LOW_OVERHANG, world)
+    set_entrance_rule("Elder Hall to Lower Reflecting Pool", Has(WAVE) & CAN_BOMB & CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ, world)
 
     set_entrance_rule("Lower Pool to Upper Pool", (CAN_DESTROY_BOMB_BLOCKS & CAN_BOOST) | CAN_GRAPPLE | CAN_IBJ, world)
 
@@ -355,10 +356,10 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
 
     set_entrance_rule("West Phendrana to West Magmoor", Has(VARIA), world)
     set_entrance_rule("West Phendrana to Thardus Area", Has(MORPH) & CAN_BEAT_THARDUS, world)
-    set_entrance_rule("West Phendrana Elevator to Edge Lower", CAN_TRAVERSE_LOW_OVERHANG & Has(ICE) & Has(MORPH), world)
+    set_entrance_rule("West Phendrana Elevator to Edge Lower", CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ & Has(ICE) & Has(MORPH), world)
 
     set_entrance_rule("Shorelines to Ice Temple", CAN_DESTROY_GLASS_BLOCK & Has("Boost Ball"), world)
-    set_entrance_rule("Shorelines to Central Phendrana", CAN_TRAVERSE_LOW_OVERHANG & Has(WAVE), world)
+    set_entrance_rule("Shorelines to Central Phendrana", CAN_TRAVERSE_LOW_OVERHANG & Has(WAVE) & Has(MISSILE), world)
     set_entrance_rule("Shorelines to East Phendrana", CAN_DESTROY_GLASS_BLOCK, world)
 
     set_entrance_rule("West Phazon to West Magmoor", Has(VARIA) & CAN_PB & Has(ICE), world)
@@ -437,8 +438,8 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Processing Center Access to Omega Pirate Area", Has(PHAZON), world)
 
     set_entrance_rule("Processing Center to Processing Center Access", Has(PHAZON) & Has(PLASMA), world)
-    set_entrance_rule("Processing Center to West Elevator", CAN_TRAVERSE_LOW_OVERHANG & Has(MORPH) & Has(ICE), world)
-    set_entrance_rule("Processing Center to Elite Control Access", CAN_TRAVERSE_LOW_OVERHANG & CAN_PB & Has(MORPH), world)
+    set_entrance_rule("Processing Center to West Elevator", CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ & Has(MORPH) & Has(ICE), world)
+    set_entrance_rule("Processing Center to Elite Control Access", CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ & CAN_PB & Has(MORPH), world)
 
 def set_location_rules(world: MetroidPrimeOriginsWorld):
     set_tallon_location_rules(world)
