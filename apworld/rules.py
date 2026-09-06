@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any
 from rule_builder.options import OptionFilter
 from rule_builder.rules import CanReachLocation, CanReachRegion, Has, Rule
 
-from .options import EndAtRidley, IBJInLogic, ProgressiveGrappleBeam, SMWalljumpsInLogic
+from .options import EndAtRidley, HellrunsInLogic, IBJInLogic, ProgressiveGrappleBeam, SMWalljumpsInLogic
 
 if TYPE_CHECKING:
     from .world import MetroidPrimeOriginsWorld
@@ -36,6 +36,10 @@ CAN_SPACEJUMP = OptionFilter(ProgressiveGrappleBeam, True) & Has("Progressive Gr
 CAN_SPRING = CAN_BOMB
 
 SM_WALLJUMP = OptionFilter(SMWalljumpsInLogic, True)
+HELLRUN = OptionFilter(HellrunsInLogic, True)
+ONE_E_HELLRUN = HELLRUN & Has("Energy Tank", 1)
+TWO_E_HELLRUN = HELLRUN & Has("Energy Tank", 2)
+FOUR_E_HELLRUN = HELLRUN & Has("Energy Tank", 4)
 
 CAN_DESTROY_BOMB_BLOCKS = CAN_BOMB | CAN_PB | Has(SCREW)
 CAN_DESTROY_BLOCKS_WHILE_MORPHED = CAN_BOMB | CAN_PB
@@ -51,7 +55,7 @@ CAN_TRAVERSE_LOW_OVERHANG = CAN_SPACEJUMP | CAN_SPIDER | CAN_GRAPPLE | CAN_IBJ
 CAN_TRAVERSE_HIGH_OVERHANG = CAN_GRAPPLE | CAN_SPIDER | CAN_IBJ
 CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ = CAN_TRAVERSE_LOW_OVERHANG | SM_WALLJUMP
 
-CAN_BEAT_THARDUS = Has("Energy Tank", 2) & Has(CHARGE)
+CAN_BEAT_THARDUS = Has("Energy Tank", 2) & (Has(CHARGE) | Has(PLASMA))
 
 CAN_BEAT_CRATER = Has("Energy Tank", 4) & Has(WAVE) & Has(PLASMA) & Has(ICE) & Has(CHARGE) & Has(PHAZON) & CAN_GRAPPLE & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(MORPH) & Has(MISSILE)
 # This is possibly too difficult as a base setting, open to changing it
@@ -122,7 +126,7 @@ def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     # Gathering Hall
     set_location_rule("(Chozo Ruins) Watery Hall Access", Has(MISSILE), world)
     set_location_rule("(Chozo Ruins) Watery Hall - Top", Has(MISSILE), world)
-    set_location_rule("(Chozo Ruins) Watery Hall - Underwater Tunnel", Has(MISSILE) & CAN_TRAVERSE_UNDERWATER, world)
+    set_location_rule("(Chozo Ruins) Watery Hall - Underwater Tunnel", Has(MISSILE) & CAN_TRAVERSE_UNDERWATER & (Has("Kill Flaahgra") | HELLRUN), world)
     set_location_rule("(Chozo Ruins) Gathering Hall", Has(MORPH) & CAN_DESTROY_BOMB_BLOCKS, world)
 
     # Dynamo
@@ -150,7 +154,7 @@ def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Chozo Ruins) Antechamber", Has(MISSILE) & CAN_BOMB, world)
 
     # Past Magma Pool
-    set_location_rule("(Chozo Ruins) Magma Pool", CAN_PB & Has(VARIA), world)
+    set_location_rule("(Chozo Ruins) Magma Pool", CAN_PB & (Has(VARIA) | HELLRUN), world)
     set_location_rule("(Chozo Ruins) Training Chamber Access", Has(MORPH), world)
     set_location_rule("(Chozo Ruins) Training Chamber", (CAN_BOOST | CAN_TRAVERSE_LOW_OVERHANG) & CAN_BOMB & Has(MORPH) & Has(ICE), world)
 
@@ -251,9 +255,10 @@ def set_phazon_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Phazon Mines) Metroid Quarantine A", CAN_TRAVERSE_LOW_OVERHANG & Has(SCREW) & CAN_PB, world)
 
     # Fungal Hall Access
-    set_location_rule("(Phazon Mines) Fungal Hall Access", Has(MORPH) & Has(PHAZON), world)
+    set_location_rule("(Phazon Mines) Fungal Hall Access", Has(MORPH) & (Has(PHAZON) | HELLRUN), world)
 
     # Phazon Mining Tunnel
+    # TODO: Check how many e-tanks this takes with just morph and bombs
     set_location_rule("(Phazon Mines) Phazon Mining Tunnel", Has(MORPH) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(PHAZON), world)
 
     # Fungal Hall B
@@ -308,8 +313,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
 
     set_entrance_rule("Ruined Shrine to Tower of Light", Has(WAVE) & (CAN_SPIDER | CAN_GRAPPLE), world)
 
-    # Lenient rule
-    set_entrance_rule("Central Ruins to Past Magma Pool", Has(VARIA) & Has(WAVE) & CAN_GRAPPLE, world)
+    set_entrance_rule("Central Ruins to Past Magma Pool", (Has(VARIA) | ONE_E_HELLRUN) & Has(WAVE) & CAN_GRAPPLE, world)
     set_entrance_rule("Central Ruins to Arboretum", Has(MISSILE), world)
     set_entrance_rule("Central Ruins to West Ruins", Has(MORPH), world)
     
@@ -344,6 +348,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
 
     set_entrance_rule("Central Elevator to Central Magmoor", Has(MORPH) & Has(VARIA), world)
     set_entrance_rule("Central Elevator to Geothermal Core", Has(VARIA) & Has(MORPH) & (CAN_GRAPPLE | CAN_SPIDER) & Has(WAVE), world)
+    set_entrance_rule("Central Elevator to East Phendrana Hellrun", Has(MORPH) & Has(MISSILE) & FOUR_E_HELLRUN, world)
 
     set_entrance_rule("Geothermal Core to Central Elevator", Has(VARIA) & Has(MORPH) & (CAN_GRAPPLE | CAN_SPIDER), world)
 
@@ -357,6 +362,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("West Phendrana to West Magmoor", Has(VARIA), world)
     set_entrance_rule("West Phendrana to Thardus Area", Has(MORPH) & CAN_BEAT_THARDUS, world)
     set_entrance_rule("West Phendrana Elevator to Edge Lower", CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ & Has(ICE) & Has(MORPH), world)
+    set_entrance_rule("West Phendrana to West Phazon Hellrun", TWO_E_HELLRUN & Has(MORPH) & CAN_PB & Has(ICE), world)
 
     set_entrance_rule("Shorelines to Ice Temple", CAN_DESTROY_GLASS_BLOCK & Has("Boost Ball"), world)
     set_entrance_rule("Shorelines to Central Phendrana", CAN_TRAVERSE_LOW_OVERHANG & Has(WAVE) & Has(MISSILE), world)
