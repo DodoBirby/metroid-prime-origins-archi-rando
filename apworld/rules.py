@@ -143,7 +143,7 @@ def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Chozo Ruins) Crossway", Has(MORPH) & CAN_BOOST & CAN_BOMB, world)
 
     # Elder Hall
-    set_location_rule("(Chozo Ruins) Hall of the Elders - Ceiling", ((Has(ICE) & CAN_BOMB) | CanReachRegion("(Chozo Ruins) Lower Reflecting Pool")) & (CAN_SPIDER | CAN_GRAPPLE), world)
+    set_location_rule("(Chozo Ruins) Hall of the Elders - Ceiling", ((Has(ICE) & CAN_BOMB) | (CanReachRegion("(Chozo Ruins) Lower Reflecting Pool") & Has(MORPH))) & (CAN_SPIDER | CAN_GRAPPLE), world)
     set_location_rule("(Chozo Ruins) Elder Chamber", (Has(PLASMA) & CAN_BOMB) | (CAN_BOOST & CAN_DESTROY_BLOCKS_WHILE_MORPHED), world)
 
     # Upper Reflecting Pool
@@ -191,7 +191,7 @@ def set_phendrana_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Phendrana Drifts) Phendrana Shorelines - Underwater Ice Cube", Has(PLASMA), world)
     set_location_rule("(Phendrana Drifts) Ice Ruins East - Ice Cube", Has(PLASMA), world)
     set_location_rule("(Phendrana Drifts) Ice Ruins East - Tunnel", CAN_BOOST, world)
-    set_location_rule("(Phendrana Drifts) Ice Ruins West", Has(PLASMA) & (Has(MISSILE) | CAN_TRAVERSE_LOW_OVERHANG), world)
+    set_location_rule("(Phendrana Drifts) Ice Ruins West", Has(PLASMA) & (Has(MISSILE) | CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ), world)
     set_location_rule("(Phendrana Drifts) Phendrana Canyon", Has(MISSILE), world)
     set_location_rule("(Phendrana Drifts) Phendrana Shorelines - Hidden Tunnel", Has(MISSILE) & Has("Boost Ball"), world)
 
@@ -201,7 +201,7 @@ def set_phendrana_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Phendrana Drifts) Chapel of the Elders", Has(MORPH) & CAN_BOMB & Has(MISSILE), world)
 
     # Central Phendrana
-    set_location_rule("(Phendrana Drifts) Ruined Courtyard", (Has(MORPH) & CAN_TRAVERSE_LOW_OVERHANG) | (CAN_BOOST & CAN_BOMB), world)
+    set_location_rule("(Phendrana Drifts) Ruined Courtyard", (Has(MORPH) & CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ) | (CAN_BOOST & CAN_BOMB), world)
 
     # Thardus Area
     set_location_rule("(Phendrana Drifts) Quarantine Cave - Thardus Reward", CAN_TRAVERSE_LOW_OVERHANG, world)
