@@ -6,17 +6,33 @@ This is an [Archipelago](https://github.com/ArchipelagoMW/Archipelago) implement
 
 These instructions will assume you are somewhat familiar with how to use Archipelago and will only contain the things that are special for this randomizer (This is just temporary for the prerelease stage, I will give better instructions on actual release).
 
-## Files
+## The general steps
 
-The release has several files, here is what they are for:
+The tl;dr of setting up the rando is as follows:
 
-| File | Description |
-|---|---|
-| metroid_prime_origins.apworld | The apworld for use with [Archipelago](https://github.com/ArchipelagoMW/Archipelago), I'm assuming you know what to do with this (for now) |
-| randomizer_patch.xdelta | This is an xdelta patch file that you can use to apply the game modifications needed for randomizer to your vanilla Metroid Prime Origins game. (More details in the setup instructions below) |
-| metroid_prime_origins.yaml | Template YAML file for use with [Archipelago](https://github.com/ArchipelagoMW/Archipelago), again I'm assuming you already know what to do with this (for now) |
+Before playing any seeds:
 
-## Game mod setup
+1. Patch your data.win file using the randomizer_patch0_0_4.xdelta file.
+2. Install the metroid_prime_origins.apworld in Archipelago.
+
+Before each seed (if you're playing a multiworld):
+
+1. Open the Archipelago launcher and select the "Metroid Prime Origins Client" option (if it's not there then you may not have installed the apworld properly).
+2. Connect the client to the archipelago server using the address bar at the top of the client.
+3. Run your patched copy of Metroid Prime Origins (If everything is done correctly it should say "Connected to python client upon starting").
+4. Start a new save file on `remix mode`.
+
+Before each seed (if playing solo):
+
+1. Ensure you have an mposeed file to load (if you generated an archipelago seed locally then it will be in the output .zip file), otherwise whoever generated the seed should give it to you.
+2. Run your patched copy of Metroid Prime Origins.
+3. Go to the options menu and select the "Load Seed File" option.
+4. Select the mposeed file in the menu (after selecting it you should see a message in the bottom right saying "Seed file loaded").
+5. Start a new save file on `remix mode`.
+
+If you need more details on any of the steps, see the sections below.
+
+## Patching the game
 
 First you need to apply the randomizer patches to your copy of Metroid Prime Origins, you only have to do this once (until the randomizer gets an update).
 
@@ -24,9 +40,9 @@ I will be referring to the Metroid Prime Origins folder (the one with the exe yo
 
 I recommend making a copy of `GAME_FOLDER` before performing any of the following steps so you can still play the vanilla game.
 
-**MAKE SURE YOU ARE USING THE 1.0.5 VM RELEASE OF METROID PRIME ORIGINS OR THE PATCH WON'T WORK**
+**MAKE SURE YOU ARE USING THE 1.1.1 VM RELEASE OF METROID PRIME ORIGINS OR THE PATCH WON'T WORK**
 
-You'll need to apply the `randomizer_patch.xdelta` to the `data.win` file in `GAME_FOLDER`.
+You'll need to apply the `randomizer_patch0_0_4.xdelta` to the `data.win` file in `GAME_FOLDER`.
 
 There are many ways to apply an xdelta patch but the easiest way is to use this online patcher https://kotcrab.github.io/xdelta-wasm/.
 
@@ -35,8 +51,6 @@ If the patch succeeded you will have a new file, rename this file to `data.win` 
 ## Running the client
 
 Now that you have patched your game, you are ready to actually play!
-
-Note if you are playing a solo seed there is an alternate way to play that doesn't even require installing Archipelago! (See below)
 
 I will be assuming you know how to install the apworld and generate a seed (or you have a host who can generate a seed for you).
 
@@ -64,9 +78,7 @@ The other settings are less important but for reference, the randomizer has been
 
 Things should still work if you don't have these set, but there might be issues (let me know if you try these settings and run into anything).
 
-## Archipelago-Free Play
-
-Note that generating a seed still requires Archipelago, but playing a solo seed does not.
+## Local play
 
 When a seed is generated (and it is a solo Metroid Prime Origins seed), there is an extra file generated in the output zip file.
 
@@ -120,9 +132,6 @@ They are the following:
 
 - Missile Glides (firing a missile to reset y velocity)
 - Boost ball jumps
-- Hellruns (except for Chozo ruins acid runs which are in logic because I forgot about it)
-- Going through Phazon mines fully backwards (omega pirate is backdoorable though)
-- Super Metroid style walljumping
 - Horizontal bomb jumping
 
 If you are reporting a logic issue where something is in logic but shouldn't be, then please let me know about it.
