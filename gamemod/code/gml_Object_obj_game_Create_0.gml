@@ -250,6 +250,7 @@ if (room == rm_New_Game_Plus)
     ds_write("Flaahgra Defeated", 0);
     ds_write("Thardus Defeated", 0);
     ds_write("Omega Pirate Defeated", 0);
+    ds_write("Ridley Defeated", 0);
     ds_write("Artifact 1", 0);
     ds_write("Artifact 2", 0);
     ds_write("Artifact 3", 0);
