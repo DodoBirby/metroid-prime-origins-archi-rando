@@ -31,19 +31,6 @@ function butt(arg0, arg1 = 0)
         }
         arg0 = _def.__verbIndex;
     }
-    if (false && gamepad_is_connected(0) && (instance_exists(submenu_controls) || !InputPlayerUsingGamepad(arg1)))
-    {
-        var _binding = InputBindingGet(true, arg0, 0, arg1);
-        if (arg0 == UnknownEnum.Value_28)
-        {
-            _binding = 32777;
-        }
-        if (arg0 == UnknownEnum.Value_27)
-        {
-            _binding = 32778;
-        }
-        return InputIconGetDirect(_binding, true, InputDeviceGetGamepadType(0));
-    }
     return InputIconGet(arg0, 0, arg1);
 }
 
@@ -401,10 +388,4 @@ function screen_shake_ext(arg0 = 2, arg1 = 2, arg2 = 0.9)
     _shake.shake_x = arg0;
     _shake.shake_y = arg1;
     _shake.soften = arg2;
-}
-
-enum UnknownEnum
-{
-    Value_27 = 27,
-    Value_28
 }

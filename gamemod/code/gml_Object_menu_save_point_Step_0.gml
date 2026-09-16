@@ -1,14 +1,6 @@
-pos = 0;
-skips = 0;
-repeat (12)
-{
-    if (ds_zero("Artifact " + string(pos + 1)) == 0)
-    {
-        skips += 1;
-    }
-    pos += 1;
-}
-if (skips < 12)
+can_artifact = 0;
+var arr = dz("Aeon");
+if (array_length(arr) > 0)
 {
     can_artifact = 1;
 }

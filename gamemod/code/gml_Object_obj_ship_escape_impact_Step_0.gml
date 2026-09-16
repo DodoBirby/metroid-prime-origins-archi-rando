@@ -3,6 +3,7 @@ if ((!(par_player.y < y && abs(par_player.x - x) < 16) && counter == 0) || !inst
     exit;
 }
 global.cutscene = 1;
+global.rta_stop = 1;
 obj_samus.pose = 420;
 obj_samus.x = lerp(obj_samus.x, x, 1/3);
 obj_samus.y = lerp(obj_samus.y, y - 12, 0.07692307692307693);

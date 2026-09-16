@@ -1,5 +1,16 @@
+var _file = ds_zero_options("Last File");
+min_selection = 1;
+if (_file != 0)
+{
+    if (file_exists(_file))
+    {
+        min_selection = 0;
+    }
+}
+_dir = 1;
+global.rta_stop = 0;
 leaving = 0;
-selection = 0;
+selection = min_selection;
 selected = 0;
 menu_offset = global._screen_height;
 fade_in = 150;
@@ -21,6 +32,8 @@ if (variable_global_exists("savedata"))
 global.savedata = ds_map_create();
 bg_frame = 0;
 menu_transitioning = 0;
+global.fusion_mode = 0;
+global.retro_mode = 0;
 // -- MW Changes Start
 global.mwcompleted = 0;
 // -- MW Changes End

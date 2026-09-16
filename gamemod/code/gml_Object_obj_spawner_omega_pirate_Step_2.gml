@@ -3,7 +3,7 @@ if (!instance_exists(par_player))
     instance_destroy(id, false);
     exit;
 }
-if (abs(x - par_player.x) < 131 && !flower_active)
+if (abs(x - par_player.x) < 131 && !flower_active && par_player.y > 320)
 {
     image_speed = 1;
     with (obj_tube_omega_pirate)

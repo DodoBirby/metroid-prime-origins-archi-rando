@@ -18,3 +18,14 @@ else
     depth = 256;
     // -- MW Changes: Moved big flower code to create
 }
+repeat (256)
+{
+    if (place_meeting(x, y, obj_samus))
+    {
+        obj_samus.y -= 1;
+    }
+    else
+    {
+        break;
+    }
+}
