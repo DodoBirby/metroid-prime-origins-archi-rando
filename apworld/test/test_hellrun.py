@@ -2,7 +2,7 @@ from .bases import MPOTestBase
 
 class TestHellrun(MPOTestBase):
     options = {
-        "hellruns_in_logic": True
+        "hellruns_in_logic": True,
     }
 
     def test_hellrun_to_phendrana(self):
@@ -13,5 +13,5 @@ class TestHellrun(MPOTestBase):
         )
 
     def test_hellrun_to_phazon(self):
-        _ = self.collect_by_name(["Energy Tank", "Morph Ball", "Power Bomb", "Missile Tank", "Wave Beam", "Ice Beam", "Grapple Beam", "Charge Beam"])
+        _ = self.collect_by_name(["Energy Tank", "Morph Ball", "Power Bomb", "Super Missile", "Missile Tank", "Wave Beam", "Ice Beam", "Grapple Beam", "Charge Beam"])
         self.assertTrue(self.can_reach_region("(Phazon Mines) West Phazon Mines Elevator"))
