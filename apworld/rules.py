@@ -33,7 +33,8 @@ CAN_BOOST = Has(MORPH) & Has("Boost Ball")
 CAN_PB = Has(MORPH) & Has("Power Bomb")
 CAN_GRAPPLE = OptionFilter(ProgressiveGrappleBeam, True) & Has("Progressive Grapple Beam", 2) | OptionFilter(ProgressiveGrappleBeam, False) & Has("Grapple Beam")
 CAN_SPACEJUMP = OptionFilter(ProgressiveGrappleBeam, True) & Has("Progressive Grapple Beam", 1) | OptionFilter(ProgressiveGrappleBeam, False) & Has("Space Jump Boots")
-CAN_SPRING = CAN_BOMB
+CAN_TRIGGER_BOMB_SLOTS = CAN_BOMB | CAN_PB
+CAN_KILL_STONE_TOADS = CAN_BOMB | CAN_PB
 
 SM_WALLJUMP = OptionFilter(SMWalljumpsInLogic, True)
 HELLRUN = OptionFilter(HellrunsInLogic, True)
@@ -118,7 +119,7 @@ def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Chozo Ruins) Transport Access North", Has(MISSILE), world)
 
     # Vault
-    set_location_rule("(Chozo Ruins) Vault", CAN_BOMB & Has(MORPH), world)
+    set_location_rule("(Chozo Ruins) Vault", CAN_TRIGGER_BOMB_SLOTS & Has(MORPH), world)
 
     # Central Ruins
     set_location_rule("(Chozo Ruins) Ruined Fountain", CAN_BOOST | CAN_SPIDER | CAN_IBJ, world)
@@ -144,19 +145,19 @@ def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Chozo Ruins) Furnace - Boost Ceiling", CAN_BOOST & (CAN_SPIDER | CAN_GRAPPLE) & CAN_DESTROY_BOMB_BLOCKS & CAN_PB, world)
 
     # Crossway
-    set_location_rule("(Chozo Ruins) Crossway", Has(MORPH) & CAN_BOOST & CAN_BOMB, world)
+    set_location_rule("(Chozo Ruins) Crossway", Has(MORPH) & CAN_BOOST & CAN_TRIGGER_BOMB_SLOTS, world)
 
     # Elder Hall
-    set_location_rule("(Chozo Ruins) Hall of the Elders - Ceiling", ((Has(ICE) & CAN_BOMB) | (CanReachRegion("(Chozo Ruins) Lower Reflecting Pool") & Has(MORPH))) & (CAN_SPIDER | CAN_GRAPPLE), world)
-    set_location_rule("(Chozo Ruins) Elder Chamber", (Has(PLASMA) & CAN_BOMB) | (CAN_BOOST & CAN_DESTROY_BLOCKS_WHILE_MORPHED), world)
+    set_location_rule("(Chozo Ruins) Hall of the Elders - Ceiling", ((Has(ICE) & CAN_TRIGGER_BOMB_SLOTS) | (CanReachRegion("(Chozo Ruins) Lower Reflecting Pool") & Has(MORPH))) & (CAN_SPIDER | CAN_GRAPPLE), world)
+    set_location_rule("(Chozo Ruins) Elder Chamber", (Has(PLASMA) & CAN_TRIGGER_BOMB_SLOTS) | (CAN_BOOST & CAN_DESTROY_BLOCKS_WHILE_MORPHED), world)
 
     # Upper Reflecting Pool
-    set_location_rule("(Chozo Ruins) Antechamber", Has(MISSILE) & CAN_BOMB, world)
+    set_location_rule("(Chozo Ruins) Antechamber", Has(MISSILE) & CAN_KILL_STONE_TOADS, world)
 
     # Past Magma Pool
     set_location_rule("(Chozo Ruins) Magma Pool", CAN_PB & (Has(VARIA) | HELLRUN), world)
     set_location_rule("(Chozo Ruins) Training Chamber Access", Has(MORPH), world)
-    set_location_rule("(Chozo Ruins) Training Chamber", (CAN_BOOST | CAN_TRAVERSE_LOW_OVERHANG) & CAN_BOMB & Has(MORPH) & Has(ICE), world)
+    set_location_rule("(Chozo Ruins) Training Chamber", (CAN_BOOST | CAN_TRAVERSE_LOW_OVERHANG) & CAN_TRIGGER_BOMB_SLOTS & Has(MORPH) & Has(ICE), world)
 
     # Ruined Shrine
     set_location_rule("(Chozo Ruins) Ruined Shrine - Ceiling", CAN_BOOST, world)
@@ -188,7 +189,7 @@ def set_magmoor_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Magmoor Caverns) Plasma Processing", Has(MORPH) & Has(ICE) & Has(VARIA) & CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ & CAN_BOOST & CAN_DESTROY_BLOCKS_WHILE_MORPHED & CAN_GRAPPLE, world)
 
     # West Magmoor
-    set_location_rule("(Magmoor Caverns) Magmoor Workstation", CAN_BOMB & CAN_SPIDER & Has(WAVE), world)
+    set_location_rule("(Magmoor Caverns) Magmoor Workstation", CAN_TRIGGER_BOMB_SLOTS & CAN_SPIDER & Has(WAVE), world)
 
 def set_phendrana_location_rules(world: MetroidPrimeOriginsWorld):
     # Shorelines
@@ -202,10 +203,13 @@ def set_phendrana_location_rules(world: MetroidPrimeOriginsWorld):
     # Ice Temple
     # Spring is needed to break a ceiling boost block in the secret remix tunnel
     set_location_rule("(Phendrana Drifts) Chozo Ice Temple - Frozen Floor", (Has(MORPH) & Has(PLASMA)) | CAN_BOOST, world)
-    set_location_rule("(Phendrana Drifts) Chapel of the Elders", Has(MORPH) & CAN_BOMB & Has(MISSILE), world)
+    set_location_rule("(Phendrana Drifts) Chapel of the Elders", Has(MORPH) & CAN_TRIGGER_BOMB_SLOTS & Has(MISSILE), world)
 
     # Central Phendrana
-    set_location_rule("(Phendrana Drifts) Ruined Courtyard", (Has(MORPH) & CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ) | (CAN_BOOST & CAN_BOMB), world)
+    set_location_rule("(Phendrana Drifts) Ruined Courtyard", (Has(MORPH) & CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ) | (CAN_BOOST & CAN_TRIGGER_BOMB_SLOTS), world)
+
+    # Observatory
+    set_location_rule("(Phendrana Drifts) Observatory", CAN_BOOST & CAN_TRIGGER_BOMB_SLOTS, world)
 
     # Thardus Area
     set_location_rule("(Phendrana Drifts) Quarantine Cave - Thardus Reward", CAN_TRAVERSE_LOW_OVERHANG, world)
@@ -323,7 +327,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Gathering Hall to Dynamo", Has(MISSILE) & Has(MORPH) & CAN_DESTROY_BOMB_BLOCKS, world)
     set_entrance_rule("Gathering Hall to Energy Core", Has(MORPH), world)
 
-    set_entrance_rule("Energy Core to Furnace", CAN_TRAVERSE_LOW_OVERHANG | CAN_BOMB, world)
+    set_entrance_rule("Energy Core to Furnace", CAN_TRAVERSE_LOW_OVERHANG | CAN_TRIGGER_BOMB_SLOTS, world)
     set_entrance_rule("Energy Core to Gathering Hall", Has(MORPH), world)
 
     set_entrance_rule("Furnace to Upper Furnace", Has(MORPH) & CAN_DESTROY_BOMB_BLOCKS & (CAN_SPIDER | CAN_GRAPPLE | SM_WALLJUMP), world)
@@ -337,8 +341,8 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
 
     set_entrance_rule("Lower Pool to Upper Pool", (CAN_DESTROY_BOMB_BLOCKS & CAN_BOOST) | CAN_GRAPPLE | CAN_IBJ, world)
 
-    set_entrance_rule("Upper Reflecting Pool to Overgrown Cavern", Has(MISSILE) & CAN_BOMB, world)
-    set_entrance_rule("Upper Reflecting Pool to East Tallon", CAN_BOMB & Has(ICE), world)
+    set_entrance_rule("Upper Reflecting Pool to Overgrown Cavern", Has(MISSILE) & CAN_KILL_STONE_TOADS, world)
+    set_entrance_rule("Upper Reflecting Pool to East Tallon", CAN_KILL_STONE_TOADS & Has(ICE), world)
 
     set_entrance_rule("East Magmoor to Central Magmoor", Has(MORPH) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(VARIA), world)
 
@@ -372,13 +376,13 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("West Phazon to Processing Center", Has(ICE) & Has(MORPH), world)
     set_entrance_rule("West Phazon to Elite Control Access", Has(ICE) & Has(MORPH) & CAN_PB, world)
 
-    set_entrance_rule("Central Phendrana to Thardus Area", Has(MORPH) & Has(MISSILE) & Has(WAVE) & CAN_BEAT_THARDUS & (CAN_TRAVERSE_LOW_OVERHANG | (CAN_BOOST & CAN_BOMB)), world)
-    set_entrance_rule("Central Phendrana to Research Lab Hydra", Has(WAVE) & (CAN_TRAVERSE_LOW_OVERHANG | (CAN_BOOST & CAN_BOMB)), world)
+    set_entrance_rule("Central Phendrana to Thardus Area", Has(MORPH) & Has(MISSILE) & Has(WAVE) & CAN_BEAT_THARDUS & (CAN_TRAVERSE_LOW_OVERHANG | (CAN_BOOST & CAN_TRIGGER_BOMB_SLOTS)), world)
+    set_entrance_rule("Central Phendrana to Research Lab Hydra", Has(WAVE) & (CAN_TRAVERSE_LOW_OVERHANG | (CAN_BOOST & CAN_TRIGGER_BOMB_SLOTS)), world)
 
     set_entrance_rule("Thardus Area to West Phendrana Elevator", Has(MORPH), world)
     set_entrance_rule("Thardus Area to Central Phendrana", Has(MORPH), world)
 
-    set_entrance_rule("Hydra to Top Observatory", CAN_BOOST & CAN_BOMB, world)
+    set_entrance_rule("Hydra to Top Observatory", (CAN_BOOST & CAN_TRIGGER_BOMB_SLOTS) | CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ, world)
 
     set_entrance_rule("Observatory to Aether", Has(MISSILE), world)
 
