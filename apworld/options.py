@@ -22,6 +22,15 @@ class HellrunsInLogic(Toggle):
     """
     display_name = "Hellruns in logic"
 
+class KnowledgeChecksInLogic(Toggle):
+    """
+    Choose whether you want "knowledge checks" to be in logic.
+    This setting includes tricks which are not difficult to perform, but are optional for 100% completion and aren't necessarily obvious at first glance.
+    This setting also includes use of optional paths throughout the game.
+    If you are experienced with earlier versions of the randomizer then it's recommended you turn this setting on.
+    """
+    display_name = "Knowledge checks in logic"
+
 class EndAtRidley(Toggle):
     """
     Choose whether you want to end the game when defeating Ridley at the Artifact temple (Instead of when you reach your ship after defeating Metroid Prime).
@@ -67,6 +76,7 @@ class MPOOptions(PerGameCommonOptions):
     ibj_in_logic: IBJInLogic
     sm_walljumps_in_logic: SMWalljumpsInLogic
     hellruns_in_logic: HellrunsInLogic
+    knowledge_checks_in_logic: KnowledgeChecksInLogic
     end_at_ridley: EndAtRidley
     progressive_grapple_beam: ProgressiveGrappleBeam
     use_vanilla_pool: UseVanillaItemPool
