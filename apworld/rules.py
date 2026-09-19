@@ -201,7 +201,7 @@ def set_phendrana_location_rules(world: MetroidPrimeOriginsWorld):
 
     # Ice Temple
     # Spring is needed to break a ceiling boost block in the secret remix tunnel
-    set_location_rule("(Phendrana Drifts) Chozo Ice Temple - Frozen Floor", (Has(MORPH) & Has(PLASMA)) | (CAN_BOOST & CAN_SPRING), world)
+    set_location_rule("(Phendrana Drifts) Chozo Ice Temple - Frozen Floor", (Has(MORPH) & Has(PLASMA)) | CAN_BOOST, world)
     set_location_rule("(Phendrana Drifts) Chapel of the Elders", Has(MORPH) & CAN_BOMB & Has(MISSILE), world)
 
     # Central Phendrana
