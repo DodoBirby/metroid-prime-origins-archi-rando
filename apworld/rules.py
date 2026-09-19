@@ -129,7 +129,7 @@ def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     # Gathering Hall
     set_location_rule("(Chozo Ruins) Watery Hall Access", Has(MISSILE), world)
     set_location_rule("(Chozo Ruins) Watery Hall - Top", Has(MISSILE), world)
-    set_location_rule("(Chozo Ruins) Watery Hall - Underwater Tunnel", Has(MISSILE) & CAN_TRAVERSE_UNDERWATER & (Has("Kill Flaahgra") | HELLRUN), world)
+    set_location_rule("(Chozo Ruins) Watery Hall - Underwater Tunnel", Has(MISSILE) & CAN_TRAVERSE_UNDERWATER & (Has("Varia Suit") | HELLRUN), world)
     set_location_rule("(Chozo Ruins) Gathering Hall", Has(MORPH) & CAN_DESTROY_BOMB_BLOCKS, world)
 
     # Dynamo
