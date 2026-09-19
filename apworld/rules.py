@@ -48,6 +48,8 @@ CAN_TRAVERSE_UNDERWATER = Has(GRAVITY) | CAN_GRAPPLE
 
 CAN_DESTROY_GLASS_BLOCK = Has(CHARGE) | Has(MISSILE)
 
+CHOZO_GHOST_TRIGGER_FLAG = CanReachRegion("(Tallon Overworld) Life Grove") | CanReachRegion("(Chozo Ruins) Hall of the Elders")
+
 # Frigate requires shooting conduits, traversing underwater ledges, and destroying bomb blocks + glass to reveal conduits
 CAN_TRAVERSE_FRIGATE = Has(WAVE) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & CAN_TRAVERSE_UNDERWATER
 
@@ -157,7 +159,7 @@ def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     # Past Magma Pool
     set_location_rule("(Chozo Ruins) Magma Pool", CAN_PB & (Has(VARIA) | HELLRUN), world)
     set_location_rule("(Chozo Ruins) Training Chamber Access", Has(MORPH), world)
-    set_location_rule("(Chozo Ruins) Training Chamber", (CAN_BOOST | CAN_TRAVERSE_LOW_OVERHANG) & CAN_TRIGGER_BOMB_SLOTS & Has(MORPH) & Has(ICE), world)
+    set_location_rule("(Chozo Ruins) Training Chamber", (CAN_BOOST | CAN_TRAVERSE_LOW_OVERHANG) & CAN_TRIGGER_BOMB_SLOTS & Has(MORPH) & CHOZO_GHOST_TRIGGER_FLAG, world)
 
     # Ruined Shrine
     set_location_rule("(Chozo Ruins) Ruined Shrine - Ceiling", CAN_BOOST, world)
