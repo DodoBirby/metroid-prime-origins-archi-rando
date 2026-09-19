@@ -4,15 +4,11 @@ import json
 import os
 from typing import Any
 from worlds.AutoWorld import World
-from .locations import LOCATION_NAME_TO_ID, LOCATION_TABLE, create_locations
+from .locations import LOCATION_NAME_TO_ID, location_name_to_game_key, create_locations
 from .items import ITEM_NAME_TO_ID, MetroidPrimeOriginsItem, create_item_with_correct_classification, add_items_to_multiworld
 from .regions import create_and_connect_regions
 from .rules import set_all_rules
 from .options import MPOOptions
-
-
-#TODO: Clean up and deduplicate this with the one in client
-location_name_to_game_key = { location_name: data.location_key for location_name, data in LOCATION_TABLE.items() }
 
 class MetroidPrimeOriginsWorld(World):
     """

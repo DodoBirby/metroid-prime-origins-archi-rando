@@ -172,6 +172,8 @@ LOCATION_TABLE: dict[str, LocationData] = {
 }
 
 LOCATION_NAME_TO_ID = { name: i + 1 for i, name in enumerate(LOCATION_TABLE.keys()) }
+location_name_to_game_key = { location_name: data.location_key for location_name, data in LOCATION_TABLE.items() }
+location_id_to_game_key = { id: location_name_to_game_key[name] for name, id in LOCATION_NAME_TO_ID.items() }
 
 def get_location_names_with_ids(location_names: list[str]):
     return { name: LOCATION_NAME_TO_ID[name] for name in location_names }

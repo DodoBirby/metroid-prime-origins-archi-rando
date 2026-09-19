@@ -13,7 +13,7 @@ except ModuleNotFoundError:
     from CommonClient import CommonContext as SuperContext
 from CommonClient import ClientCommandProcessor, get_base_parser, logger, server_loop 
 
-from .locations import LOCATION_NAME_TO_ID, LOCATION_TABLE
+from .locations import LOCATION_NAME_TO_ID, location_id_to_game_key
 from .items import ITEM_NAME_TO_ID
 
 CONNECTION_TIMING_OUT_STATUS = "Connection timing out"
@@ -24,8 +24,6 @@ CONNECTION_CONNECTED_STATUS = "Connected"
 CONNECTION_INITIAL_STATUS = "Connection has not been initiated"
 
 PORT_NUMBER = 64200
-location_name_to_game_key = { location_name: data.location_key for location_name, data in LOCATION_TABLE.items() }
-location_id_to_game_key = { id: location_name_to_game_key[name] for name, id in LOCATION_NAME_TO_ID.items() }
 item_id_to_item_name = { id: name for name, id in ITEM_NAME_TO_ID.items() }
 game_key_to_location_id = { key: id for id, key in location_id_to_game_key.items() }
 
