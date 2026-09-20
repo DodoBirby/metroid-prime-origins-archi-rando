@@ -103,10 +103,16 @@ def handle_progressive_grapple(world: MetroidPrimeOriginsWorld, itempool: list[I
         if item.name in ["Space Jump Boots", "Grapple Beam"]:
             itempool[i] = world.create_item("Progressive Grapple Beam")
 
-def handle_artifact_goal(world: MetroidPrimeOriginsWorld, itempool: list[Item]):
+def handle_artifact_goal(itempool: list[Item]):
     for i in range(len(itempool)):
         item = itempool[i]
         if item.name in ITEM_GROUPS["Artifacts"]:
+            item.classification = ItemClassification.progression
+
+def handle_ut_prog_items(itempool: list[Item]):
+    for i in range(len(itempool)):
+        item = itempool[i]
+        if item.name in ["Missile Tank", "Energy Tank", "Power Bomb"]:
             item.classification = ItemClassification.progression
 
 def add_items_to_multiworld(world: MetroidPrimeOriginsWorld):
@@ -128,6 +134,9 @@ def add_items_to_multiworld(world: MetroidPrimeOriginsWorld):
         handle_progressive_grapple(world, itempool)
 
     if world.options.artifacts_required > 0:
-        handle_artifact_goal(world, itempool)
+        handle_artifact_goal(itempool)
+
+    if getattr(world.multiworld, "generation_is_fake",False):
+        handle_ut_prog_items(itempool)
 
     world.multiworld.itempool += itempool
