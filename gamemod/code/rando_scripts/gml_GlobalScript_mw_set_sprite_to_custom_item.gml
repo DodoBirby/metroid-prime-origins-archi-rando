@@ -122,7 +122,7 @@ function mw_set_sprite_to_custom_item()
             self._fanfare = bgmFanfareArtifact;
             self.is_aeon = true;
             break;
-        case "Artifact of Chozo":
+        case "Artifact of Warrior":
             sprite_index = sprChozoArtifacts;
             image_index = 5;
             image_speed = 0;
@@ -130,7 +130,7 @@ function mw_set_sprite_to_custom_item()
             self._fanfare = bgmFanfareArtifact;
             self.is_aeon = true;
             break;
-        case "Artifact of Warrior":
+        case "Artifact of Chozo":
             sprite_index = sprChozoArtifacts;
             image_index = 6;
             image_speed = 0;

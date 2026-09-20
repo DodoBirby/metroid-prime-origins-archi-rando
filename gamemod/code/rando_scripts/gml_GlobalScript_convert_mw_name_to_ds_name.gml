@@ -12,9 +12,9 @@ function convert_mw_name_to_ds_name(mw_name)
             return "Artifact 4";
         case "Artifact of Lifegiver":
             return "Artifact 5";
-        case "Artifact of Chozo":
-            return "Artifact 6";
         case "Artifact of Warrior":
+            return "Artifact 6";
+        case "Artifact of Chozo":
             return "Artifact 7";
         case "Artifact of Nature":
             return "Artifact 8";
