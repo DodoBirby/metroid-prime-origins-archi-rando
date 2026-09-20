@@ -12,7 +12,7 @@ The tl;dr of setting up the rando is as follows:
 
 Before playing any seeds:
 
-1. Patch your data.win file using the randomizer_patch0_0_4.xdelta file.
+1. Patch your data.win file using the randomizer_patch0_0_5.xdelta file.
 2. Install the metroid_prime_origins.apworld in Archipelago.
 
 Before each seed (if you're playing a multiworld):
@@ -26,7 +26,7 @@ Before each seed (if playing solo):
 
 1. Ensure you have an mposeed file to load (if you generated an archipelago seed locally then it will be in the output .zip file), otherwise whoever generated the seed should give it to you.
 2. Run your patched copy of Metroid Prime Origins.
-3. Go to the options menu and select the "Load Seed File" option.
+3. Go to the extras menu and select the "Load Seed File" option.
 4. Select the mposeed file in the menu (after selecting it you should see a message in the bottom right saying "Seed file loaded").
 5. Start a new save file on `remix mode`.
 
@@ -40,9 +40,9 @@ I will be referring to the Metroid Prime Origins folder (the one with the exe yo
 
 I recommend making a copy of `GAME_FOLDER` before performing any of the following steps so you can still play the vanilla game.
 
-**MAKE SURE YOU ARE USING THE 1.1.1 VM RELEASE OF METROID PRIME ORIGINS OR THE PATCH WON'T WORK**
+**MAKE SURE YOU ARE USING THE 1.1.2 VM RELEASE OF METROID PRIME ORIGINS OR THE PATCH WON'T WORK**
 
-You'll need to apply the `randomizer_patch0_0_4.xdelta` to the `data.win` file in `GAME_FOLDER`.
+You'll need to apply the `randomizer_patch0_0_5.xdelta` to the `data.win` file in `GAME_FOLDER`.
 
 There are many ways to apply an xdelta patch but the easiest way is to use this online patcher https://kotcrab.github.io/xdelta-wasm/.
 
