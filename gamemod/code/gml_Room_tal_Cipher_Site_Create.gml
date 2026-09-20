@@ -5,6 +5,6 @@ ds_write("Welcome to Disneyland", 1);
 if (instance_exists(obj_pirate_cipher) && dz("MWArtifactsRequired") != 0)
 {
     instance_destroy(obj_pirate_cipher);
-    instance_create(248, 256, obj_chozo_cipher);
+    instance_create_layer(248, 256, "Instances", obj_chozo_cipher);
 }
 // -- MW Changes End

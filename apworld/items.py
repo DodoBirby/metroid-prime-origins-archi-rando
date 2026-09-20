@@ -64,6 +64,9 @@ ITEM_GROUPS = {
 }
 
 def create_item_with_correct_classification(world: MetroidPrimeOriginsWorld, name: str, force_classification: ItemClassification | None = None) -> MetroidPrimeOriginsItem:
+    # This is hacky
+    if getattr(world.multiworld, "generation_is_fake", False) and name in ["Missile Tank", "Energy Tank", "Power Bomb"]:
+        force_classification = ItemClassification.progression
     return MetroidPrimeOriginsItem(name, force_classification if force_classification is not None else ITEM_TABLE[name].classification, ITEM_NAME_TO_ID[name], world.player)
 
 def create_fixed_pool(world: MetroidPrimeOriginsWorld) -> list[Item]:
@@ -135,8 +138,5 @@ def add_items_to_multiworld(world: MetroidPrimeOriginsWorld):
 
     if world.options.artifacts_required > 0:
         handle_artifact_goal(itempool)
-
-    if getattr(world.multiworld, "generation_is_fake",False):
-        handle_ut_prog_items(itempool)
 
     world.multiworld.itempool += itempool
