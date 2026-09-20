@@ -383,6 +383,18 @@ function artifact_names_short(arg0)
 
 function artifact_hints(arg0)
 {
+    // -- MW Changes Start
+    if (dz("MWLocal"))
+    {
+        var artifactName = artifact_names(arg0);
+        var location = dz("MWArtifact " + artifactName);
+        if (location != 0)
+        {
+            return "The " + artifactName + " is hidden at [NES_Cyan]" + location + "[NES_Peach].";
+        }
+        return "The " + artifactName + " could not be found on this planet.";
+    }
+    // -- MW Changes End
     if (arg0 == 0)
     {
         return "The Artifact of Truth awaits those who truly seek it.";

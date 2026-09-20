@@ -14,7 +14,7 @@ except ModuleNotFoundError:
 from CommonClient import ClientCommandProcessor, get_base_parser, logger, server_loop 
 
 from .locations import LOCATION_NAME_TO_ID, location_id_to_game_key
-from .items import ITEM_NAME_TO_ID
+from .items import ITEM_GROUPS, ITEM_NAME_TO_ID
 
 CONNECTION_TIMING_OUT_STATUS = "Connection timing out"
 CONNECTION_REFUSED_STATUS = "Connection Refused"
@@ -59,6 +59,7 @@ class MPOContext(SuperContext):
         self.mpo_sync_task: asyncio.Task[None] | None = None
         self.mpo_status: str = CONNECTION_INITIAL_STATUS
         self.end_at_ridley: bool = False
+        self.artifacts_required: int = 0
         self.exo_order: list[int] = []
         self.mpo_connection_ip: str = "127.0.0.1"
         self.mpo_connection_port: int = PORT_NUMBER
@@ -75,6 +76,7 @@ class MPOContext(SuperContext):
         if cmd == "Connected":
             async_start(self.send_msgs([{ "cmd": "LocationScouts", "locations": list(LOCATION_NAME_TO_ID.values()), "create_as_hint": 0 }]))
             self.end_at_ridley = args["slot_data"]["options"]["end_at_ridley"]
+            self.artifacts_required = args["slot_data"]["options"]["artifacts_required"]
             self.exo_order = args["slot_data"]["exo_order"]
             return
         if cmd == "LocationInfo":
@@ -118,6 +120,7 @@ def create_items_payload(ctx: MPOContext) -> str:
     missiletanks = 0
     pbombtanks = 0
     proggrapples = 0
+    artifacts = 0
     for itemname in itemnames_received:
         match itemname:
             case "Energy Tank":
@@ -130,12 +133,16 @@ def create_items_payload(ctx: MPOContext) -> str:
                 proggrapples += 1
             case _:
                 majors.append(itemname)
+                if itemname in ITEM_GROUPS["Artifacts"]:
+                    artifacts += 1
+
     return json.dumps({
         "cmd": "items",
         "etanks": etanks,
         "missiletanks": missiletanks,
         "pbombtanks": pbombtanks,
         "proggrapples": proggrapples,
+        "artifacts": artifacts,
         "majors": majors
     })
 
@@ -172,6 +179,7 @@ def get_locations_payload(ctx: MPOContext) -> str:
         "locations": items_dict,
         "remote_items": remote_items_dict,
         "end_at_ridley": ctx.end_at_ridley,
+        "artifacts_required": ctx.artifacts_required,
         "exo_order": ctx.exo_order,
     })
 

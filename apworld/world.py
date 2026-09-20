@@ -5,7 +5,7 @@ import os
 from typing import Any
 from worlds.AutoWorld import World
 from .locations import LOCATION_NAME_TO_ID, location_name_to_game_key, create_locations
-from .items import ITEM_NAME_TO_ID, MetroidPrimeOriginsItem, create_item_with_correct_classification, add_items_to_multiworld
+from .items import ITEM_GROUPS, ITEM_NAME_TO_ID, ITEM_TABLE, MetroidPrimeOriginsItem, create_item_with_correct_classification, add_items_to_multiworld
 from .regions import create_and_connect_regions
 from .rules import set_all_rules
 from .options import MPOOptions
@@ -18,6 +18,7 @@ class MetroidPrimeOriginsWorld(World):
 
     location_name_to_id = LOCATION_NAME_TO_ID
     item_name_to_id = ITEM_NAME_TO_ID
+    item_name_groups = ITEM_GROUPS
 
     origin_region_name = "(Tallon Overworld) Landing Site"
     topology_present = True
@@ -50,7 +51,8 @@ class MetroidPrimeOriginsWorld(World):
                 "progressive_grapple_beam",
                 "sm_walljumps_in_logic",
                 "hellruns_in_logic",
-                "knowledge_checks_in_logic"
+                "knowledge_checks_in_logic",
+                "artifacts_required"
             ),
             "exo_order": self.prime_exo_order,
         }
@@ -78,12 +80,22 @@ class MetroidPrimeOriginsWorld(World):
     def generate_output(self, output_directory: str) -> None:
         if (self.multiworld.players != 1):
             return
+
+        artifacts = list(ITEM_GROUPS["Artifacts"])
+        artifact_hints = {}
+        for artifact in artifacts:
+            location = self.multiworld.find_item(artifact, self.player)
+            if location:
+                artifact_hints[artifact] = location.name
+
         data = {
             "items": {location_name_to_game_key[location.name]: location.item.name for location in self.multiworld.get_filled_locations(self.player) if location.name in location_name_to_game_key},
             "starter_items": [item.name for item in self.multiworld.precollected_items[self.player]],
             "exo_order": self.prime_exo_order,
             "phazon_hint": self.multiworld.find_item("Phazon Suit", self.player).name,
-            "end_at_ridley": self.options.end_at_ridley.value
+            "end_at_ridley": self.options.end_at_ridley.value,
+            "artifacts_required": self.options.artifacts_required.value,
+            "artifact_hints": artifact_hints
         }
 
         mod_name = self.multiworld.get_out_file_name_base(self.player)

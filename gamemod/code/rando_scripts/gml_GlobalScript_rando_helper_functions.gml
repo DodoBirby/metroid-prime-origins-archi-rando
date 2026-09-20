@@ -39,10 +39,17 @@ function grant_item(item)
             return true;
         default:
             var ds_name = convert_mw_name_to_ds_name(item);
+            var is_artifact = string_pos("Artifact", ds_name) != 0;
+
+            if (dz("MWLocal") && is_artifact)
+            {
+                // TODO: cleaner way to make remote items not duplicate the artifact count rather than checking mwlocal?
+                ds_add("ArtifactCountCollected", 1);
+            }
             if (dz(ds_name) == 0)
             {
                 ds_write(ds_name, 1);
-                if (string_pos("Artifact", ds_name) != 0)
+                if (is_artifact)
                 {
                     mw_handle_aeon_powers(ds_name);
                 }
@@ -66,10 +73,21 @@ function load_seed_file(path)
         ds_list_copy(global.mwExoBeams, ds_map_find_value(payload, "exo_order"));
         global.mwPhazonHint = ds_map_find_value(payload, "phazon_hint");
         global.mwEndAtRidley = ds_map_find_value(payload, "end_at_ridley");
+        ds_map_copy(global.mwArtifactHints, ds_map_find_value(payload, "artifact_hints"));
+        global.mwArtifactsRequired = ds_map_find_value(payload, "artifacts_required");
         ds_map_destroy(payload);
         global.localSeed = true;
         result = true;
     }
     file_text_close(file);
     return result;
+}
+
+function endgame_is_available()
+{
+    if (dz("MWArtifactsRequired") == 0)
+    {
+        return dz("Flaahgra Defeated") && dz("Thardus Defeated") && dz("Omega Pirate Defeated");
+    }
+    return dz("ArtifactCountCollected") >= dz("MWArtifactsRequired");
 }

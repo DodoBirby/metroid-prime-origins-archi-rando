@@ -2,10 +2,11 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
+from rule_builder.field_resolvers import FromOption
 from rule_builder.options import OptionFilter
-from rule_builder.rules import CanReachLocation, CanReachRegion, Has, Rule
+from rule_builder.rules import CanReachLocation, CanReachRegion, Has, HasGroup, Rule
 
-from .options import EndAtRidley, HellrunsInLogic, IBJInLogic, KnowledgeChecksInLogic, ProgressiveGrappleBeam, SMWalljumpsInLogic
+from .options import ArtifactsRequired, EndAtRidley, HellrunsInLogic, IBJInLogic, KnowledgeChecksInLogic, ProgressiveGrappleBeam, SMWalljumpsInLogic
 
 if TYPE_CHECKING:
     from .world import MetroidPrimeOriginsWorld
@@ -67,6 +68,9 @@ CAN_BEAT_CRATER = Has("Energy Tank", 4) & Has(WAVE) & Has(PLASMA) & Has(ICE) & H
 # This is possibly too difficult as a base setting, open to changing it
 CAN_BEAT_RIDLEY = Has("Energy Tank", 4) & Has(CHARGE) & Has(PLASMA)
 
+CAN_UNLOCK_CIPHER = (OptionFilter(ArtifactsRequired, 0) & Has("Kill Flaahgra") & Has("Kill Thardus") & Has("Kill Omega Pirate")
+                    | OptionFilter(ArtifactsRequired, 0, "ne") & HasGroup("Artifacts", FromOption(ArtifactsRequired)))
+
 CAN_BEAT_ENDGAME = OptionFilter(EndAtRidley, False) & CAN_BEAT_CRATER & CAN_BEAT_RIDLEY | OptionFilter(EndAtRidley, True) & CAN_BEAT_RIDLEY
 def set_location_rule(name: str, rule: Rule[Any], world: MetroidPrimeOriginsWorld):
     world.set_rule(world.get_location(name), rule)
@@ -107,7 +111,7 @@ def set_tallon_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Tallon Overworld) Overgrown Cavern", Has(MORPH), world)
 
     # Artifact Temple
-    set_location_rule("Victory", Has("Kill Flaahgra") & Has("Kill Thardus") & Has("Kill Omega Pirate") & CAN_BEAT_ENDGAME, world)
+    set_location_rule("Victory", CAN_UNLOCK_CIPHER & CAN_BEAT_ENDGAME, world)
 
     # Landing Site
     set_location_rule("(Tallon Overworld) Landing Site - Grass", Has(MORPH), world)

@@ -31,6 +31,16 @@ class KnowledgeChecksInLogic(Toggle):
     """
     display_name = "Knowledge checks in logic"
 
+class ArtifactsRequired(Range):
+    """
+    Choose how many artifacts will be required to trigger the endgame.
+    If this option is set to 0 then you will need to kill all three bosses to open the endgame (like in remix mode).
+    """
+    display_name = "Artifacts required"
+    range_start = 0
+    range_end = 12
+    default = 0
+
 class EndAtRidley(Toggle):
     """
     Choose whether you want to end the game when defeating Ridley at the Artifact temple (Instead of when you reach your ship after defeating Metroid Prime).
@@ -77,6 +87,7 @@ class MPOOptions(PerGameCommonOptions):
     sm_walljumps_in_logic: SMWalljumpsInLogic
     hellruns_in_logic: HellrunsInLogic
     knowledge_checks_in_logic: KnowledgeChecksInLogic
+    artifacts_required: ArtifactsRequired
     end_at_ridley: EndAtRidley
     progressive_grapple_beam: ProgressiveGrappleBeam
     use_vanilla_pool: UseVanillaItemPool

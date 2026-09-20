@@ -7,6 +7,7 @@ function handle_locations_cmd(payload)
     ds_map_copy(global.mwRemoteLocations, remoteLocationsMap);
     ds_list_copy(global.mwExoBeams, exoOrder);
     global.mwEndAtRidley = ds_map_find_value(payload, "end_at_ridley");
+    global.mwArtifactsRequired = ds_map_find_value(payload, "artifacts_required");
     receivedSeedFromClient = true;
 }
 
@@ -27,6 +28,8 @@ function handle_items_cmd(payload)
     var missiletanks = ds_map_find_value(payload, "missiletanks");
     var pbombtanks = ds_map_find_value(payload, "pbombtanks");
     var proggrapples = ds_map_find_value(payload, "proggrapples");
+    var artifacts = ds_map_find_value(payload, "artifacts");
+    ds_write("ArtifactCountCollected", artifacts);
 
     if (prevmissiletanks < missiletanks)
     {

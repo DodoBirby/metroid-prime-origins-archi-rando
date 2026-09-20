@@ -166,6 +166,13 @@ function start_game()
             grant_item(ds_list_find_value(global.localStarterItems, i));
         }
         ds_write("MWPhazonHint", global.mwPhazonHint);
+        key = ds_map_find_first(global.mwArtifactHints);
+        for (var i = 0; i < ds_map_size(global.mwArtifactHints); i++)
+        {
+            var name = "MWArtifact " + key;
+            ds_write(name, ds_map_find_value(global.mwArtifactHints, key));
+            key = ds_map_find_next(global.mwArtifactHints, key);
+        }
     }
     var lockedBeams = [0, 1, 2, 3];
     for (var i = 0; i < ds_list_size(global.mwExoBeams); i++)
@@ -173,6 +180,8 @@ function start_game()
         lockedBeams[i] = ds_list_find_value(global.mwExoBeams, i);
     }
     ds_write("MWLockedExoBeams", lockedBeams);
+    
+    ds_write("MWArtifactsRequired", global.mwArtifactsRequired);
     
     // Ship teleport unlock
     var identity = string(tal_Landing_Site) + " Save Point";
