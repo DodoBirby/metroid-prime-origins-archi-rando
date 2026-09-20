@@ -8,6 +8,7 @@ function handle_locations_cmd(payload)
     ds_list_copy(global.mwExoBeams, exoOrder);
     global.mwEndAtRidley = ds_map_find_value(payload, "end_at_ridley");
     global.mwArtifactsRequired = ds_map_find_value(payload, "artifacts_required");
+    global.mwAeonPowers = ds_map_find_value(payload, "aeon_powers");
     receivedSeedFromClient = true;
 }
 

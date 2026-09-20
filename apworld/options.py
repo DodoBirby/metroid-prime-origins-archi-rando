@@ -53,6 +53,12 @@ class ProgressiveGrappleBeam(Toggle):
     """
     display_name = "Progressive Grapple Beam"
 
+class AeonPowers(DefaultOnToggle):
+    """
+    Choose whether artifacts grant aeon abilities.
+    """
+    display_name = "Aeon Powers"
+
 class UseVanillaItemPool(DefaultOnToggle):
     """
     Choose whether to use the vanilla item pool. If this setting is enabled then the filler percent options won't be used.
@@ -90,6 +96,7 @@ class MPOOptions(PerGameCommonOptions):
     artifacts_required: ArtifactsRequired
     end_at_ridley: EndAtRidley
     progressive_grapple_beam: ProgressiveGrappleBeam
+    aeon_powers: AeonPowers
     use_vanilla_pool: UseVanillaItemPool
     power_bomb_filler_percent: PowerBombFillerPercent
     energy_tank_filler_percent: EnergyTankFillerPercent

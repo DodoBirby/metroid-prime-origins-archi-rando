@@ -182,6 +182,7 @@ function start_game()
     ds_write("MWLockedExoBeams", lockedBeams);
     
     ds_write("MWArtifactsRequired", global.mwArtifactsRequired);
+    ds_write("MWAeonPowers", global.mwAeonPowers);
     
     // Ship teleport unlock
     var identity = string(tal_Landing_Site) + " Save Point";

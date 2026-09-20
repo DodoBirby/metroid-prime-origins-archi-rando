@@ -55,7 +55,8 @@ function get_area_name(arg0 = global.area)
 
 function item_descriptions(arg0)
 {
-    if (dz("Classic Mode"))
+    // -- MW Change, change condition to be based on aeon power setting
+    if (!dz("MWAeonPowers"))
     {
         if (arg0 == "Energy Tank")
         {

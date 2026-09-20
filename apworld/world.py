@@ -52,7 +52,8 @@ class MetroidPrimeOriginsWorld(World):
                 "sm_walljumps_in_logic",
                 "hellruns_in_logic",
                 "knowledge_checks_in_logic",
-                "artifacts_required"
+                "artifacts_required",
+                "aeon_powers"
             ),
             "exo_order": self.prime_exo_order,
         }
@@ -95,7 +96,8 @@ class MetroidPrimeOriginsWorld(World):
             "phazon_hint": self.multiworld.find_item("Phazon Suit", self.player).name,
             "end_at_ridley": self.options.end_at_ridley.value,
             "artifacts_required": self.options.artifacts_required.value,
-            "artifact_hints": artifact_hints
+            "artifact_hints": artifact_hints,
+            "aeon_powers": self.options.aeon_powers.value
         }
 
         mod_name = self.multiworld.get_out_file_name_base(self.player)

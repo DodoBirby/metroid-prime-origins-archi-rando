@@ -134,5 +134,6 @@ global.mwPhazonHint = "";
 global.mwExoBeams = ds_list_create();
 global.mwArtifactHints = ds_map_create();
 global.mwArtifactsRequired = 0;
+global.mwAeonPowers = 0;
 spawn(obj_MWConnector);
 // -- MW Changes End

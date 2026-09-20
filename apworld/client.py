@@ -60,6 +60,7 @@ class MPOContext(SuperContext):
         self.mpo_status: str = CONNECTION_INITIAL_STATUS
         self.end_at_ridley: bool = False
         self.artifacts_required: int = 0
+        self.aeon_powers: bool = False
         self.exo_order: list[int] = []
         self.mpo_connection_ip: str = "127.0.0.1"
         self.mpo_connection_port: int = PORT_NUMBER
@@ -77,6 +78,7 @@ class MPOContext(SuperContext):
             async_start(self.send_msgs([{ "cmd": "LocationScouts", "locations": list(LOCATION_NAME_TO_ID.values()), "create_as_hint": 0 }]))
             self.end_at_ridley = args["slot_data"]["options"]["end_at_ridley"]
             self.artifacts_required = args["slot_data"]["options"]["artifacts_required"]
+            self.aeon_powers = args["slot_data"]["options"]["aeon_powers"]
             self.exo_order = args["slot_data"]["exo_order"]
             return
         if cmd == "LocationInfo":
@@ -180,6 +182,7 @@ def get_locations_payload(ctx: MPOContext) -> str:
         "remote_items": remote_items_dict,
         "end_at_ridley": ctx.end_at_ridley,
         "artifacts_required": ctx.artifacts_required,
+        "aeon_powers": ctx.aeon_powers,
         "exo_order": ctx.exo_order,
     })
 

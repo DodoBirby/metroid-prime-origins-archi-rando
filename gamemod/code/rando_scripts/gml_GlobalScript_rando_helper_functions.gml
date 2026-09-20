@@ -49,7 +49,7 @@ function grant_item(item)
             if (dz(ds_name) == 0)
             {
                 ds_write(ds_name, 1);
-                if (is_artifact)
+                if (is_artifact && dz("MWAeonPowers"))
                 {
                     mw_handle_aeon_powers(ds_name);
                 }
@@ -75,6 +75,7 @@ function load_seed_file(path)
         global.mwEndAtRidley = ds_map_find_value(payload, "end_at_ridley");
         ds_map_copy(global.mwArtifactHints, ds_map_find_value(payload, "artifact_hints"));
         global.mwArtifactsRequired = ds_map_find_value(payload, "artifacts_required");
+        global.mwAeonPowers = ds_map_find_value(payload, "aeon_powers");
         ds_map_destroy(payload);
         global.localSeed = true;
         result = true;
