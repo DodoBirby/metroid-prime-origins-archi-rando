@@ -12,7 +12,7 @@ The tl;dr of setting up the rando is as follows:
 
 Before playing any seeds:
 
-1. Patch your data.win file using the randomizer_patch0_0_5.xdelta file.
+1. Patch your data.win file using the randomizer_patch0_0_5.xdelta file. (Make sure you have the VM version of MPO)
 2. Install the metroid_prime_origins.apworld in Archipelago.
 
 Before each seed (if you're playing a multiworld):
