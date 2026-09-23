@@ -34,6 +34,10 @@ nativeLastEvent = "";
 nativeLastSocketError = "";
 nativeMessages = [];
 nativeConsoleOpen = false;
+nativeCompletionMatches = [];
+nativeCompletionCurrent = "";
+nativeCompletionIndex = 0;
+nativeCompletionStem = "";
 nativeDialogId = -1;
 nativeDialogStage = "";
 nativePendingHost = "";
@@ -176,6 +180,76 @@ nativeAddMessage = function(message, richText)
     {
         array_delete(nativeMessages, 0, 1);
     }
+};
+
+nativeCompleteInput = function()
+{
+    var input = keyboard_string;
+    var lowerInput = string_lower(input);
+    var completingArgument = string_pos("!hint ", lowerInput) == 1
+        || string_pos("!hint_location ", lowerInput) == 1;
+    if (input == nativeCompletionCurrent && array_length(nativeCompletionMatches) > 1
+        && (completingArgument == (nativeCompletionStem != "")))
+    {
+        nativeCompletionIndex = (nativeCompletionIndex + 1) mod array_length(nativeCompletionMatches);
+        keyboard_string = nativeCompletionStem + nativeCompletionMatches[nativeCompletionIndex];
+        if (nativeCompletionStem == "") keyboard_string += " ";
+        nativeCompletionCurrent = keyboard_string;
+        return;
+    }
+
+    nativeCompletionMatches = [];
+    nativeCompletionCurrent = "";
+    nativeCompletionIndex = 0;
+    nativeCompletionStem = "";
+    if (lowerInput == "!hint" || lowerInput == "!hint_location")
+    {
+        keyboard_string = lowerInput + " ";
+        return;
+    }
+
+    var candidates = [];
+    var fragment = input;
+    var commandMode = false;
+    if (string_pos("!hint_location ", lowerInput) == 1)
+    {
+        nativeCompletionStem = "!hint_location ";
+        fragment = string_delete(input, 1, string_length(nativeCompletionStem));
+        if (!connectedToClient) return;
+        var game = apclient_get_game();
+        for (var locationId = 1; locationId <= nativeExpectedScoutCount; locationId++)
+        {
+            var locationName = apclient_get_location_name(locationId, game);
+            if (locationName != "") array_push(candidates, locationName);
+        }
+    }
+    else if (string_pos("!hint ", lowerInput) == 1)
+    {
+        nativeCompletionStem = "!hint ";
+        fragment = string_delete(input, 1, string_length(nativeCompletionStem));
+        candidates = mw_ap_item_names();
+    }
+    else if (string_pos("!", input) == 1 && string_pos(" ", input) == 0)
+    {
+        commandMode = true;
+        candidates = ["!help", "!hint", "!hint_location", "!missing", "!checked", "!players", "!status", "!remaining", "!alias", "!countdown", "!release", "!collect", "!options"];
+    }
+    else return;
+
+    var lowerFragment = string_lower(fragment);
+    for (var candidateIndex = 0; candidateIndex < array_length(candidates); candidateIndex++)
+    {
+        var candidate = candidates[candidateIndex];
+        var matchPosition = string_pos(lowerFragment, string_lower(candidate));
+        if (matchPosition > 0 && (!commandMode || matchPosition == 1))
+        {
+            array_push(nativeCompletionMatches, candidate);
+        }
+    }
+    if (array_length(nativeCompletionMatches) == 0) return;
+    keyboard_string = nativeCompletionStem + nativeCompletionMatches[0];
+    if (commandMode) keyboard_string += " ";
+    nativeCompletionCurrent = keyboard_string;
 };
 
 nativeFailSeed = function(message)

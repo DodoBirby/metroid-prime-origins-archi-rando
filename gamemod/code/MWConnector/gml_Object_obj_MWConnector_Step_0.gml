@@ -275,8 +275,20 @@ if (nativeTransferTimer <= 0)
     nativeSendGoal();
 }
 
-if (nativeConsoleOpen && nativeDialogId == -1 && keyboard_check_pressed(vk_enter))
+if (nativeConsoleOpen)
 {
-    nativePromptChat();
+    keyboard_string = string_copy(keyboard_string, 1, 256);
+    if (keyboard_check_pressed(vk_tab)) nativeCompleteInput();
+    if (keyboard_check_pressed(vk_enter))
+    {
+        var chatMessage = string_trim(keyboard_string);
+        keyboard_string = "";
+        nativeCompletionMatches = [];
+        nativeCompletionCurrent = "";
+        if (chatMessage != "" && (!connectedToClient || !apclient_say(chatMessage)))
+        {
+            nativeAddMessage("Could not send Archipelago message");
+        }
+    }
 }
 // -- MW Changes End

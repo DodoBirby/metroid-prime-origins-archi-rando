@@ -48,7 +48,8 @@ The settings file is created when the game first saves options, at `%LOCALAPPDAT
 
 The title screen shows the current AP connection state.
 
-Press F1 for the in-game AP console, then Enter to send chat or server commands.
+Press F1 for the in-game AP console.
+Type a message or server command, use Tab to complete commands and `!hint` item or `!hint_location` location names. Press Enter to send.
 
 Now that you're connected, you can start your save file. Make sure to pick `remix mode`, other modes have not been tested and the logic won't be correct.
 

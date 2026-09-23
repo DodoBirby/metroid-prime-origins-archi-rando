@@ -10,7 +10,7 @@ if (room == rm_Title)
 if (!nativeConsoleOpen) exit;
 
 var consoleHeader = "[fnt_Logbook][fa_left][fa_top][NES_Cyan]ARCHIPELAGO (" + nativeState + ")";
-var consoleFooter = "[NES_White]Enter: chat/command    F1: close";
+var consoleFooter = "[NES_White]> " + nativeEscapeDisplay(keyboard_string) + "_\nTab: complete    Enter: send    F1: close";
 var consoleBody = "";
 var consoleWidth = global._screen_width - 20;
 for (var messageIndex = array_length(nativeMessages) - 1; messageIndex >= 0; messageIndex--)
