@@ -36,6 +36,28 @@ global.INPUT_2D_XY_AXIS_BIAS = 0.3125;
 global.mouse_on = 0;
 _mouse_x = 160;
 _mouse_y = 120;
+// -- MW Changes Start: Add option to lock mouse inside window.
+global.mpoMouseConfineDll = working_directory + "mpo-window.dll";
+global.ext_mpo_mouse_confine = -1;
+if (file_exists(global.mpoMouseConfineDll))
+{
+    try
+    {
+        global.ext_mpo_mouse_confine = external_define(
+            global.mpoMouseConfineDll,
+            "mpo_mouse_confine",
+            dll_cdecl,
+            ty_real,
+            1,
+            ty_real
+        );
+    }
+    catch (error)
+    {
+        show_debug_message("Mouse confinement helper could not be loaded");
+    }
+}
+// -- MW Changes End
 global.screen_shake_x = 0;
 global.screen_shake_y = 0;
 global.HUD_size = 16;

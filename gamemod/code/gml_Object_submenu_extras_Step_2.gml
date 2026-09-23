@@ -19,8 +19,9 @@ if (menu_offset > 32)
 {
     exit;
 }
-// -- MW Change: bump selection vertical to 4 entries
-selection_vertical(4, sndPauseScroll);
+// -- MW Changes Start
+selection_vertical(6, sndPauseScroll);
+// -- MW Changes End
 if (global.key_cancel || global.key_menu)
 {
     leaving = 1;
@@ -42,7 +43,7 @@ if (global.key_accept && !global.key_up && !global.key_down && !global.key_left 
     {
         spawn(subsubmenu_credits);
     }
-    // -- MW Change: Add new menu entry and bump next entry selection number
+    // -- MW Change: Add new menu entries
     if (selection == 3)
     {
         var path = get_open_filename("seed files|*.mposeed");
@@ -54,9 +55,38 @@ if (global.key_accept && !global.key_up && !global.key_down && !global.key_left 
             }
         }
     }
+    // -- MW Changes Start
     if (selection == 4)
+    {
+        if (!instance_exists(obj_MWConnector))
+        {
+            show_item_pickup_text("Archipelago connector is unavailable");
+        }
+        else if (obj_MWConnector.nativeSessionActive)
+        {
+            obj_MWConnector.nativeDisconnect();
+            show_item_pickup_text("Disconnected from Archipelago");
+        }
+        else
+        {
+            obj_MWConnector.nativePromptConnect();
+        }
+    }
+    if (selection == 5)
+    {
+        if (instance_exists(obj_MWConnector))
+        {
+            obj_MWConnector.nativePromptChat();
+        }
+        else
+        {
+            show_item_pickup_text("Archipelago connector is unavailable");
+        }
+    }
+    if (selection == 6)
     {
         leaving = 1;
         bitsound(sndPauseReject);
     }
+    // -- MW Changes End
 }

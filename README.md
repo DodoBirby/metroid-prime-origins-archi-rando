@@ -12,14 +12,16 @@ The tl;dr of setting up the rando is as follows:
 
 Before playing any seeds:
 
-1. Patch your data.win file using the randomizer_patch0_0_5.xdelta file. (Make sure you have the VM version of MPO)
-2. Install the metroid_prime_origins.apworld in Archipelago.
+1. Download and extract the matching `mpo-native-client-patch-1.1.2-vm.zip` release bundle.
+2. Apply its `randomizer_patch_native_client_1_1_2_vm.xdelta` to the `data.win` from a clean **64-bit Metroid Prime Origins 1.1.2 VM** copy.
+3. Put the patched `data.win`, `gm-apclientpp.dll`, and `mpo-window.dll` next to `MetroidPrimeOrigins.exe`.
+4. Install the matching `metroid_prime_origins.apworld` in Archipelago.
 
 Before each seed (if you're playing a multiworld):
 
-1. Open the Archipelago launcher and select the "Metroid Prime Origins Client" option (if it's not there then you may not have installed the apworld properly).
-2. Connect the client to the archipelago server using the address bar at the top of the client.
-3. Run your patched copy of Metroid Prime Origins (If everything is done correctly it should say "Connected to python client upon starting").
+1. Run your patched copy of Metroid Prime Origins.
+2. Open Extras and select `AP Connect` to enter the server, slot, and optional password. Saved host and slot values are retried automatically on later launches.
+3. Wait for the title-screen status to say `AP: ready`.
 4. Start a new save file on `remix mode`.
 
 Before each seed (if playing solo):
@@ -34,40 +36,19 @@ If you need more details on any of the steps, see the sections below.
 
 ## Patching the game
 
-First you need to apply the randomizer patches to your copy of Metroid Prime Origins, you only have to do this once (until the randomizer gets an update).
+Keep a backup of your clean **64-bit Metroid Prime Origins 1.1.2 VM** folder. Download the matching patch bundle from this version's release and extract it. Using an [xdelta patcher](https://kotcrab.github.io/xdelta-wasm/), select the clean game's `data.win` as the original file and `randomizer_patch_native_client_1_1_2_vm.xdelta` as the patch. Rename the output to `data.win` and place it next to `MetroidPrimeOrigins.exe` in your playing copy. Copy `gm-apclientpp.dll` and `mpo-window.dll` from the same bundle into that folder.
 
-I will be referring to the Metroid Prime Origins folder (the one with the exe you use to run the game) as `GAME_FOLDER`.
-
-I recommend making a copy of `GAME_FOLDER` before performing any of the following steps so you can still play the vanilla game.
-
-**MAKE SURE YOU ARE USING THE 1.1.2 VM RELEASE OF METROID PRIME ORIGINS OR THE PATCH WON'T WORK**
-
-You'll need to apply the `randomizer_patch0_0_5.xdelta` to the `data.win` file in `GAME_FOLDER`.
-
-There are many ways to apply an xdelta patch but the easiest way is to use this online patcher https://kotcrab.github.io/xdelta-wasm/.
-
-If the patch succeeded you will have a new file, rename this file to `data.win` and put it in the same place as the old `data.win` (I recommend keeping the old `data.win` around somewhere since it may be required if you want to patch the game again, like when the randomizer gets an update).
+The older `randomizer_patch0_0_5.xdelta` does not contain the native Archipelago client. Do not apply it before or instead of the patch for this version. If the patcher rejects your original file, check that it is the clean 1.1.2 VM `data.win`.
 
 ## Running the client
 
-Now that you have patched your game, you are ready to actually play!
+The patched game connects directly to Archipelago. Open Extras and select `AP Connect` to enter the server address, slot name, and optional password. The game saves the host and slot and tries to reconnect with them when it starts. Passwords are not saved; enter one through `AP Connect` when needed.
 
-I will be assuming you know how to install the apworld and generate a seed (or you have a host who can generate a seed for you).
+The settings file is created when the game first saves options, at `%LOCALAPPDATA%\Metroid_Prime_Origins_Archipelago\Metroid Settings.NUT`. It contains serialized game settings, not editable `AP Host` and `AP Slot` INI entries. Use `AP Connect` to change those values.
 
-You need to run 2 things:
+The title screen shows the current AP connection state.
 
-- The python client
-- The patched game
-
-The python client can be run from the archipelago menu (assuming you have the apworld installed), it's called "Metroid Prime Origins Client".
-
-The patched game can be run by just running your Metroid Prime Origins exe (assuming you already patched the `data.win` as described above).
-
-If both of these are running you should see a message pop up in game saying "Connected to Python Client", and hitting the F1 key in game should show a message saying "Status: Connected".
-
-Additionally, using the `/mpo` command in the python client should give a connected status.
-
-Once both things are running you can connect to the archipelago server using the python client by typing the server ip into the bar at the top and hitting the `connect` button.
+Press F1 for the in-game AP console, then Enter to send chat or server commands.
 
 Now that you're connected, you can start your save file. Make sure to pick `remix mode`, other modes have not been tested and the logic won't be correct.
 
@@ -96,13 +77,14 @@ Currently playing a local seed and playing a multiworld are completely separate,
 
 ## Common Issues
 
-### The F1 status says "Status: Connected" but none of my items are getting sent
+### The title screen says `AP: unavailable`
 
-You might've forgotten to connect the python client to the archipelago server. Type the ip of the server into the address bar at the top of the python client and hit `connect`.
+Make sure `gm-apclientpp.dll` is next to `MetroidPrimeOrigins.exe` and that the game is the 64-bit 1.1.2 VM release.
 
-### I started a second seed after the first one and it sent all the items immediately
+### My save does not appear
 
-This is currently a known bug, I will hopefully have this fixed next patch. For now just make sure you close the python client in-between seeds.
+Online saves are bound to their seed, team, and slot.
+Connect to the matching room before opening the file-select menu. Local saves remain available during solo play.
 
 ## Potentially unintuitive item locations
 
@@ -150,13 +132,18 @@ If you're just planning on playing then you can ignore everything below.
 
 ## Building the APWorld
 
-Copy the `/apworld` folder into a [from source](https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/running%20from%20source.md) build of Archipelago and then reference the [Official Archipelago Documentation](https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/apworld%20specification.md#build-apworlds-launcher-component) on building apworlds.
+Copy the `/apworld` folder into a [from-source](https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/running%20from%20source.md) build of Archipelago and follow its [APWorld build documentation](https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/apworld%20specification.md) to package it. The separate Python client and launcher component are no longer needed.
 
 ## Building the Game Mod
 
-1. Download the latest version of [UTMT](https://github.com/UnderminersTeam/UndertaleModTool) and run it.
-2. In the `File` dropdown menu, click `Open` and select the `data.win` file in your Metroid Prime Origins game folder.
-3. In the `Project` dropdown menu, click `Open project` and select the `project.json` file in the `/gamemod` folder of this repository.
-4. You will be asked to pick a destination data file location, pick any place you want and name it something like `modded.win`.
-5. In the `File` dropdown menu, click `Save`, if it asks to "save to the designated data file" then click yes.
-6. You should now have a modded data file in whatever location you picked in step 4.
+Use UTMT CLI 0.9.2.0 and a clean Metroid Prime Origins 1.1.2 VM directory:
+
+```powershell
+.\tools\build_game_mod.ps1 -UtmtCli C:\path\to\UndertaleModCli.exe `
+  -SourceGame C:\path\to\clean-game `
+  -OutputGame C:\path\to\patched-game
+```
+
+The script builds `data.win` into an isolated copy and adds both native DLLs.
+Regenerate the checked-in AP ID mappings with `python tools/generate_ap_mappings.py`.
+Use `--check` to verify them without writing.

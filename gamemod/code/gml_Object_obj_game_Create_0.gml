@@ -156,6 +156,7 @@ function start_game()
     }
     
     ds_write("MWEndAtRidley", global.mwEndAtRidley);
+    ds_write("MWGoalComplete", 0);
     
     // local seed handling
     ds_write("MWLocal", global.localSeed);
@@ -173,6 +174,13 @@ function start_game()
             ds_write(name, ds_map_find_value(global.mwArtifactHints, key));
             key = ds_map_find_next(global.mwArtifactHints, key);
         }
+    }
+    else if (instance_exists(obj_MWConnector) && obj_MWConnector.receivedSeedFromClient)
+    {
+        ds_write("MWOnlineSchema", 1);
+        ds_write("MWAPSeed", obj_MWConnector.nativeSeedName);
+        ds_write("MWAPTeam", obj_MWConnector.nativeTeamNumber);
+        ds_write("MWAPPlayer", obj_MWConnector.nativePlayerNumber);
     }
     var lockedBeams = [0, 1, 2, 3];
     for (var i = 0; i < ds_list_size(global.mwExoBeams); i++)
