@@ -2,12 +2,8 @@
 
 `win64/gm-apclientpp.dll` is the Windows x64 release from [gm-apclientpp v0.4.9-3](https://github.com/black-sliver/gm-apclientpp/releases/tag/v0.4.9-3).
 
-Hashes:
+SHA256 Hash of `gm-apclientpp.dll`: `446430df71a2f39ae3b9b75343056e2b8de8afe3b37500458892aa553e11ae50`
 
-- Release archive `gm-apclientpp-win64.zip`: `728609363F9ADC90340916D5B16A609C8EE9F928E738D2ED15569132CDACDAEC`
-- Extracted `gm-apclientpp.dll`: `446430DF71A2F39AE3B9B75343056E2B8DE8AFE3B37500458892AA553E11AE50`
-
-Both DLLs in `win64` must be copied next to `MetroidPrimeOrigins.exe`.
-`tools/build_game_mod.ps1` performs these copies for dev builds.
+`gm-apclientpp.dll` in `win64` must be copied next to `MetroidPrimeOrigins.exe`.
 
 See `LICENSE` for the upstream license and bundled-software notice.
