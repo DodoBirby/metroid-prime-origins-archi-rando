@@ -11,16 +11,15 @@ These instructions will assume you are somewhat familiar with how to use Archipe
 The tl;dr of setting up the rando is as follows:
 
 Before playing any seeds:
-
-1. Download and extract the matching `mpo-native-client-patch-1.1.2-vm.zip` release bundle.
-2. Apply its `randomizer_patch_native_client_1_1_2_vm.xdelta` to the `data.win` from a clean **64-bit Metroid Prime Origins 1.1.2 VM** copy.
-3. Put the patched `data.win`, `gm-apclientpp.dll`, and `mpo-window.dll` next to `MetroidPrimeOrigins.exe`.
-4. Install the matching `metroid_prime_origins.apworld` in Archipelago.
+1. Download the `game-patch0_0_5.zip` and extract it.
+2. Patch your data.win file using the randomizer_patch0_0_5.xdelta file. (Make sure you have the VM version of MPO 1.1.2)
+3. Copy `gm-apclientpp.dll` and the patched `data.win` from the previous step into your MPO folder (next to `MetroidPrimeOrigins.exe`)
+3. Download and install the `metroid_prime_origins.apworld` in Archipelago.
 
 Before each seed (if you're playing a multiworld):
 
 1. Run your patched copy of Metroid Prime Origins.
-2. Open Extras and select `AP Connect` to enter the server, slot, and optional password. Saved host and slot values are retried automatically on later launches.
+2. Open Extras and select `AP Connect` to enter the server, slot, and optional password. Server ip and slot values are saved in the options, and are automatically applied on later launches.
 3. Wait for the title-screen status to say `AP: ready`.
 4. Start a new save file on `remix mode`.
 
@@ -36,15 +35,33 @@ If you need more details on any of the steps, see the sections below.
 
 ## Patching the game
 
-Keep a backup of your clean **64-bit Metroid Prime Origins 1.1.2 VM** folder. Download the matching patch bundle from this version's release and extract it. Using an [xdelta patcher](https://kotcrab.github.io/xdelta-wasm/), select the clean game's `data.win` as the original file and `randomizer_patch_native_client_1_1_2_vm.xdelta` as the patch. Rename the output to `data.win` and place it next to `MetroidPrimeOrigins.exe` in your playing copy. Copy `gm-apclientpp.dll` and `mpo-window.dll` from the same bundle into that folder.
+First you need to apply the randomizer patches to your copy of Metroid Prime Origins, you only have to do this once (until the randomizer gets an update).
 
-The older `randomizer_patch0_0_5.xdelta` does not contain the native Archipelago client. Do not apply it before or instead of the patch for this version. If the patcher rejects your original file, check that it is the clean 1.1.2 VM `data.win`.
+I will be referring to the Metroid Prime Origins folder (the one with the exe you use to run the game) as `GAME_FOLDER`.
+
+I recommend making a copy of `GAME_FOLDER` before performing any of the following steps so you can still play the vanilla game.
+
+**MAKE SURE YOU ARE USING THE 1.1.2 VM RELEASE OF METROID PRIME ORIGINS OR THE PATCH WON'T WORK**
+
+You'll need to apply the `randomizer_patch0_0_5.xdelta` to the `data.win` file in `GAME_FOLDER`.
+
+There are many ways to apply an xdelta patch but the easiest way is to use this online patcher https://kotcrab.github.io/xdelta-wasm/.
+
+If the patch succeeded you will have a new file, rename this file to `data.win` and put it in the same place as the old `data.win` (I recommend keeping the old `data.win` around somewhere since it may be required if you want to patch the game again, like when the randomizer gets an update).
+
+If the patch doesn't succeed this usually means you used the wrong `data.win` as a base. Make sure it's the `data.win` from the 1.1.2 VM Release of MPO.
+
+After patching the `data.win` the last step is copying the `gm-apclientpp.dll` file into `GAME_FOLDER` as well.
 
 ## Running the client
 
-The patched game connects directly to Archipelago. Open Extras and select `AP Connect` to enter the server address, slot name, and optional password. The game saves the host and slot and tries to reconnect with them when it starts. Passwords are not saved; enter one through `AP Connect` when needed.
+Now that you have patched your game, you are ready to actually play!
 
-The settings file is created when the game first saves options, at `%LOCALAPPDATA%\Metroid_Prime_Origins_Archipelago\Metroid Settings.NUT`. It contains serialized game settings, not editable `AP Host` and `AP Slot` INI entries. Use `AP Connect` to change those values.
+I will be assuming you know how to install the apworld and generate a seed (or you have a host who can generate a seed for you).
+
+First, run your patched copy of MPO.
+
+The patched game connects directly to Archipelago. Open the Extras menu and select `AP Connect` to enter the server address, slot name, and optional password. The game saves the server address and slot and tries to reconnect with them when it starts. Passwords are not saved. Enter them through `AP Connect` when needed.
 
 The title screen shows the current AP connection state.
 
@@ -75,17 +92,6 @@ After selecting your mposeed file, exit the options menu and start a new save fi
 If you want to continue playing the seed after quitting out of the game, simply load your save file, the seed has already been applied.
 
 Currently playing a local seed and playing a multiworld are completely separate, so don't try and mix the 2 on the same save file unless you want things to break.
-
-## Common Issues
-
-### The title screen says `AP: unavailable`
-
-Make sure `gm-apclientpp.dll` is next to `MetroidPrimeOrigins.exe` and that the game is the 64-bit 1.1.2 VM release.
-
-### My save does not appear
-
-Online saves are bound to their seed, team, and slot.
-Connect to the matching room before opening the file-select menu. Local saves remain available during solo play.
 
 ## Potentially unintuitive item locations
 
@@ -133,18 +139,21 @@ If you're just planning on playing then you can ignore everything below.
 
 ## Building the APWorld
 
-Copy the `/apworld` folder into a [from-source](https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/running%20from%20source.md) build of Archipelago and follow its [APWorld build documentation](https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/apworld%20specification.md) to package it. The separate Python client and launcher component are no longer needed.
+Copy the `/apworld` folder into a [from source](https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/running%20from%20source.md) build of Archipelago and then reference the [Official Archipelago Documentation](https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/apworld%20specification.md#build-apworlds-launcher-component) on building apworlds.
 
 ## Building the Game Mod
 
-Use UTMT CLI 0.9.2.0 and a clean Metroid Prime Origins 1.1.2 VM directory:
+1. Download the latest version of [UTMT](https://github.com/UnderminersTeam/UndertaleModTool) and run it.
+2. In the `File` dropdown menu, click `Open` and select the `data.win` file in your Metroid Prime Origins game folder.
+3. In the `Project` dropdown menu, click `Open project` and select the `project.json` file in the `/gamemod` folder of this repository.
+4. You will be asked to pick a destination data file location, pick any place you want and name it something like `modded.win`.
+5. In the `File` dropdown menu, click `Save`, if it asks to "save to the designated data file" then click yes.
+6. You should now have a modded data file in whatever location you picked in step 4.
 
-```powershell
-.\tools\build_game_mod.ps1 -UtmtCli C:\path\to\UndertaleModCli.exe `
-  -SourceGame C:\path\to\clean-game `
-  -OutputGame C:\path\to\patched-game
-```
+## Regenerating ap item mappings
 
-The script builds `data.win` into an isolated copy and adds both native DLLs.
-Regenerate the checked-in AP ID mappings with `python tools/generate_ap_mappings.py`.
-Use `--check` to verify them without writing.
+The gamemod has an autogenerated file `/gamemod/code/rando_scripts/gml_GlobalScript_mw_ap_mappings.gml`. This file is generated by the python script `/tools/generate_ap_mappings.py`.
+
+This script should be rerun whenever you add new items or locations to the apworld.
+
+You can run the script with the `--check` flag to test whether the generated files are up to date without overwriting them.
