@@ -2,8 +2,8 @@ if (room == rm_Title)
 {
     var titleStatus = "AP: " + nativeState;
     if (nativeState == "ready" && nativeSlot != "") titleStatus += " (" + nativeEscapeDisplay(nativeSlot) + ")";
-    draw_text_scribble(global._screen_width - 6, global._screen_height - 4,
-        "[fnt_Logbook][fa_right][fa_bottom][NES_Cyan]" + titleStatus);
+    draw_text_scribble(4, 2,
+        "[fnt_Logbook][fa_left][fa_top][NES_Cyan]" + titleStatus);
 }
 
 if (!nativeConsoleOpen) exit;
