@@ -124,6 +124,7 @@ repeat (9)
 randomize();
 global.prime_exo_beams = array_shuffle(global.prime_exo_beams);
 // -- MW Changes Start
+global.messageInGameCount = 0;
 global.mwcompleted = 0;
 global.mwLocations = ds_map_create();
 global.mwRemoteLocations = ds_map_create();
