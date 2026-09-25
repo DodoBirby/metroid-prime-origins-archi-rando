@@ -12,9 +12,9 @@ The tl;dr of setting up the rando is as follows:
 
 Before playing any seeds:
 1. Download the `game-patch0_0_5.zip` and extract it.
-2. Patch your data.win file using the randomizer_patch0_0_5.xdelta file. (Make sure you have the VM version of MPO 1.1.2)
+2. Patch your data.win file using the `randomizer_patch0_0_5.xdelta` inside the zip file. (Make sure you have the VM version of MPO 1.1.2, more details on patching in the `Patching the game` section)
 3. Copy `gm-apclientpp.dll` and the patched `data.win` from the previous step into your MPO folder (next to `MetroidPrimeOrigins.exe`)
-3. Download and install the `metroid_prime_origins.apworld` in Archipelago.
+4. Download and install the `metroid_prime_origins.apworld` in Archipelago.
 
 Before each seed (if you're playing a multiworld):
 
