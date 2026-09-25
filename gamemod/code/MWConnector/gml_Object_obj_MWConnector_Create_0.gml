@@ -1,4 +1,3 @@
-// -- MW Changes Start
 if (instance_number(object_index) > 1)
 {
     instance_destroy();
@@ -662,4 +661,3 @@ if (nativeInitialized && nativeHost != "" && nativeSlot != "")
 {
     nativeConnect(nativeHost, nativeSlot, "");
 }
-// -- MW Changes End

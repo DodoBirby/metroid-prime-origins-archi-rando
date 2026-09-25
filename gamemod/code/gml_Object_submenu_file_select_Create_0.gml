@@ -62,7 +62,7 @@ if (file_exists(prefix + " H.NUT"))
     map7 = bitload(prefix + " H.NUT");
 }
 
-// -- MW Changes Start: Hide saves not associated with the active multiworld.
+// -- MW Changes Start: hide saves that are not part of the current multiworld
 function mw_save_is_hidden(save_map)
 {
     if (global.localSeed

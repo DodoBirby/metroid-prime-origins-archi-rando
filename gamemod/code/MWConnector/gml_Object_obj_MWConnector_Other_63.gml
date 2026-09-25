@@ -1,4 +1,3 @@
-// -- MW Changes Start
 if (ds_map_find_value(async_load, "id") != nativeDialogId)
 {
     exit;
@@ -52,4 +51,3 @@ switch (nativeDialogStage)
         }
         break;
 }
-// -- MW Changes End

@@ -1,4 +1,3 @@
-// -- MW Changes Start
 function apclient_bind(dll_path)
 {
     global.AP_RENDER_FORMAT_TEXT = 0;
@@ -99,4 +98,3 @@ function apclient_json_get_number(proxy) { return external_call(global.ext_apcli
 function apclient_json_number_at(proxy, key) { return external_call(global.ext_apclient_json_number_at, proxy, key); }
 function apclient_json_dump(proxy) { return external_call(global.ext_apclient_json_dump, proxy); }
 function apclient_json_source() { return external_call(global.ext_apclient_json_source); }
-// -- MW Changes End

@@ -8,8 +8,8 @@ if (selection == 0)
 }
 if (!submenu || (submenu && selection != 0))
 {
-    // -- MW Changes Start: Hide saves not associated with the active multiworld.
-    // Repeated for every slot.
+    // -- MW Changes Start: disable saves that aren't part of the current multiworld
+    // repeated for every slot
     if (hidden0)
     {
         if (selection == 0)

@@ -1,4 +1,3 @@
-// -- MW Changes Start
 if (room == rm_Title)
 {
     var titleStatus = "AP: " + nativeState;
@@ -30,4 +29,3 @@ draw_rectangle(4, 4, global._screen_width - 4, global._screen_height - 4, false)
 draw_set_alpha(1);
 draw_set_color(c_white);
 mw_draw_small_text(10, 10, consoleText, consoleWidth);
-// -- MW Changes End

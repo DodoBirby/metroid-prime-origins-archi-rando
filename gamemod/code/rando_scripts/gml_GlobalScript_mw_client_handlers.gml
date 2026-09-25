@@ -1,4 +1,3 @@
-// -- MW Changes Start
 function handle_locations_cmd(payload)
 {
     var locationsMap = ds_map_find_value(payload, "locations");
@@ -102,4 +101,3 @@ function reconcile_mw_items(etanks, missiletanks, pbombtanks, proggrapples, arti
         show_item_pickup_text(lastItemReceived + " Obtained" + suffix);
     }
 }
-// -- MW Changes End

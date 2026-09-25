@@ -1,11 +1,9 @@
-// -- MW Changes Start
 if (!nativeInitialized)
 {
     exit;
 }
 
-// Poll exposes one queued event and its temporary JSON proxies. Copy every
-// value needed below before the next frame calls apclient_poll again.
+// apclient_poll works by setting a bunch of globals that need to be accessed through apclient functions, these values are only valid until the next apclient_poll call
 apclient_poll();
 nativeLastEvent = apclient_json_source();
 
@@ -291,4 +289,3 @@ if (nativeConsoleOpen)
         }
     }
 }
-// -- MW Changes End
