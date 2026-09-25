@@ -27,9 +27,24 @@
       "CodeEntry": "gml_Object_obj_MWConnector_Create_0"
     },
     {
+      "Category": "Step",
+      "Subtype": "Step",
+      "CodeEntry": "gml_Object_obj_MWConnector_Step_0"
+    },
+    {
+      "Category": "Draw",
+      "Subtype": "DrawGUIEnd",
+      "CodeEntry": "gml_Object_obj_MWConnector_Draw_75"
+    },
+    {
       "Category": "Other",
-      "Subtype": "AsyncNetworking",
-      "CodeEntry": "gml_Object_obj_MWConnector_Other_68"
+      "Subtype": "AsyncDialog",
+      "CodeEntry": "gml_Object_obj_MWConnector_Other_63"
+    },
+    {
+      "Category": "Other",
+      "Subtype": "GameEnd",
+      "CodeEntry": "gml_Object_obj_MWConnector_Other_3"
     }
   ]
 }

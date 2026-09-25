@@ -5,5 +5,7 @@ instance_create(x, y, obj_meta_ridley_death);
 if (dz("MWEndAtRidley"))
 {
     global.mwcompleted = 1;
+    ds_write("MWGoalComplete", 1);
+    save_and_tell();
 }
 // -- MW Changes End

@@ -6,6 +6,19 @@ function show_item_pickup_text(text)
     }
 }
 
+function mw_small_text_height(text, width)
+{
+    return scribble(text).scale(0.75).wrap(width).get_height();
+}
+
+function mw_draw_small_text(x, y, text, width)
+{
+    var element = scribble(text).scale(0.75).align(draw_get_halign(), draw_get_valign()).blend(0, draw_get_alpha()).wrap(width);
+    element.draw(x + 1, y + 1);
+    element = scribble(text).scale(0.75).align(draw_get_halign(), draw_get_valign()).blend(draw_get_color(), draw_get_alpha()).wrap(width);
+    element.draw(x, y);
+}
+
 function grant_item(item)
 {
     switch item

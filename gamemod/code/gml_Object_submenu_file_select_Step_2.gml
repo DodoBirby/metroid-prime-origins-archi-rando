@@ -2,6 +2,9 @@ if (instance_exists(par_subsubmenu))
 {
     exit;
 }
+// -- MW Changes Start
+refresh_mw_save_visibility();
+// -- MW Changes End
 if (global.key_cancel)
 {
     bitsound(sndPauseReject);
@@ -19,6 +22,9 @@ if (global.key_cancel)
 }
 mappu = variable_instance_get(id, "map" + string(selection));
 newish = ds_map_find_value(mappu, "New Game");
+// -- MW Changes Start
+hidden = variable_instance_get(id, "hidden" + string(selection));
+// -- MW Changes End
 if (fade_out > 0)
 {
     fade_out += 1;
@@ -90,6 +96,16 @@ if (selected)
 }
 if (global.key_accept && !global.key_up && !global.key_down && !global.key_left && !global.key_right)
 {
+    // -- MW Changes Start
+    if (hidden)
+    {
+        bitsound(sndPauseReject);
+        choice_made = 0;
+        submenu = 0;
+        show_item_pickup_text("This save belongs to another Archipelago seed");
+        exit;
+    }
+    // -- MW Changes End
     new_game_plus = 0;
     choice_made = 1;
     // -- MW Change: Move nyoom sound inside if statements
@@ -109,7 +125,7 @@ if (global.key_accept && !global.key_up && !global.key_down && !global.key_left 
             var msg = "";
             if (!obj_MWConnector.connectedToClient)
             {
-                msg = "Error: Not connected to python client";
+                msg = "Error: Not connected to Archipelago";
             }
             else if (!obj_MWConnector.receivedSeedFromClient)
             {
@@ -157,8 +173,17 @@ if (global.are_you_sure == 1 && !new_game_plus)
     can_delete = 1;
     global.are_you_sure = 0;
 }
-if (can_delete && !new_game_plus)
+// -- MW Changes Start
+if (can_delete && !new_game_plus && hidden)
 {
+    can_delete = 0;
+    submenu = 0;
+    sub_selection = 0;
+    show_item_pickup_text("This save belongs to another Archipelago seed");
+}
+if (can_delete && !new_game_plus && !hidden)
+{
+    // -- MW Changes End
     can_delete = 0;
     submenu = 0;
     sub_selection = 0;
@@ -167,8 +192,10 @@ if (can_delete && !new_game_plus)
     variable_instance_set(id, "map" + string(selection), ds_map_create());
     read_maps();
 }
-if (global.key_option_y && submenu == 0)
+// -- MW Changes Start
+if (global.key_option_y && submenu == 0 && !hidden)
 {
+    // -- MW Changes End
     if (selection == 0 && clear0)
     {
         instance_create(x, y, subsubmenu_are_you_sure);
@@ -234,8 +261,16 @@ if (global.key_option_y && submenu == 0)
         new_game_plus = 1;
     }
 }
-if (global.are_you_sure == 1 && new_game_plus)
+// -- MW Changes Start
+if (global.are_you_sure == 1 && new_game_plus && hidden)
 {
+    global.are_you_sure = 0;
+    new_game_plus = 0;
+    show_item_pickup_text("This save belongs to another Archipelago seed");
+}
+if (global.are_you_sure == 1 && new_game_plus && !hidden)
+{
+    // -- MW Changes End
     global.are_you_sure = 0;
     room_goto(rm_New_Game_Plus);
 }

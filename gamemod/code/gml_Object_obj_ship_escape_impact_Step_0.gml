@@ -46,9 +46,10 @@ if (counter == (fly_off + 120 + 27))
 {
     ds_write("Phazon Suit", 1);
     ds_write("Clear Game", 1);
-    save_and_tell();
     // -- MW Changes Start
     global.mwcompleted = 1;
+    ds_write("MWGoalComplete", 1);
+    save_and_tell();
     // -- MW Changes End
 }
 if (counter == (fly_off + 120))

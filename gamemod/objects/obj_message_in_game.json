@@ -1,0 +1,50 @@
+{
+  "$type": "GameObject",
+  "DataName": null,
+  "Sprite": "spr_quick_scan",
+  "Visible": true,
+  "Solid": false,
+  "Depth": 0,
+  "Persistent": true,
+  "ParentObject": null,
+  "MaskSprite": null,
+  "UsesPhysics": false,
+  "IsSensor": false,
+  "CollisionShape": "Box",
+  "Density": 0.5,
+  "Restitution": 0.1,
+  "Group": 1,
+  "LinearDamping": 0.1,
+  "AngularDamping": 0.1,
+  "Friction": 0.2,
+  "Awake": true,
+  "Kinematic": false,
+  "PhysicsVertices": [],
+  "Events": [
+    {
+      "Category": "Create",
+      "Subtype": "",
+      "CodeEntry": "gml_Object_obj_message_in_game_Create_0"
+    },
+    {
+      "Category": "Step",
+      "Subtype": "Step",
+      "CodeEntry": "gml_Object_obj_message_in_game_Step_0"
+    },
+    {
+      "Category": "Step",
+      "Subtype": "BeginStep",
+      "CodeEntry": "gml_Object_obj_message_in_game_Step_1"
+    },
+    {
+      "Category": "Draw",
+      "Subtype": "DrawGUIEnd",
+      "CodeEntry": "gml_Object_obj_message_in_game_Draw_75"
+    },
+    {
+      "Category": "Draw",
+      "Subtype": "Draw",
+      "CodeEntry": "gml_Object_obj_message_in_game_Draw_0"
+    }
+  ]
+}

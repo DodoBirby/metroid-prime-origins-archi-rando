@@ -11,15 +11,16 @@ These instructions will assume you are somewhat familiar with how to use Archipe
 The tl;dr of setting up the rando is as follows:
 
 Before playing any seeds:
-
-1. Patch your data.win file using the randomizer_patch0_0_5.xdelta file. (Make sure you have the VM version of MPO)
-2. Install the metroid_prime_origins.apworld in Archipelago.
+1. Download the `game-patch0_0_5.zip` and extract it.
+2. Patch your data.win file using the randomizer_patch0_0_5.xdelta file. (Make sure you have the VM version of MPO 1.1.2)
+3. Copy `gm-apclientpp.dll` and the patched `data.win` from the previous step into your MPO folder (next to `MetroidPrimeOrigins.exe`)
+3. Download and install the `metroid_prime_origins.apworld` in Archipelago.
 
 Before each seed (if you're playing a multiworld):
 
-1. Open the Archipelago launcher and select the "Metroid Prime Origins Client" option (if it's not there then you may not have installed the apworld properly).
-2. Connect the client to the archipelago server using the address bar at the top of the client.
-3. Run your patched copy of Metroid Prime Origins (If everything is done correctly it should say "Connected to python client upon starting").
+1. Run your patched copy of Metroid Prime Origins.
+2. Open Extras and select `AP Connect` to enter the server, slot, and optional password. Server ip and slot values are saved in the options, and are automatically applied on later launches.
+3. Wait for the title-screen status to say `AP: ready`.
 4. Start a new save file on `remix mode`.
 
 Before each seed (if playing solo):
@@ -48,26 +49,24 @@ There are many ways to apply an xdelta patch but the easiest way is to use this 
 
 If the patch succeeded you will have a new file, rename this file to `data.win` and put it in the same place as the old `data.win` (I recommend keeping the old `data.win` around somewhere since it may be required if you want to patch the game again, like when the randomizer gets an update).
 
+If the patch doesn't succeed this usually means you used the wrong `data.win` as a base. Make sure it's the `data.win` from the 1.1.2 VM Release of MPO.
+
+After patching the `data.win` the last step is copying the `gm-apclientpp.dll` file into `GAME_FOLDER` as well.
+
 ## Running the client
 
 Now that you have patched your game, you are ready to actually play!
 
 I will be assuming you know how to install the apworld and generate a seed (or you have a host who can generate a seed for you).
 
-You need to run 2 things:
+First, run your patched copy of MPO.
 
-- The python client
-- The patched game
+The patched game connects directly to Archipelago. Open the Extras menu and select `AP Connect` to enter the server address, slot name, and optional password. The game saves the server address and slot and tries to reconnect with them when it starts. Passwords are not saved. Enter them through `AP Connect` when needed.
 
-The python client can be run from the archipelago menu (assuming you have the apworld installed), it's called "Metroid Prime Origins Client".
+The title screen shows the current AP connection state.
 
-The patched game can be run by just running your Metroid Prime Origins exe (assuming you already patched the `data.win` as described above).
-
-If both of these are running you should see a message pop up in game saying "Connected to Python Client", and hitting the F1 key in game should show a message saying "Status: Connected".
-
-Additionally, using the `/mpo` command in the python client should give a connected status.
-
-Once both things are running you can connect to the archipelago server using the python client by typing the server ip into the bar at the top and hitting the `connect` button.
+Press F1 for the in-game AP console.
+Type a message or server command, use Tab to complete commands and `!hint` item or `!hint_location` location names. Press Enter to send.
 
 Now that you're connected, you can start your save file. Make sure to pick `remix mode`, other modes have not been tested and the logic won't be correct.
 
@@ -93,16 +92,6 @@ After selecting your mposeed file, exit the options menu and start a new save fi
 If you want to continue playing the seed after quitting out of the game, simply load your save file, the seed has already been applied.
 
 Currently playing a local seed and playing a multiworld are completely separate, so don't try and mix the 2 on the same save file unless you want things to break.
-
-## Common Issues
-
-### The F1 status says "Status: Connected" but none of my items are getting sent
-
-You might've forgotten to connect the python client to the archipelago server. Type the ip of the server into the address bar at the top of the python client and hit `connect`.
-
-### I started a second seed after the first one and it sent all the items immediately
-
-This is currently a known bug, I will hopefully have this fixed next patch. For now just make sure you close the python client in-between seeds.
 
 ## Potentially unintuitive item locations
 
@@ -160,3 +149,11 @@ Copy the `/apworld` folder into a [from source](https://github.com/ArchipelagoMW
 4. You will be asked to pick a destination data file location, pick any place you want and name it something like `modded.win`.
 5. In the `File` dropdown menu, click `Save`, if it asks to "save to the designated data file" then click yes.
 6. You should now have a modded data file in whatever location you picked in step 4.
+
+## Regenerating ap item mappings
+
+The gamemod has an autogenerated file `/gamemod/code/rando_scripts/gml_GlobalScript_mw_ap_mappings.gml`. This file is generated by the python script `/tools/generate_ap_mappings.py`.
+
+This script should be rerun whenever you add new items or locations to the apworld.
+
+You can run the script with the `--check` flag to test whether the generated files are up to date without overwriting them.
