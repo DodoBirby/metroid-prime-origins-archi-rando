@@ -657,7 +657,3 @@ else
 
 locationKeys = mw_ap_location_keys();
 nativeAcknowledgedChecks = array_create(nativeExpectedScoutCount + 1, false);
-if (nativeInitialized && nativeHost != "" && nativeSlot != "")
-{
-    nativeConnect(nativeHost, nativeSlot, "");
-}
