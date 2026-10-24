@@ -72,7 +72,7 @@ def create_item_with_correct_classification(world: MetroidPrimeOriginsWorld, nam
 def create_fixed_pool(world: MetroidPrimeOriginsWorld) -> list[Item]:
     itempool: list[Item] = []
     for name, data in ITEM_TABLE.items():
-        count = 1 if data.progression_count == 0 else data.progression_count
+        count = data.vanilla_count if data.progression_count == 0 else data.progression_count
 
         for i in range(count):
             if i < data.progression_count:
