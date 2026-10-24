@@ -115,6 +115,7 @@ def set_tallon_location_rules(world: MetroidPrimeOriginsWorld):
 
     # Landing Site
     set_location_rule("(Tallon Overworld) Landing Site - Grass", Has(MORPH), world)
+    set_location_rule("(Tallon Overworld) Alcove - Above Landing Site", KNOWLEDGE | CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ, world)
 
 def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     # West Chozo Ruins
@@ -157,7 +158,8 @@ def set_chozo_ruins_location_rules(world: MetroidPrimeOriginsWorld):
     set_location_rule("(Chozo Ruins) Crossway", Has(MORPH) & CAN_BOOST & CAN_TRIGGER_BOMB_SLOTS, world)
 
     # Elder Hall
-    set_location_rule("(Chozo Ruins) Hall of the Elders - Ceiling", ((Has(ICE) & CAN_TRIGGER_BOMB_SLOTS) | (CanReachRegion("(Chozo Ruins) Lower Reflecting Pool") & Has(MORPH) & KNOWLEDGE)) & (CAN_SPIDER | CAN_GRAPPLE), world)
+    CAN_REACH_ELDER_CEILING = (Has(ICE) & CAN_TRIGGER_BOMB_SLOTS) | (CanReachRegion("(Chozo Ruins) Lower Reflecting Pool") & Has(MORPH) & KNOWLEDGE)
+    set_location_rule("(Chozo Ruins) Hall of the Elders - Ceiling", CAN_REACH_ELDER_CEILING & (CAN_SPIDER | CAN_GRAPPLE & KNOWLEDGE) & Has(MORPH), world)
     set_location_rule("(Chozo Ruins) Elder Chamber", (Has(PLASMA) & CAN_TRIGGER_BOMB_SLOTS) | (CAN_BOOST & CAN_DESTROY_BLOCKS_WHILE_MORPHED & KNOWLEDGE), world)
 
     # Upper Reflecting Pool
