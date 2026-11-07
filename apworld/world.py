@@ -5,7 +5,7 @@ import os
 from typing import Any
 from worlds.AutoWorld import World
 from .locations import LOCATION_NAME_TO_ID, location_name_to_game_key, create_locations
-from .items import ITEM_GROUPS, ITEM_NAME_TO_ID, ITEM_TABLE, MetroidPrimeOriginsItem, create_item_with_correct_classification, add_items_to_multiworld
+from .items import ITEM_GROUPS, ITEM_NAME_TO_ID, MetroidPrimeOriginsItem, create_item_with_correct_classification, add_items_to_multiworld
 from .regions import create_and_connect_regions
 from .rules import set_all_rules
 from .options import MPOOptions
