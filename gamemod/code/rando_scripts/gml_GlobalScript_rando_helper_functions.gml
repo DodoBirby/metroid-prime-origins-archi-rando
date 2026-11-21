@@ -89,6 +89,10 @@ function load_seed_file(path)
         ds_map_copy(global.mwArtifactHints, ds_map_find_value(payload, "artifact_hints"));
         global.mwArtifactsRequired = ds_map_find_value(payload, "artifacts_required");
         global.mwAeonPowers = ds_map_find_value(payload, "aeon_powers");
+        ds_map_clear(global.mwEntranceAssignments);
+        if (ds_map_find_value(payload, "entrance_assignments") != undefined) {
+            ds_map_copy(global.mwEntranceAssignments, ds_map_find_value(payload, "entrance_assignments"));
+        }
         ds_map_destroy(payload);
         global.localSeed = true;
         result = true;
@@ -104,4 +108,61 @@ function endgame_is_available()
         return dz("Flaahgra Defeated") && dz("Thardus Defeated") && dz("Omega Pirate Defeated");
     }
     return dz("ArtifactCountCollected") >= dz("MWArtifactsRequired");
+}
+
+function elevator_name_to_room_name(elevator_name) {
+    switch (elevator_name) {
+        case "Landing Site West Elevator": return "tal_Transport_to_Chozo_Ruins_West";
+        case "Crash Site Elevator": return "tal_Transport_to_Chozo_Ruins_East";
+        case "West Ruins Elevator": return "cho_Transport_to_Tallon_Overworld_North";
+        case "Reflecting Pool West Elevator": return "cho_Transport_to_Tallon_Overworld_East";
+        case "Reflecting Pool East Elevator": return "cho_Transport_to_Tallon_Overworld_South";
+        case "West Tallon Elevator": return "tal_Transport_to_Magmoor_Caverns_East";
+        case "Central Magmoor Elevator": return "mag_Transport_to_Tallon_Overworld_West";
+        case "East Tallon West Elevator": return "tal_Transport_to_Chozo_Ruins_South";
+        case "East Tallon East Elevator": return "tal_Transport_to_Phazon_Mines_East";
+        case "West Phazon Elevator": return "pha_Transport_to_Magmoor_Caverns_South";
+        case "East Phazon Elevator": return "pha_Transport_to_Tallon_Overworld_South";
+        case "Upper West Ruins Elevator": return "cho_Transport_to_Magmoor_Caverns_North";
+        case "Monitor Station Elevator": return "mag_Transport_to_Phendrana_Drifts_North";
+        case "East Magmoor Elevator": return "mag_Transport_to_Chozo_Ruins_North";
+        case "West Magmoor East Elevator": return "mag_Transport_to_Phendrana_Drifts_South";
+        case "West Magmoor West Elevator": return "mag_Transport_to_Phazon_Mines_West";
+        case "East Phendrana Elevator": return "phe_Transport_to_Magmoor_Caverns_West";
+        case "West Phendrana Elevator": return "phe_Transport_to_Magmoor_Caverns_South";
+    }
+    return "";
+}
+
+function room_name_to_elevator_name(room_name) {
+    switch (room_name) {
+        case "tal_Transport_to_Chozo_Ruins_West": return "Landing Site West Elevator";
+        case "tal_Transport_to_Chozo_Ruins_East": return "Crash Site Elevator";
+        case "cho_Transport_to_Tallon_Overworld_North": return "West Ruins Elevator";
+        case "cho_Transport_to_Tallon_Overworld_East": return "Reflecting Pool West Elevator";
+        case "cho_Transport_to_Tallon_Overworld_South": return "Reflecting Pool East Elevator";
+        case "tal_Transport_to_Magmoor_Caverns_East": return "West Tallon Elevator";
+        case "mag_Transport_to_Tallon_Overworld_West": return "Central Magmoor Elevator";
+        case "tal_Transport_to_Chozo_Ruins_South": return "East Tallon West Elevator";
+        case "tal_Transport_to_Phazon_Mines_East": return "East Tallon East Elevator";
+        case "pha_Transport_to_Magmoor_Caverns_South": return "West Phazon Elevator";
+        case "pha_Transport_to_Tallon_Overworld_South": return "East Phazon Elevator";
+        case "cho_Transport_to_Magmoor_Caverns_North": return "Upper West Ruins Elevator";
+        case "mag_Transport_to_Phendrana_Drifts_North": return "Monitor Station Elevator";
+        case "mag_Transport_to_Chozo_Ruins_North": return "East Magmoor Elevator";
+        case "mag_Transport_to_Phendrana_Drifts_South": return "West Magmoor East Elevator";
+        case "mag_Transport_to_Phazon_Mines_West": return "West Magmoor West Elevator";
+        case "phe_Transport_to_Magmoor_Caverns_West": return "East Phendrana Elevator";
+        case "phe_Transport_to_Magmoor_Caverns_South": return "West Phendrana Elevator";
+    }
+    return "";
+}
+
+function handle_elevator_rando(current_room, original_location) {
+    var room_name = room_get_name(current_room);
+    var key = "MWEntrance " + room_name_to_elevator_name(room_name);
+    if (dz(key) == 0) {
+        return original_location;
+    }
+    return asset_get_index(elevator_name_to_room_name(dz(key)));
 }

@@ -4,6 +4,7 @@ import json
 import os
 from typing import Any
 from worlds.AutoWorld import World
+import entrance_rando
 from .locations import LOCATION_NAME_TO_ID, location_name_to_game_key, create_locations
 from .items import ITEM_GROUPS, ITEM_NAME_TO_ID, MetroidPrimeOriginsItem, create_item_with_correct_classification, add_items_to_multiworld
 from .regions import create_and_connect_regions
@@ -29,6 +30,9 @@ class MetroidPrimeOriginsWorld(World):
     options: MPOOptions
 
     prime_exo_order: list[int] = []
+
+    er_pairings: list[tuple[str, str]] = []
+
     def create_regions(self) -> None:
         create_and_connect_regions(self)
         create_locations(self)
@@ -38,7 +42,15 @@ class MetroidPrimeOriginsWorld(World):
 
     def create_items(self) -> None:
         add_items_to_multiworld(self)
-        
+
+    def connect_entrances(self) -> None:
+        if not self.options.elevator_rando:
+            return
+
+        for entrance in self.elevator_entrances:
+            entrance_rando.disconnect_entrance_for_randomization(entrance)
+        er_state = entrance_rando.randomize_entrances(self, True, { 0: [0] })
+        self.er_pairings = er_state.pairings
         
     def create_item(self, name: str) -> MetroidPrimeOriginsItem:
         return create_item_with_correct_classification(self, name)
@@ -89,6 +101,10 @@ class MetroidPrimeOriginsWorld(World):
             if location:
                 artifact_hints[artifact] = location.name
 
+        entrance_assignments = None
+        if self.options.elevator_rando:
+            entrance_assignments = { source: dest for source, dest in self.er_pairings }
+
         data = {
             "items": {location_name_to_game_key[location.name]: location.item.name for location in self.multiworld.get_filled_locations(self.player) if location.name in location_name_to_game_key},
             "starter_items": [item.name for item in self.multiworld.precollected_items[self.player]],
@@ -97,7 +113,8 @@ class MetroidPrimeOriginsWorld(World):
             "end_at_ridley": self.options.end_at_ridley.value,
             "artifacts_required": self.options.artifacts_required.value,
             "artifact_hints": artifact_hints,
-            "aeon_powers": self.options.aeon_powers.value
+            "aeon_powers": self.options.aeon_powers.value,
+            "entrance_assignments": entrance_assignments,
         }
 
         mod_name = self.multiworld.get_out_file_name_base(self.player)

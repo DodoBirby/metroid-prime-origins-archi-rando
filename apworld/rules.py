@@ -295,8 +295,10 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Crash Site Right to Frigate", Has(ICE) & Has(MORPH) & Has(WAVE) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & CAN_TRAVERSE_UNDERWATER, world)
     set_entrance_rule("Crash Site Right to Overgrown Cavern", CAN_TRAVERSE_LOW_OVERHANG & Has(ICE), world)
 
-    set_entrance_rule("Overgrown Cavern to Upper Reflecting Pool", Has(MORPH) & CAN_DESTROY_BOMB_BLOCKS, world)
+    set_entrance_rule("Overgrown Cavern to Crash Site Elevator", Has(MORPH), world)
     set_entrance_rule("Overgrown Cavern to Crash Site Right", Has(ICE), world)
+
+    set_entrance_rule("Crash Site Elevator to Overgrown Cavern", Has(MORPH), world)
 
     set_entrance_rule("Inside Frigate to Biohazard Containment", Has(WAVE) & Has(MORPH) & CAN_TRAVERSE_UNDERWATER, world)
 
@@ -307,11 +309,12 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Right Frigate to East Tallon", Has("Open East Tallon Gate"), world)
 
     set_entrance_rule("East Tallon to Gated East Tallon", Has("Open East Tallon Gate") | CAN_TRAVERSE_LOW_OVERHANG, world)
-    set_entrance_rule("East Tallon to Upper Reflecting Pool", Has(ICE) & CAN_DESTROY_BOMB_BLOCKS, world)
     set_entrance_rule("East Tallon to Right Frigate", Has("Open East Tallon Gate"), world)
 
     set_entrance_rule("Gated East Tallon to Life Grove", CAN_TRAVERSE_LOW_OVERHANG & CAN_PB, world)
-    set_entrance_rule("Gated East Tallon to Phazon Entrance", Has("Open East Tallon Gate"), world)
+    set_entrance_rule("Gated East Tallon to East East Tallon Elevator", Has("Open East Tallon Gate"), world)
+
+    set_entrance_rule("East East Tallon Elevator to Gated East Tallon", Has("Open East Tallon Gate"), world)
     
     set_entrance_rule("West Ruins to Upper West Ruins", Has(MISSILE) & Has(MORPH), world)
     set_entrance_rule("West Ruins to Central Ruins", Has(MORPH), world)
@@ -352,14 +355,20 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
 
     set_entrance_rule("Lower Pool to Upper Pool", (CAN_DESTROY_BOMB_BLOCKS & CAN_BOOST) | CAN_GRAPPLE | CAN_IBJ, world)
 
-    set_entrance_rule("Upper Reflecting Pool to Overgrown Cavern", Has(MISSILE) & CAN_KILL_STONE_TOADS, world)
-    set_entrance_rule("Upper Reflecting Pool to East Tallon", CAN_KILL_STONE_TOADS & Has(ICE), world)
+    set_entrance_rule("Upper Reflecting Pool to West Reflecting Pool Elevator", Has(MISSILE) & CAN_KILL_STONE_TOADS, world)
+    set_entrance_rule("Upper Reflecting Pool to East Reflecting Pool Elevator", CAN_KILL_STONE_TOADS & Has(ICE), world)
+
+    set_entrance_rule("West Reflecting Pool Elevator to Upper Reflecting Pool", CAN_DESTROY_BOMB_BLOCKS, world)
+
+    set_entrance_rule("East Reflecting Pool Elevator to Upper Reflecting Pool", Has(ICE) & CAN_DESTROY_BOMB_BLOCKS, world)
 
     set_entrance_rule("East Magmoor to Central Magmoor", Has(MORPH) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(VARIA), world)
 
     set_entrance_rule("Central Magmoor to East Magmoor", Has(MORPH) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(VARIA), world)
-    set_entrance_rule("Central Magmoor to East Phendrana", Has(MORPH) & Has(VARIA), world)
+    set_entrance_rule("Central Magmoor to Monitor Station Elevator", Has(MORPH) & Has(VARIA), world)
     set_entrance_rule("Central Magmoor to Central Elevator", Has(MORPH) & Has(VARIA), world)
+
+    set_entrance_rule("Monitor Station Elevator to Central Magmoor", Has(MORPH) & Has(VARIA), world)
 
     set_entrance_rule("Central Elevator to Central Magmoor", Has(MORPH) & Has(VARIA), world)
     set_entrance_rule("Central Elevator to Geothermal Core", Has(VARIA) & Has(MORPH) & (CAN_GRAPPLE | CAN_SPIDER) & Has(WAVE), world)
@@ -368,13 +377,15 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Geothermal Core to Central Elevator", Has(VARIA) & Has(MORPH) & (CAN_GRAPPLE | CAN_SPIDER), world)
 
     set_entrance_rule("West Magmoor to Geothermal Core", Has(VARIA), world)
-    set_entrance_rule("West Magmoor to West Phendrana", Has(VARIA), world)
-    set_entrance_rule("West Magmoor to West Phazon", Has(VARIA) & CAN_PB & Has(ICE), world)
+    set_entrance_rule("West Magmoor to East West Magmoor Elevator", Has(VARIA), world)
+    set_entrance_rule("West Magmoor to West West Magmoor Elevator", Has(VARIA) & CAN_PB & Has(ICE), world)
 
-    set_entrance_rule("East Phendrana to Central Magmoor", Has(MORPH) & Has(VARIA), world)
+    set_entrance_rule("East West Magmoor Elevator to West Magmoor", Has(VARIA), world)
+
+    set_entrance_rule("West West Magmoor Elevator to West Magmoor", Has(VARIA) & CAN_PB & Has(ICE), world)
+
     set_entrance_rule("East Phendrana to Shorelines", CAN_DESTROY_GLASS_BLOCK, world)
 
-    set_entrance_rule("West Phendrana to West Magmoor", Has(VARIA), world)
     set_entrance_rule("West Phendrana to Thardus Area", Has(MORPH) & CAN_BEAT_THARDUS, world)
     set_entrance_rule("West Phendrana Elevator to Edge Lower", CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ & Has(ICE) & Has(MORPH), world)
     set_entrance_rule("West Phendrana to West Phazon Hellrun", TWO_E_HELLRUN & Has(MORPH) & CAN_PB & Has(ICE), world)
@@ -383,7 +394,6 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Shorelines to Central Phendrana", CAN_TRAVERSE_LOW_OVERHANG & Has(WAVE) & Has(MISSILE), world)
     set_entrance_rule("Shorelines to East Phendrana", CAN_DESTROY_GLASS_BLOCK, world)
 
-    set_entrance_rule("West Phazon to West Magmoor", Has(VARIA) & CAN_PB & Has(ICE), world)
     set_entrance_rule("West Phazon to Processing Center", Has(ICE) & Has(MORPH), world)
     set_entrance_rule("West Phazon to Elite Control Access", Has(ICE) & Has(MORPH) & CAN_PB, world)
 
@@ -422,7 +432,6 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Phazon Entrance to Corridor", Has(ICE), world)
     set_entrance_rule("Phazon Entrance to Storage Depot B", CAN_GRAPPLE & Has(MORPH), world)
     set_entrance_rule("Phazon Entrance to Colored Blocks", (CAN_GRAPPLE | (CAN_TRAVERSE_UNDERWATER & CAN_IBJ)) & Has(MORPH) & KNOWLEDGE, world)
-    set_entrance_rule("Phazon Entrance to Gated East Tallon", Has("Open East Tallon Gate"), world)
 
     set_entrance_rule("Corridor to Elite Research", (Has(ICE) & Has(WAVE)) | (CAN_PB & Has("Power Bomb", 2)), world)
 

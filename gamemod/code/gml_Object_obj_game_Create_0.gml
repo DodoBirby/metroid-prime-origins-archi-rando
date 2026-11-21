@@ -155,6 +155,15 @@ function start_game()
         key = ds_map_find_next(global.mwRemoteLocations, key);
     }
     
+    mwLocSize = ds_map_size(global.mwEntranceAssignments);
+    key = ds_map_find_first(global.mwEntranceAssignments);
+    for (var i = 0; i < mwLocSize; i++)
+    {
+        var name = "MWEntrance " + key;
+        ds_write(name, ds_map_find_value(global.mwEntranceAssignments, key));
+        key = ds_map_find_next(global.mwEntranceAssignments, key);
+    }
+    
     ds_write("MWEndAtRidley", global.mwEndAtRidley);
     ds_write("MWGoalComplete", 0);
     

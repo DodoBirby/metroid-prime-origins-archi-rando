@@ -47,6 +47,12 @@ class EndAtRidley(Toggle):
     """
     display_name = "End at Ridley"
 
+class ElevatorRando(Toggle):
+    """
+    Choose whether elevator connections should be randomised. e.g. Tallon to Chozo Elevator may go to Magmoor instead
+    """
+    display_name = "Elevator Rando"
+
 class ProgressiveGrappleBeam(Toggle):
     """
     Choose whether you want grapple beam to be a progressive item (Space Jump -> Grapple Beam).
@@ -95,6 +101,7 @@ class MPOOptions(PerGameCommonOptions):
     knowledge_checks_in_logic: KnowledgeChecksInLogic
     artifacts_required: ArtifactsRequired
     end_at_ridley: EndAtRidley
+    elevator_rando: ElevatorRando
     progressive_grapple_beam: ProgressiveGrappleBeam
     aeon_powers: AeonPowers
     use_vanilla_pool: UseVanillaItemPool

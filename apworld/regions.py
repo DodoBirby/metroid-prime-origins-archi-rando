@@ -1,9 +1,11 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from BaseClasses import Region
+from BaseClasses import Region, Entrance
+from entrance_rando import EntranceType
 
 from .locations import MetroidPrimeOriginsLocation
 from .items import MetroidPrimeOriginsItem
+from .entrances import ELEVATOR_NAME_MAPPING, ElevatorNames
 
 if TYPE_CHECKING:
     from .world import MetroidPrimeOriginsWorld
@@ -16,9 +18,20 @@ def create_region(name: str, regions: list[Region], world: MetroidPrimeOriginsWo
     regions.append(region)
     return region
 
+def create_elevator_connection(parent: Region, child: Region, name: str, elevator_entrances: list[Entrance], world: MetroidPrimeOriginsWorld):
+    if not world.options.elevator_rando:
+        _ = parent.connect(child, name)
+        return
+    connection = parent.connect(child, name)
+    connection.randomization_type = EntranceType.TWO_WAY
+    elevator_entrances.append(connection)
+
+
 def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     # Create regions
     regions: list[Region] = []
+
+    elevator_entrances: list[Entrance] = []
     # Tallon
     landing_site = create_region("(Tallon Overworld) Landing Site", regions, world)
     artifact_temple = create_region("(Tallon Overworld) Artifact Temple", regions, world)
@@ -26,11 +39,14 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     crash_site_left = create_region("(Tallon Overworld) Crash Site Left of Lake", regions, world)
     crash_site_right = create_region("(Tallon Overworld) Crash Site Right of Lake", regions, world)
     overgrown_cavern = create_region("(Tallon Overworld) Overgrown Cavern", regions, world)
+    crash_site_elevator = create_region("(Tallon Overworld) Crash Site Elevator", regions, world)
     inside_frigate = create_region("(Tallon Overworld) Inside Frigate", regions, world)
     biohazard_containment = create_region("(Tallon Overworld) Biohazard Containment", regions, world)
     right_frigate = create_region("(Tallon Overworld) Right Frigate", regions, world)
+    west_east_tallon_elevator = create_region("(Tallon Overworld) West East Tallon Elevator", regions, world)
     east_tallon = create_region("(Tallon Overworld) East Tallon", regions, world)
     gated_east_tallon = create_region("(Tallon Overworld) Gated East Tallon", regions, world)
+    east_east_tallon_elevator = create_region("(Tallon Overworld) East East Tallon Elevator", regions, world)
     life_grove = create_region("(Tallon Overworld) Life Grove", regions, world)
 
     # Chozo Ruins
@@ -49,6 +65,8 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     elder_hall = create_region("(Chozo Ruins) Hall of the Elders", regions, world)
     lower_reflecting_pool = create_region("(Chozo Ruins) Lower Reflecting Pool", regions, world)
     upper_reflecting_pool = create_region("(Chozo Ruins) Upper Reflecting Pool", regions, world)
+    reflecting_pool_east_elevator = create_region("(Chozo Ruins) East Reflecting Pool Elevator", regions, world)
+    reflecting_pool_west_elevator = create_region("(Chozo Ruins) West Reflecting Pool Elevator", regions, world)
     tower_of_light = create_region("(Chozo Ruins) Tower of Light", regions, world)
     sun_tower_and_flaahgra = create_region("(Chozo Ruins) Sun Tower and Flaahgra", regions, world)
     vault = create_region("(Chozo Ruins) Vault", regions, world)
@@ -56,9 +74,13 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     # Magmoor Caverns
     east_magmoor = create_region("(Magmoor Caverns) East Magmoor", regions, world)
     central_magmoor = create_region("(Magmoor Caverns) Central Magmoor", regions, world)
+    monitor_station_elevator = create_region("(Magmoor Caverns) Monitor Station Elevator", regions, world)
     central_magmoor_elevator = create_region("(Magmoor Caverns) Central Magmoor Elevator", regions, world)
     geothermal_core = create_region("(Magmoor Caverns) Geothermal Core", regions, world)
     west_magmoor = create_region("(Magmoor Caverns) West Magmoor", regions, world)
+    east_west_magmoor_elevator = create_region("(Magmoor Caverns) East West Magmoor Elevator", regions, world)
+    west_west_magmoor_elevator = create_region("(Magmoor Caverns) West West Magmoor Elevator", regions, world)
+
 
     # Phendrana Drifts
     east_phendrana = create_region("(Phendrana Drifts) East Phendrana", regions, world)
@@ -104,7 +126,8 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = landing_site.connect(west_tallon, "Landing Site to West Tallon")
     _ = landing_site.connect(crash_site_left, "Landing Site to Crash Site")
     # Elevator
-    _ = landing_site.connect(west_ruins)
+    create_elevator_connection(landing_site, west_ruins, ELEVATOR_NAME_MAPPING[ElevatorNames.LandingSiteWest], elevator_entrances, world)
+    create_elevator_connection(west_ruins, landing_site, ELEVATOR_NAME_MAPPING[ElevatorNames.WestRuins], elevator_entrances, world)
 
     _ = crash_site_left.connect(crash_site_right, "Crash Site Left to Right")
     _ = crash_site_left.connect(landing_site, "Crash Site Left to Landing Site")
@@ -113,8 +136,13 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = crash_site_right.connect(overgrown_cavern, "Crash Site Right to Overgrown Cavern")
     _ = crash_site_right.connect(crash_site_left)
 
-    _ = overgrown_cavern.connect(upper_reflecting_pool, "Overgrown Cavern to Upper Reflecting Pool")
+    _ = overgrown_cavern.connect(crash_site_elevator, "Overgrown Cavern to Crash Site Elevator")
     _ = overgrown_cavern.connect(crash_site_right, "Overgrown Cavern to Crash Site Right")
+
+    _ = crash_site_elevator.connect(overgrown_cavern, "Crash Site Elevator to Overgrown Cavern")
+
+    create_elevator_connection(crash_site_elevator, reflecting_pool_west_elevator, ELEVATOR_NAME_MAPPING[ElevatorNames.CrashSite], elevator_entrances, world)
+    create_elevator_connection(reflecting_pool_west_elevator, crash_site_elevator, ELEVATOR_NAME_MAPPING[ElevatorNames.ReflectingPoolWest], elevator_entrances, world)
 
     _ = inside_frigate.connect(biohazard_containment, "Inside Frigate to Biohazard Containment")
 
@@ -125,29 +153,43 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = right_frigate.connect(east_tallon, "Right Frigate to East Tallon")
 
     _ = east_tallon.connect(gated_east_tallon, "East Tallon to Gated East Tallon")
-    _ = east_tallon.connect(upper_reflecting_pool, "East Tallon to Upper Reflecting Pool")
+    _ = east_tallon.connect(west_east_tallon_elevator)
     _ = east_tallon.connect(right_frigate, "East Tallon to Right Frigate")
 
-    _ = west_tallon.connect(central_magmoor_elevator)
+    _ = west_east_tallon_elevator.connect(east_tallon)
+
+    create_elevator_connection(west_east_tallon_elevator, reflecting_pool_east_elevator, ELEVATOR_NAME_MAPPING[ElevatorNames.WestEastTallon], elevator_entrances, world)    
+    create_elevator_connection(reflecting_pool_east_elevator, west_east_tallon_elevator, ELEVATOR_NAME_MAPPING[ElevatorNames.ReflectingPoolEast], elevator_entrances, world)
+
+    create_elevator_connection(west_tallon, central_magmoor_elevator, ELEVATOR_NAME_MAPPING[ElevatorNames.WestTallon], elevator_entrances, world)
+    create_elevator_connection(central_magmoor_elevator, west_tallon, ELEVATOR_NAME_MAPPING[ElevatorNames.CentralMagmoor], elevator_entrances, world)
+
     _ = west_tallon.connect(landing_site)
     
     _ = gated_east_tallon.connect(life_grove, "Gated East Tallon to Life Grove")
-    _ = gated_east_tallon.connect(phazon_mines_entrance, "Gated East Tallon to Phazon Entrance")
+    _ = gated_east_tallon.connect(east_east_tallon_elevator, "Gated East Tallon to East East Tallon Elevator")
     _ = gated_east_tallon.connect(east_tallon)
+
+    _ = east_east_tallon_elevator.connect(gated_east_tallon, "East East Tallon Elevator to Gated East Tallon")
+    _ = east_east_tallon_elevator.connect(right_frigate)
+
+    create_elevator_connection(east_east_tallon_elevator, phazon_mines_entrance, ELEVATOR_NAME_MAPPING[ElevatorNames.EastEastTallon], elevator_entrances, world)    
+    create_elevator_connection(phazon_mines_entrance, east_east_tallon_elevator, ELEVATOR_NAME_MAPPING[ElevatorNames.EastPhazon], elevator_entrances, world)
 
     _ = west_ruins.connect(upper_west_ruins, "West Ruins to Upper West Ruins")
     _ = west_ruins.connect(central_ruins, "West Ruins to Central Ruins")
     _ = west_ruins.connect(ruined_shrine, "West Ruins to Ruined Shrine")
     _ = west_ruins.connect(past_ruins_magma_pool, "West Ruins to Past Magma Pool")
-    _ = west_ruins.connect(landing_site)
     _ = west_ruins.connect(vault, "West Ruins to Vault")
 
     _ = vault.connect(upper_west_ruins, "Vault to Upper West Ruins")
     _ = vault.connect(west_ruins)
 
     _ = upper_west_ruins.connect(sun_tower_and_flaahgra, "Upper West Ruins to Flaahgra")
-    _ = upper_west_ruins.connect(east_magmoor)
     _ = upper_west_ruins.connect(vault, "Upper West Ruins to Vault")
+
+    create_elevator_connection(upper_west_ruins, east_magmoor, ELEVATOR_NAME_MAPPING[ElevatorNames.UpperWestRuins], elevator_entrances, world)
+    create_elevator_connection(east_magmoor, upper_west_ruins, ELEVATOR_NAME_MAPPING[ElevatorNames.EastMagmoor], elevator_entrances, world)
 
     _ = sun_tower_and_flaahgra.connect(upper_west_ruins, "Sun Tower to Upper West Ruins")
 
@@ -178,42 +220,59 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
 
     _ = lower_reflecting_pool.connect(upper_reflecting_pool, "Lower Pool to Upper Pool")
 
-    _ = upper_reflecting_pool.connect(overgrown_cavern, "Upper Reflecting Pool to Overgrown Cavern")
-    _ = upper_reflecting_pool.connect(east_tallon, "Upper Reflecting Pool to East Tallon")
+    _ = upper_reflecting_pool.connect(reflecting_pool_west_elevator, "Upper Reflecting Pool to West Reflecting Pool Elevator")
+    _ = upper_reflecting_pool.connect(reflecting_pool_east_elevator, "Upper Reflecting Pool to East Reflecting Pool Elevator")
     _ = upper_reflecting_pool.connect(lower_reflecting_pool)
 
-    _ = east_magmoor.connect(upper_west_ruins)
+    _ = reflecting_pool_west_elevator.connect(upper_reflecting_pool, "West Reflecting Pool Elevator to Upper Reflecting Pool")
+
+    _ = reflecting_pool_east_elevator.connect(upper_reflecting_pool, "East Reflecting Pool Elevator to Upper Reflecting Pool")
+
     _ = east_magmoor.connect(central_magmoor, "East Magmoor to Central Magmoor")
 
     _ = central_magmoor.connect(east_magmoor, "Central Magmoor to East Magmoor")
-    _ = central_magmoor.connect(east_phendrana, "Central Magmoor to East Phendrana")
+    _ = central_magmoor.connect(monitor_station_elevator, "Central Magmoor to Monitor Station Elevator")
     _ = central_magmoor.connect(central_magmoor_elevator, "Central Magmoor to Central Elevator")
 
+    _ = monitor_station_elevator.connect(central_magmoor, "Monitor Station Elevator to Central Magmoor")
+    
+    create_elevator_connection(monitor_station_elevator, east_phendrana, ELEVATOR_NAME_MAPPING[ElevatorNames.MonitorStation], elevator_entrances, world)
+    create_elevator_connection(east_phendrana, monitor_station_elevator, ELEVATOR_NAME_MAPPING[ElevatorNames.EastPhendrana], elevator_entrances, world)
+
     _ = central_magmoor_elevator.connect(central_magmoor, "Central Elevator to Central Magmoor")
-    _ = central_magmoor_elevator.connect(west_tallon)
     _ = central_magmoor_elevator.connect(geothermal_core, "Central Elevator to Geothermal Core")
+
+    # TODO: Disable this connection when elevator rando is on
     _ = central_magmoor_elevator.connect(east_phendrana, "Central Elevator to East Phendrana Hellrun")
 
     _ = geothermal_core.connect(central_magmoor_elevator, "Geothermal Core to Central Elevator")
     _ = geothermal_core.connect(west_magmoor)
 
     _ = west_magmoor.connect(geothermal_core, "West Magmoor to Geothermal Core")
-    _ = west_magmoor.connect(west_phendrana_elevator, "West Magmoor to West Phendrana")
-    _ = west_magmoor.connect(west_phazon_mines_elevator, "West Magmoor to West Phazon")
+    _ = west_magmoor.connect(east_west_magmoor_elevator, "West Magmoor to East West Magmoor Elevator")
+    _ = west_magmoor.connect(west_west_magmoor_elevator, "West Magmoor to West West Magmoor Elevator")
 
-    _ = east_phendrana.connect(central_magmoor, "East Phendrana to Central Magmoor")
+    _ = east_west_magmoor_elevator.connect(west_magmoor, "East West Magmoor Elevator to West Magmoor")
+
+    _ = west_west_magmoor_elevator.connect(west_magmoor, "West West Magmoor Elevator to West Magmoor")
+
+    create_elevator_connection(west_west_magmoor_elevator, west_phazon_mines_elevator, ELEVATOR_NAME_MAPPING[ElevatorNames.WestWestMagmoor], elevator_entrances, world)
+    create_elevator_connection(west_phazon_mines_elevator, west_west_magmoor_elevator, ELEVATOR_NAME_MAPPING[ElevatorNames.WestPhazon], elevator_entrances, world)
+
     _ = east_phendrana.connect(phendrana_shorelines, "East Phendrana to Shorelines")
 
-    _ = west_phendrana_elevator.connect(west_magmoor, "West Phendrana to West Magmoor")
+    create_elevator_connection(east_west_magmoor_elevator, west_phendrana_elevator, ELEVATOR_NAME_MAPPING[ElevatorNames.EastWestMagmoor], elevator_entrances, world)
+    create_elevator_connection(west_phendrana_elevator, east_west_magmoor_elevator, ELEVATOR_NAME_MAPPING[ElevatorNames.WestPhendrana], elevator_entrances, world)
+
     _ = west_phendrana_elevator.connect(thardus_area, "West Phendrana to Thardus Area")
     _ = west_phendrana_elevator.connect(phendrana_edge_lower, "West Phendrana Elevator to Edge Lower")
+    # TODO: Disable this connection when elevator rando is on
     _ = west_phendrana_elevator.connect(west_phazon_mines_elevator, "West Phendrana to West Phazon Hellrun")
 
     _ = phendrana_shorelines.connect(ice_temple, "Shorelines to Ice Temple")
     _ = phendrana_shorelines.connect(central_phendrana, "Shorelines to Central Phendrana")
     _ = phendrana_shorelines.connect(east_phendrana, "Shorelines to East Phendrana")
 
-    _ = west_phazon_mines_elevator.connect(west_magmoor, "West Phazon to West Magmoor")
     _ = west_phazon_mines_elevator.connect(processing_center, "West Phazon to Processing Center")
     _ = west_phazon_mines_elevator.connect(elite_control_access, "West Phazon to Elite Control Access")
 
@@ -256,8 +315,6 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = phazon_mines_entrance.connect(corridor_to_elite_research, "Phazon Entrance to Corridor")
     _ = phazon_mines_entrance.connect(grapple_chamber, "Phazon Entrance to Storage Depot B")
     _ = phazon_mines_entrance.connect(colored_blocks_chamber, "Phazon Entrance to Colored Blocks")
-    _ = phazon_mines_entrance.connect(gated_east_tallon, "Phazon Entrance to Gated East Tallon")
-    _ = phazon_mines_entrance.connect(right_frigate)
 
     _ = corridor_to_elite_research.connect(elite_research, "Corridor to Elite Research")
 
@@ -301,3 +358,5 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     create_event(thardus_area, "Kill Thardus")
     create_event(omega_pirate_area, "Kill Omega Pirate")
     create_event(artifact_temple, "Victory")
+
+    world.elevator_entrances = elevator_entrances
