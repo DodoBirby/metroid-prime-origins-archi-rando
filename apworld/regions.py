@@ -242,7 +242,6 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
     _ = central_magmoor_elevator.connect(central_magmoor, "Central Elevator to Central Magmoor")
     _ = central_magmoor_elevator.connect(geothermal_core, "Central Elevator to Geothermal Core")
 
-    # TODO: Disable this connection when elevator rando is on
     _ = central_magmoor_elevator.connect(east_phendrana, "Central Elevator to East Phendrana Hellrun")
 
     _ = geothermal_core.connect(central_magmoor_elevator, "Geothermal Core to Central Elevator")
@@ -266,7 +265,6 @@ def create_and_connect_regions(world: MetroidPrimeOriginsWorld):
 
     _ = west_phendrana_elevator.connect(thardus_area, "West Phendrana to Thardus Area")
     _ = west_phendrana_elevator.connect(phendrana_edge_lower, "West Phendrana Elevator to Edge Lower")
-    # TODO: Disable this connection when elevator rando is on
     _ = west_phendrana_elevator.connect(west_phazon_mines_elevator, "West Phendrana to West Phazon Hellrun")
 
     _ = phendrana_shorelines.connect(ice_temple, "Shorelines to Ice Temple")

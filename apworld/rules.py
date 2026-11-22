@@ -6,7 +6,7 @@ from rule_builder.field_resolvers import FromOption
 from rule_builder.options import OptionFilter
 from rule_builder.rules import CanReachLocation, CanReachRegion, Has, HasGroup, Rule
 
-from .options import ArtifactsRequired, EndAtRidley, HellrunsInLogic, IBJInLogic, KnowledgeChecksInLogic, ProgressiveGrappleBeam, SMWalljumpsInLogic
+from .options import ArtifactsRequired, EndAtRidley, HellrunsInLogic, IBJInLogic, KnowledgeChecksInLogic, ProgressiveGrappleBeam, SMWalljumpsInLogic, ElevatorRando
 
 if TYPE_CHECKING:
     from .world import MetroidPrimeOriginsWorld
@@ -43,6 +43,7 @@ KNOWLEDGE = OptionFilter(KnowledgeChecksInLogic, True)
 ONE_E_HELLRUN = HELLRUN & Has("Energy Tank", 1)
 TWO_E_HELLRUN = HELLRUN & Has("Energy Tank", 2)
 FOUR_E_HELLRUN = HELLRUN & Has("Energy Tank", 4)
+NOT_ELEVATOR_RANDO = OptionFilter(ElevatorRando, False)
 
 CAN_DESTROY_BOMB_BLOCKS = CAN_BOMB | CAN_PB | Has(SCREW) & KNOWLEDGE
 CAN_DESTROY_BLOCKS_WHILE_MORPHED = CAN_BOMB | CAN_PB
@@ -372,7 +373,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
 
     set_entrance_rule("Central Elevator to Central Magmoor", Has(MORPH) & Has(VARIA), world)
     set_entrance_rule("Central Elevator to Geothermal Core", Has(VARIA) & Has(MORPH) & (CAN_GRAPPLE | CAN_SPIDER) & Has(WAVE), world)
-    set_entrance_rule("Central Elevator to East Phendrana Hellrun", Has(MORPH) & Has(MISSILE) & FOUR_E_HELLRUN, world)
+    set_entrance_rule("Central Elevator to East Phendrana Hellrun", Has(MORPH) & Has(MISSILE) & FOUR_E_HELLRUN & NOT_ELEVATOR_RANDO, world)
 
     set_entrance_rule("Geothermal Core to Central Elevator", Has(VARIA) & Has(MORPH) & (CAN_GRAPPLE | CAN_SPIDER), world)
 
@@ -388,7 +389,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
 
     set_entrance_rule("West Phendrana to Thardus Area", Has(MORPH) & CAN_BEAT_THARDUS, world)
     set_entrance_rule("West Phendrana Elevator to Edge Lower", CAN_TRAVERSE_LOW_OVERHANG_WITH_SMWJ & Has(ICE) & Has(MORPH), world)
-    set_entrance_rule("West Phendrana to West Phazon Hellrun", TWO_E_HELLRUN & Has(MORPH) & CAN_PB & Has(ICE), world)
+    set_entrance_rule("West Phendrana to West Phazon Hellrun", TWO_E_HELLRUN & Has(MORPH) & CAN_PB & Has(ICE) & NOT_ELEVATOR_RANDO, world)
 
     set_entrance_rule("Shorelines to Ice Temple", CAN_DESTROY_GLASS_BLOCK & Has("Boost Ball"), world)
     set_entrance_rule("Shorelines to Central Phendrana", CAN_TRAVERSE_LOW_OVERHANG & Has(WAVE) & Has(MISSILE), world)

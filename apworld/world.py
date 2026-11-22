@@ -49,6 +49,14 @@ class MetroidPrimeOriginsWorld(World):
 
         for entrance in self.elevator_entrances:
             entrance_rando.disconnect_entrance_for_randomization(entrance)
+
+        # UT Fake gen
+        re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
+        if re_gen_passthrough and self.game in re_gen_passthrough:
+            for source, dest in self.er_pairings:
+                self.get_entrance(source).connect(self.get_entrance(dest).parent_region)
+            return
+
         er_state = entrance_rando.randomize_entrances(self, True, { 0: [0] })
         self.er_pairings = er_state.pairings
         
@@ -65,9 +73,11 @@ class MetroidPrimeOriginsWorld(World):
                 "hellruns_in_logic",
                 "knowledge_checks_in_logic",
                 "artifacts_required",
-                "aeon_powers"
+                "aeon_powers",
+                "elevator_rando",
             ),
             "exo_order": self.prime_exo_order,
+            "entrance_assignments": self.er_pairings
         }
 
     def generate_early(self):
@@ -80,6 +90,7 @@ class MetroidPrimeOriginsWorld(World):
                 opt = getattr(self.options, key, None)
                 if opt is not None:
                     setattr(self.options, key, opt.from_any(value))
+            self.er_pairings = slot_data.get("entrance_assignments")
         self.prime_exo_order = [0, 1, 2, 3]
         self.multiworld.random.shuffle(self.prime_exo_order)
 

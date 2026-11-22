@@ -54,6 +54,7 @@ nativeSlotEndAtRidley = -1;
 nativeSlotArtifactsRequired = -1;
 nativeSlotAeonPowers = -1;
 nativeSlotExoOrder = [];
+nativeSlotEntranceAssignments = ds_map_create();
 nativeExpectedScoutCount = array_length(mw_ap_location_keys());
 nativeScoutCount = 0;
 nativeScoutItems = array_create(nativeExpectedScoutCount + 1, -1);
@@ -310,6 +311,17 @@ nativeStageSlotData = function()
         exoSeen[exoValue] = true;
         array_push(exoOrder, exoValue);
     }
+    
+    ds_map_clear(nativeSlotEntranceAssignments);
+    var entranceProxy = apclient_json_proxy(0, "entrance_assignments");
+    var entranceSize = apclient_json_size(entranceProxy);
+    for (var entranceIndex = 0; entranceIndex < entranceSize; entranceIndex++)
+    {
+        var subProxy = apclient_json_proxy(entranceProxy, string(entranceIndex));
+        var sourceValue = apclient_json_string_at(subProxy, "0");
+        var destValue = apclient_json_string_at(subProxy, "1");
+        ds_map_add(nativeSlotEntranceAssignments, sourceValue, destValue);
+    }    
 
     var playerNumber = apclient_get_player_number();
     var teamNumber = apclient_get_team_number();
@@ -495,6 +507,8 @@ nativeTryPublishSeed = function()
     {
         ds_list_add(global.mwExoBeams, nativeSlotExoOrder[exoIndex]);
     }
+    ds_map_copy(global.mwEntranceAssignments, nativeSlotEntranceAssignments);
+    ds_map_clear(nativeSlotEntranceAssignments);
     global.mwEndAtRidley = nativeSlotEndAtRidley;
     global.mwArtifactsRequired = nativeSlotArtifactsRequired;
     global.mwAeonPowers = nativeSlotAeonPowers;
