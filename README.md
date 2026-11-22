@@ -11,8 +11,8 @@ These instructions will assume you are somewhat familiar with how to use Archipe
 The tl;dr of setting up the rando is as follows:
 
 Before playing any seeds:
-1. Download the `game-patch0_0_5.zip` and extract it.
-2. Patch your data.win file using the `randomizer_patch0_0_5.xdelta` inside the zip file. (Make sure you have the VM version of MPO 1.1.2, more details on patching in the `Patching the game` section)
+1. Download the `game-patch1_0.zip` and extract it.
+2. Patch your data.win file using the `randomizer_patch1_0.xdelta` inside the zip file. (Make sure you have the VM version of MPO 1.1.2, more details on patching in the `Patching the game` section)
 3. Copy `gm-apclientpp.dll` and the patched `data.win` from the previous step into your MPO folder (next to `MetroidPrimeOrigins.exe`)
 4. Download and install the `metroid_prime_origins.apworld` in Archipelago.
 
@@ -43,7 +43,7 @@ I recommend making a copy of `GAME_FOLDER` before performing any of the followin
 
 **MAKE SURE YOU ARE USING THE 1.1.2 VM RELEASE OF METROID PRIME ORIGINS OR THE PATCH WON'T WORK**
 
-You'll need to apply the `randomizer_patch0_0_5.xdelta` to the `data.win` file in `GAME_FOLDER`.
+You'll need to apply the `randomizer_patch1_0.xdelta` to the `data.win` file in `GAME_FOLDER`.
 
 There are many ways to apply an xdelta patch but the easiest way is to use this online patcher https://kotcrab.github.io/xdelta-wasm/.
 
@@ -103,29 +103,15 @@ This item is normally blocked by boost ball blocks, but if you have Space Jump B
 
 ## Bug reporting
 
-Since this randomizer is still in a prerelease stage I expect there will be bugs. You may want to hold off on putting this apworld into a proper multiworld until it's more stable.
+The randomiser is pretty stable but I expect there will still be some minor bugs.
 
-If you encounter any bugs or any other issues then please let me know about them, you can reach me in several discord servers:
+If you encounter any bugs or other issues then please let me know about them, you can reach me in several discord servers:
 
 - Official AM2R Discord Server
 - Multiworld.gg Unofficial Archipelago Server (on the Metroid Prime Origins thread)
 - Metroid Prime Origins Community Server (don't use the bug-reports thread since that's for the vanilla game)
 
 Please don't send bug reports via Github issues (since I won't check it), or via the Official Archipelago Discord Server (since nintendo fangame discussion is not allowed there).
-
-### Logic issue reporting
-
-If you are reporting a logic issue where the logic is too strict (you can do something in game but the logic says you can't), note that there are some tricks which are intentionally not in logic yet.
-
-They are the following:
-
-- Missile Glides (firing a missile to reset y velocity)
-- Boost ball jumps
-- Horizontal bomb jumping
-
-If you are reporting a logic issue where something is in logic but shouldn't be, then please let me know about it.
-
-Combat logic is not fully complete yet so there may be cases where some really hard fights are in logic. (you should report these).
 
 # Build Instructions ("I want to help develop the randomizer")
 
