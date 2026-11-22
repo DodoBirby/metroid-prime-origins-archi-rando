@@ -361,7 +361,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
 
     set_entrance_rule("West Reflecting Pool Elevator to Upper Reflecting Pool", CAN_DESTROY_BOMB_BLOCKS, world)
 
-    set_entrance_rule("East Reflecting Pool Elevator to Upper Reflecting Pool", Has(ICE) & CAN_DESTROY_BOMB_BLOCKS, world)
+    set_entrance_rule("East Reflecting Pool Elevator to Upper Reflecting Pool", CAN_DESTROY_BOMB_BLOCKS, world)
 
     set_entrance_rule("East Magmoor to Central Magmoor", Has(MORPH) & CAN_DESTROY_BLOCKS_WHILE_MORPHED & Has(VARIA), world)
 
@@ -439,7 +439,7 @@ def set_region_connection_rules(world: MetroidPrimeOriginsWorld):
     set_entrance_rule("Elite Research to Colored Blocks", CAN_BOOST & CAN_TRAVERSE_LOW_OVERHANG, world)
 
     set_entrance_rule("Colored Blocks to Storage Depot", Has(MORPH) & CAN_BOMB & CAN_PB & CAN_DESTROY_BOMB_BLOCKS, world)
-    set_entrance_rule("Colored Blocks to Elite Control Access", Has(MORPH) & (CAN_BOMB | CAN_PB) & CAN_DESTROY_BLOCKS_WHILE_MORPHED, world)
+    set_entrance_rule("Colored Blocks to Elite Control Access", Has(MORPH) & (CAN_BOMB | (CAN_PB & CAN_TRAVERSE_LOW_OVERHANG)) & CAN_DESTROY_BLOCKS_WHILE_MORPHED, world)
     set_entrance_rule("Colored Blocks to Phazon Entrance", CAN_GRAPPLE & CAN_PB & CAN_BOMB & Has(MORPH), world)
 
     set_entrance_rule("Elite Control Access to Ventilation Shaft", Has(WAVE) & Has(ICE) & (CAN_SPACEJUMP | CAN_GRAPPLE | CAN_IBJ), world)
